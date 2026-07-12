@@ -17,7 +17,7 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="w-64 min-h-screen bg-white/70 backdrop-blur-sm border-r border-gold/30 flex flex-col">
+    <aside className="w-64 h-screen sticky top-0 bg-white/70 backdrop-blur-sm border-r border-gold/30 flex flex-col">
       <div className="p-6 border-b border-gold/30">
         <h1 className="text-xl font-bold text-orange">
           Wedding<span className="text-pink">Kit</span>

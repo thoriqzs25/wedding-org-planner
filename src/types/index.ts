@@ -1,3 +1,19 @@
+export type AccountStatus = "active" | "inactive";
+
+export interface Account {
+  id: string;
+  username: string;
+  password: string;
+  brideName: string;
+  groomName: string;
+  weddingDate: string;
+  location: string;
+  budget: number;
+  budgetTier: BudgetTier;
+  selectedNecessities: string[];
+  status: AccountStatus;
+}
+
 export interface User {
   id: string;
   username: string;
@@ -42,6 +58,7 @@ export interface Vendor {
 export interface Necessity {
   id: string;
   name: string;
+  icon?: string;
   isDefault: boolean;
   todos: Todo[];
   vendors: Vendor[];

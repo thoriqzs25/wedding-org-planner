@@ -1,4 +1,4 @@
-import { Questionnaire, Necessity, GalleryItem, Invoice, CalendarEvent, RecentActivity } from "@/types";
+import { Questionnaire, Necessity, GalleryItem, Invoice, CalendarEvent, RecentActivity, Account } from "@/types";
 
 export const mockQuestionnaire: Questionnaire = {
   brideName: "Aisyah",
@@ -17,6 +17,74 @@ export const mockQuestionnaire: Questionnaire = {
     "prewedding",
   ],
 };
+
+export const mockAccounts: Account[] = [
+  {
+    id: "a1",
+    username: "aisyahrizky",
+    password: "wedding123",
+    brideName: "Aisyah",
+    groomName: "Rizky",
+    weddingDate: "2026-12-20",
+    location: "Jakarta Convention Center",
+    budget: 350000000,
+    budgetTier: "menengah-bawah",
+    selectedNecessities: ["venue", "catering", "dokumentasi", "musik", "dekorasi", "wo", "prewedding"],
+    status: "active",
+  },
+  {
+    id: "a2",
+    username: "sariadi",
+    password: "wedding123",
+    brideName: "Sari",
+    groomName: "Adi",
+    weddingDate: "2026-11-15",
+    location: "Bandung",
+    budget: 200000000,
+    budgetTier: "murah",
+    selectedNecessities: ["venue", "catering", "dokumentasi", "musik", "dekorasi"],
+    status: "active",
+  },
+  {
+    id: "a3",
+    username: "dewiagus",
+    password: "wedding123",
+    brideName: "Dewi",
+    groomName: "Agus",
+    weddingDate: "2027-02-08",
+    location: "Surabaya",
+    budget: 500000000,
+    budgetTier: "mewah",
+    selectedNecessities: ["venue", "catering", "dokumentasi", "musik", "dekorasi", "wo", "prewedding", "mc", "hiburan"],
+    status: "active",
+  },
+  {
+    id: "a4",
+    username: "ratnabayu",
+    password: "wedding123",
+    brideName: "Ratna",
+    groomName: "Bayu",
+    weddingDate: "2026-09-30",
+    location: "Yogyakarta",
+    budget: 275000000,
+    budgetTier: "menengah-atas",
+    selectedNecessities: ["venue", "catering", "dokumentasi", "musik", "dekorasi", "wo", "prewedding", "undangan-fisik"],
+    status: "inactive",
+  },
+  {
+    id: "a5",
+    username: "meliacahya",
+    password: "wedding123",
+    brideName: "Melia",
+    groomName: "Cahya",
+    weddingDate: "2026-10-05",
+    location: "Jakarta",
+    budget: 125000000,
+    budgetTier: "murah",
+    selectedNecessities: ["venue", "catering", "dokumentasi", "dekorasi"],
+    status: "active",
+  },
+];
 
 export const mockNecessities: Necessity[] = [
   {

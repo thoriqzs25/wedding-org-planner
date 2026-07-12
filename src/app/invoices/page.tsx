@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { mockInvoices, getTotalBudget, getTotalSpent } from "@/data/mock";
+import { mockInvoices, mockQuestionnaire, getTotalSpent } from "@/data/mock";
 import { Invoice } from "@/types";
 import Icon from "@/components/Icon";
 import InvoiceFormModal from "@/components/InvoiceFormModal";
@@ -12,8 +12,10 @@ export default function InvoicesPage() {
   const [editingInvoice, setEditingInvoice] = useState<Invoice | undefined>(undefined);
   const [showForm, setShowForm] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [totalBudget, setTotalBudget] = useState(mockQuestionnaire.budget);
+  const [showBudgetEditor, setShowBudgetEditor] = useState(false);
+  const [budgetInput, setBudgetInput] = useState(String(mockQuestionnaire.budget));
 
-  const totalBudget = getTotalBudget();
   const totalSpent = invoices.reduce((sum, i) => sum + i.amount, 0);
   const remaining = totalBudget - totalSpent;
 
@@ -42,9 +44,13 @@ export default function InvoicesPage() {
 
       {/* Summary */}
       <div className="grid grid-cols-3 gap-4">
-        <div className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm">
+        <div className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm relative group">
           <p className="text-xs text-amber-800/60">Total Budget</p>
           <p className="text-2xl font-bold text-amber-900 mt-1">Rp {totalBudget.toLocaleString()}</p>
+          <button onClick={() => { setBudgetInput(String(totalBudget)); setShowBudgetEditor(true); }}
+            className="absolute top-3 right-3 p-1.5 rounded-lg text-amber-800/30 hover:text-orange hover:bg-gold/20 opacity-0 group-hover:opacity-100 transition-all">
+            <Icon name="edit" size={16} />
+          </button>
         </div>
         <div className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm">
           <p className="text-xs text-amber-800/60">Terpakai</p>
@@ -98,6 +104,27 @@ export default function InvoicesPage() {
         <ConfirmDialog title="Hapus Invoice" message="Yakin ingin menghapus invoice ini?"
           onConfirm={() => { setInvoices(invoices.filter((i) => i.id !== deleteId)); setDeleteId(null); }}
           onCancel={() => setDeleteId(null)} />
+      )}
+
+      {showBudgetEditor && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setShowBudgetEditor(false)} />
+          <div className="relative bg-white rounded-2xl shadow-xl max-w-sm w-full mx-4 p-6 space-y-5">
+            <h3 className="text-lg font-semibold text-amber-900">Edit Total Budget</h3>
+            <div>
+              <label className="block text-sm font-medium text-amber-900/70 mb-1">Budget Amount (Rp)</label>
+              <input type="number" value={budgetInput}
+                onChange={(e) => setBudgetInput(e.target.value)}
+                className="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream/50 focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 text-amber-900 placeholder-amber-800/30" />
+            </div>
+            <div className="flex gap-3">
+              <button onClick={() => setShowBudgetEditor(false)}
+                className="flex-1 py-2.5 rounded-xl border border-gold/40 text-amber-900 font-medium hover:bg-cream transition-colors">Batal</button>
+              <button onClick={() => { setTotalBudget(Number(budgetInput) || 0); setShowBudgetEditor(false); }}
+                className="flex-1 py-2.5 rounded-xl bg-orange text-white font-medium hover:bg-orange/90 transition-colors">Simpan</button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

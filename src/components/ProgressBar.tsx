@@ -1,4 +1,5 @@
 import Icon from "./Icon";
+import Tooltip from "./Tooltip";
 
 interface ProgressBarProps {
   value: number;
@@ -35,10 +36,12 @@ export default function ProgressBar({
         />
       </div>
       {showWarning && (
-        <p className="text-xs text-pink mt-1 font-medium flex items-center gap-1">
-          <Icon name="warning" size={14} />
-          Perlu perhatian!
-        </p>
+        <Tooltip content="Persentase ini membutuhkan perhatian Anda">
+          <p className="text-xs text-pink mt-1 font-medium flex items-center gap-1 cursor-help">
+            <Icon name="warning" size={14} />
+            Perlu perhatian!
+          </p>
+        </Tooltip>
       )}
     </div>
   );

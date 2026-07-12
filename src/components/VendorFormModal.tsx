@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { Vendor } from "@/types";
+import { mockNecessities } from "@/data/mock";
+import { getNecessityIcon, getNecessityColor } from "@/data/necessityIcons";
 import Icon from "./Icon";
 
 interface VendorFormModalProps {
@@ -11,7 +13,8 @@ interface VendorFormModalProps {
   onClose: () => void;
 }
 
-export default function VendorFormModal({ vendor, necessityId, onSave, onClose }: VendorFormModalProps) {
+export default function VendorFormModal({ vendor, necessityId: initialNecId, onSave, onClose }: VendorFormModalProps) {
+  const [selectedNecId, setSelectedNecId] = useState(initialNecId);
   const [name, setName] = useState(vendor?.name ?? "");
   const [priority, setPriority] = useState(vendor?.priority ?? 1);
   const [budget, setBudget] = useState(vendor?.budget ?? 0);
@@ -22,11 +25,14 @@ export default function VendorFormModal({ vendor, necessityId, onSave, onClose }
     vendor?.socialLinks ?? [{ platform: "Instagram", url: "" }]
   );
 
+  const nec = mockNecessities.find((n) => n.id === selectedNecId);
+  const c = getNecessityColor(selectedNecId);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSave({
       id: vendor?.id,
-      necessityId,
+      necessityId: selectedNecId,
       name,
       socialLinks: socialLinks.filter((s) => s.url),
       priority,
@@ -52,10 +58,18 @@ export default function VendorFormModal({ vendor, necessityId, onSave, onClose }
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
+          {/* Kebutuhan dropdown */}
           <div>
-            <label className="block text-sm font-medium text-amber-900/70 mb-1">Nama Vendor</label>
-            <input value={name} onChange={(e) => setName(e.target.value)} required
-              className="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream/50 focus:outline-none focus:border-orange text-amber-900" />
+            <label className="block text-sm font-medium text-amber-900/70 mb-1">Kebutuhan</label>
+            <div className="relative">
+              <select value={selectedNecId} onChange={(e) => setSelectedNecId(e.target.value)} required
+                className={`w-full px-4 py-3 rounded-xl border bg-cream/50 focus:outline-none focus:border-orange text-sm appearance-none ${c.text} ${c.bg}`}>
+                {mockNecessities.map((n) => (
+                  <option key={n.id} value={n.id}>{n.name}</option>
+                ))}
+              </select>
+              <Icon name="expand_more" size={18} className="absolute right-3 top-1/2 -translate-y-1/2 text-amber-800/40 pointer-events-none" />
+            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">

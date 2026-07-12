@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { mockNecessities, mockInvoices } from "@/data/mock";
 import { Todo, Vendor } from "@/types";
+import { getNecessityIcon, getNecessityColor } from "@/data/necessityIcons";
 import VendorModal from "@/components/VendorModal";
 import VendorFormModal from "@/components/VendorFormModal";
 import TodoFormModal from "@/components/TodoFormModal";
@@ -227,18 +228,24 @@ export default function NecessityDetailPage() {
             </div>
           ) : (
             <div className="space-y-3">
-              {userVendors.map((vendor) => (
-                <button key={vendor.id} onClick={() => setSelectedVendor(vendor)}
-                  className="w-full text-left p-4 rounded-xl border border-gold/20 hover:bg-cream/50 transition-colors">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <p className="text-sm font-medium text-amber-900">{vendor.name}</p>
-                      <p className="text-xs text-amber-800/50">Prioritas #{vendor.priority} • Rp{vendor.budget.toLocaleString()}</p>
+              {userVendors.map((vendor) => {
+                const c = getNecessityColor(id);
+                return (
+                  <button key={vendor.id} onClick={() => setSelectedVendor(vendor)}
+                    className={`w-full text-left p-4 rounded-xl ${c.bg} ${c.border} hover:shadow-md transition-all`}>
+                    <div className="flex items-center gap-3">
+                      <div className={`w-9 h-9 rounded-lg ${c.bg} flex items-center justify-center shrink-0 bg-white/60`}>
+                        <Icon name={getNecessityIcon(id, necessity.icon)} size={18} className={c.text} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className={`text-sm font-semibold ${c.text}`}>{vendor.name}</p>
+                        <p className="text-xs text-amber-800/50">Prioritas #{vendor.priority} • Rp{vendor.budget.toLocaleString()}</p>
+                      </div>
+                      <Icon name="chevron_right" size={16} className="text-amber-800/30" />
                     </div>
-                    <span className="text-xs text-amber-800/40 flex items-center gap-1">Detail <Icon name="chevron_right" size={14} /></span>
-                  </div>
-                </button>
-              ))}
+                  </button>
+                );
+              })}
             </div>
           )}
         </div>
@@ -254,21 +261,27 @@ export default function NecessityDetailPage() {
             </div>
           ) : (
             <div className="space-y-3">
-              {recommendedVendors.map((vendor) => (
-                <button key={vendor.id} onClick={() => setSelectedVendor(vendor)}
-                  className="w-full text-left p-4 rounded-xl border border-orange/20 bg-orange/[0.02] hover:bg-orange/5 transition-colors">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <p className="text-sm font-medium text-amber-900">{vendor.name}</p>
-                        <span className="text-[10px] bg-orange/10 text-orange px-1.5 py-0.5 rounded-full">Rek.</span>
+              {recommendedVendors.map((vendor) => {
+                const c = getNecessityColor(id);
+                return (
+                  <button key={vendor.id} onClick={() => setSelectedVendor(vendor)}
+                    className={`w-full text-left p-4 rounded-xl ${c.bg} ${c.border} hover:shadow-md transition-all`}>
+                    <div className="flex items-center gap-3">
+                      <div className={`w-9 h-9 rounded-lg ${c.bg} flex items-center justify-center shrink-0 bg-white/60`}>
+                        <Icon name={getNecessityIcon(id, necessity.icon)} size={18} className={c.text} />
                       </div>
-                      <p className="text-xs text-amber-800/50">Prioritas #{vendor.priority} • Rp{vendor.budget.toLocaleString()}</p>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <p className={`text-sm font-semibold ${c.text}`}>{vendor.name}</p>
+                          <span className="text-[10px] bg-white/80 text-orange px-1.5 py-0.5 rounded-full">Rek.</span>
+                        </div>
+                        <p className="text-xs text-amber-800/50">Prioritas #{vendor.priority} • Rp{vendor.budget.toLocaleString()}</p>
+                      </div>
+                      <Icon name="chevron_right" size={16} className="text-amber-800/30" />
                     </div>
-                    <span className="text-xs text-amber-800/40 flex items-center gap-1">Detail <Icon name="chevron_right" size={14} /></span>
-                  </div>
-                </button>
-              ))}
+                  </button>
+                );
+              })}
             </div>
           )}
         </div>

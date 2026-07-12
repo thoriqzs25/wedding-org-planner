@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { mockNecessities } from "@/data/mock";
 import { Vendor } from "@/types";
+import { getNecessityIcon, getNecessityColor } from "@/data/necessityIcons";
 import VendorModal from "@/components/VendorModal";
 import VendorFormModal from "@/components/VendorFormModal";
 import Icon from "@/components/Icon";
@@ -17,7 +18,7 @@ export default function VendorsPage() {
   const [search, setSearch] = useState("");
 
   const allVendors = necessities.flatMap((n) =>
-    n.vendors.map((v) => ({ ...v, necessityName: n.name }))
+    n.vendors.map((v) => ({ ...v, necessityName: n.name, necessityId: n.id }))
   );
 
   const filtered = allVendors
@@ -88,35 +89,50 @@ export default function VendorsPage() {
         </div>
       </div>
 
-      {/* Vendor list */}
+      {/* Vendor cards — unified sticker style */}
       {filtered.length === 0 ? (
         <div className="text-center py-16 text-amber-800/40">
           <Icon name="storefront" size={40} className="mb-3 text-amber-800/30" />
           <p className="text-sm">{search ? "Tidak ada vendor sesuai pencarian" : "Belum ada vendor"}</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {filtered.map((vendor) => (
-            <button key={vendor.id} onClick={() => setSelectedVendor(vendor)}
-              className="text-left bg-white rounded-2xl border border-gold/30 p-5 shadow-sm hover:shadow-md transition-shadow">
-              <div className="flex items-start justify-between mb-3">
-                <div>
-                  <h3 className="font-semibold text-amber-900">{vendor.name}</h3>
-                  <p className="text-xs text-amber-800/50">{(vendor as Vendor & { necessityName: string }).necessityName}</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {filtered.map((vendor) => {
+            const c = getNecessityColor(vendor.necessityId);
+            const nec = necessities.find((n) => n.id === vendor.necessityId);
+            return (
+              <button key={vendor.id} onClick={() => setSelectedVendor(vendor)}
+                className={`text-left ${c.bg} ${c.border} border rounded-xl p-5 hover:shadow-md transition-all group`}>
+                <div className="flex items-start gap-3 mb-3">
+                  <div className={`w-10 h-10 rounded-xl ${c.bg} flex items-center justify-center shrink-0`}>
+                    <Icon name={getNecessityIcon(vendor.necessityId, nec?.icon)} size={20} className={c.text} />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <h3 className={`text-sm font-semibold ${c.text} truncate`}>{vendor.name}</h3>
+                      {vendor.isRecommended && (
+                        <span className="text-[9px] bg-white/80 text-orange px-1.5 py-0.5 rounded-full shrink-0">Rek.</span>
+                      )}
+                    </div>
+                    <p className="text-[11px] text-amber-800/50 truncate">{(vendor as Vendor & { necessityName: string }).necessityName}</p>
+                  </div>
                 </div>
-                {vendor.isRecommended && <span className="text-[10px] bg-orange/10 text-orange px-2 py-0.5 rounded-full">Rek.</span>}
-              </div>
-              <div className="flex items-center gap-4 text-sm">
-                <span className="text-amber-800/60">Prioritas #{vendor.priority}</span>
-                <span className="text-amber-800/60">Rp {vendor.budget.toLocaleString()}</span>
-              </div>
-              {vendor.pros.length > 0 && (
-                <p className="text-xs text-green mt-2 truncate flex items-center gap-1">
-                  <Icon name="check_circle" size={14} filled /> {vendor.pros[0]}
-                </p>
-              )}
-            </button>
-          ))}
+                <div className="flex items-center gap-3 text-xs">
+                  <span className="text-amber-800/50 flex items-center gap-1">
+                    <Icon name="format_list_numbered" size={12} />#{vendor.priority}
+                  </span>
+                  <span className="text-amber-800/50 flex items-center gap-1">
+                    <Icon name="account_balance_wallet" size={12} />Rp {vendor.budget.toLocaleString()}
+                  </span>
+                </div>
+                {vendor.pros.length > 0 && (
+                  <p className="text-[11px] text-green mt-2 truncate flex items-center gap-1">
+                    <Icon name="check_circle" size={12} filled /> {vendor.pros[0]}
+                  </p>
+                )}
+              </button>
+            );
+          })}
         </div>
       )}
 
