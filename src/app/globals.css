@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cream: #FFFAE5;
+  --color-orange: #EB7B26;
+  --color-gold: #FFCE62;
+  --color-pink: #FC95B4;
+  --color-green: #0BC56D;
+}
+
+body {
+  background-color: var(--color-cream);
+  color: #3a2a1a;
+}
