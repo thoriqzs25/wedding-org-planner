@@ -8,6 +8,7 @@ interface WeddingInfo {
   groomName: string;
   weddingDate: string;
   location: string;
+  guestCount: number;
   budget: number;
 }
 
@@ -22,12 +23,13 @@ export default function WeddingInfoModal({ info, onSave, onClose }: WeddingInfoM
   const [groomName, setGroomName] = useState(info.groomName);
   const [weddingDate, setWeddingDate] = useState(info.weddingDate);
   const [location, setLocation] = useState(info.location);
+  const [guestCount, setGuestCount] = useState(info.guestCount);
   const [budget, setBudget] = useState(info.budget);
   const [tab, setTab] = useState<"acara" | "budget">("acara");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSave({ brideName, groomName, weddingDate, location, budget });
+    onSave({ brideName, groomName, weddingDate, location, guestCount, budget });
   };
 
   return (
@@ -85,6 +87,12 @@ export default function WeddingInfoModal({ info, onSave, onClose }: WeddingInfoM
                     className="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream/50 focus:outline-none focus:border-orange text-amber-900"
                     placeholder="Cth: Jakarta" />
                 </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-amber-900/70 mb-1">Jumlah Tamu</label>
+                <input type="number" min={1} value={guestCount} onChange={(e) => setGuestCount(Number(e.target.value))} required
+                  className="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream/50 focus:outline-none focus:border-orange text-amber-900"
+                  placeholder="Cth: 300" />
               </div>
             </>
           )}

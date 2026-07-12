@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { mockNecessities } from "@/data/mock";
-import { Necessity, Todo } from "@/types";
+import { Necessity, Todo, NecessityColor } from "@/types";
 import { getNecessityIcon, getNecessityColor } from "@/data/necessityIcons";
 import Icon from "@/components/Icon";
 import NecessityFormModal from "@/components/NecessityFormModal";
@@ -18,11 +18,12 @@ export default function NecessityListPage() {
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [tab, setTab] = useState<Tab>("kebutuhan");
 
-  const handleAdd = (name: string, icon: string) => {
+  const handleAdd = (name: string, icon: string, color: NecessityColor) => {
     const newNec: Necessity = {
       id: `n${Date.now()}`,
       name,
       icon,
+      color,
       isDefault: false,
       todos: [],
       vendors: [],
@@ -106,7 +107,7 @@ export default function NecessityListPage() {
                 (t) => t.status !== "done" && new Date(t.dueDate) < today
               );
               const allDone = todoTotal > 0 && todoDone === todoTotal;
-              const c = getNecessityColor(nec.id);
+              const c = getNecessityColor(nec.id, nec.color);
 
               const upcomingTodo = nec.todos
                 .filter((t) => t.status !== "done" && new Date(t.dueDate) >= today)
@@ -177,6 +178,9 @@ export default function NecessityListPage() {
                           {nec.isDefault && (
                             <span className="text-[9px] bg-amber-800/10 text-amber-800/50 px-1.5 py-0.5 rounded-full shrink-0">default</span>
                           )}
+                          {nec.selectedVendorId && (
+                            <span className="text-[9px] bg-green/10 text-green px-1.5 py-0.5 rounded-full shrink-0 font-medium">final</span>
+                          )}
                         </div>
                         <div className="flex items-center gap-2 mt-1">
                           <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${statusBg} ${statusColor}`}>
@@ -211,7 +215,7 @@ export default function NecessityListPage() {
                       </div>
                     )}
 
-                    <div className="flex items-center gap-3 text-[11px] text-amber-800/50">
+                    <div className="flex items-center gap-3 text-[11px] text-amber-800/50 flex-wrap">
                       <span className="flex items-center gap-1">
                         <Icon name="checklist" size={12} />
                         {todoDone}/{todoTotal} to-do
@@ -226,7 +230,16 @@ export default function NecessityListPage() {
                           {recVendors} rekomendasi
                         </span>
                       )}
-                      {upcomingTodo && !allDone && (
+                      {nec.selectedVendorId && (() => {
+                        const sv = nec.vendors.find((v) => v.id === nec.selectedVendorId);
+                        return sv ? (
+                          <span className="flex items-center gap-1.5 ml-auto bg-green/10 text-green px-2 py-0.5 rounded-full text-[10px] font-medium border border-green/20">
+                            <Icon name="check_circle" size={10} filled />
+                            Vendor: {sv.name.length > 18 ? sv.name.slice(0, 18) + "…" : sv.name}
+                          </span>
+                        ) : null;
+                      })()}
+                      {upcomingTodo && !allDone && !nec.selectedVendorId && (
                         <span className="flex items-center gap-1 ml-auto text-[10px]">
                           <Icon name="flag" size={10} />
                           {upcomingTodo.title.length > 12 ? upcomingTodo.title.slice(0, 12) + "…" : upcomingTodo.title}

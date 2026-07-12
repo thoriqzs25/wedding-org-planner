@@ -14,7 +14,7 @@ interface GalleryFormModalProps {
 export default function GalleryFormModal({ item, onSave, onClose }: GalleryFormModalProps) {
   const [link, setLink] = useState(item?.link ?? "");
   const [description, setDescription] = useState(item?.description ?? "");
-  const [necessityId, setNecessityId] = useState(item?.necessityId ?? mockNecessities[0]?.id ?? "");
+  const [necessityId, setNecessityId] = useState(item?.necessityId ?? "");
   const [type, setType] = useState(item?.type ?? "youtube");
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -63,8 +63,9 @@ export default function GalleryFormModal({ item, onSave, onClose }: GalleryFormM
 
           <div>
             <label className="block text-sm font-medium text-amber-900/70 mb-1">Kategori</label>
-            <select value={necessityId} onChange={(e) => setNecessityId(e.target.value)}
+            <select value={necessityId} onChange={(e) => setNecessityId(e.target.value)} required
               className="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream/50 focus:outline-none focus:border-orange text-amber-900">
+              <option value="" disabled>Pilih kategori</option>
               {mockNecessities.map((n) => (
                 <option key={n.id} value={n.id}>{n.name}</option>
               ))}

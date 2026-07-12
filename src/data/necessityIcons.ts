@@ -1,3 +1,5 @@
+import type { NecessityColor } from "@/types";
+
 export const necessityIconMap: Record<string, string> = {
   "n1": "location_on",
   "n2": "restaurant",
@@ -16,6 +18,13 @@ export const necessityIconMap: Record<string, string> = {
   "n15": "mic",
   "n16": "live_tv",
 };
+
+export const necessityColorPalette: { name: NecessityColor; bg: string; text: string; border: string; hex: string }[] = [
+  { name: "orange", bg: "bg-orange/10", text: "text-orange", border: "border-orange/20", hex: "#EB7B26" },
+  { name: "pink", bg: "bg-pink/10", text: "text-pink", border: "border-pink/20", hex: "#FC95B4" },
+  { name: "green", bg: "bg-green/10", text: "text-green", border: "border-green/20", hex: "#0BC56D" },
+  { name: "gold", bg: "bg-gold/20", text: "text-amber-800", border: "border-gold/30", hex: "#FFCE62" },
+];
 
 export const necessityColors: Record<string, { bg: string; text: string; border: string }> = {
   "n1": { bg: "bg-orange/10", text: "text-orange", border: "border-orange/20" },
@@ -41,6 +50,10 @@ export function getNecessityIcon(necessityId: string, customIcon?: string): stri
   return necessityIconMap[necessityId] || "checklist";
 }
 
-export function getNecessityColor(necessityId: string) {
+export function getNecessityColor(necessityId: string, customColor?: NecessityColor) {
+  if (customColor) {
+    const found = necessityColorPalette.find((c) => c.name === customColor);
+    if (found) return found;
+  }
   return necessityColors[necessityId] || { bg: "bg-cream", text: "text-amber-800", border: "border-gold/20" };
 }

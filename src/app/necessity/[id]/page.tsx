@@ -1,14 +1,15 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { mockNecessities, mockInvoices } from "@/data/mock";
-import { Todo, Vendor } from "@/types";
+import { Todo, Vendor, Necessity } from "@/types";
 import { getNecessityIcon, getNecessityColor } from "@/data/necessityIcons";
 import VendorModal from "@/components/VendorModal";
 import VendorFormModal from "@/components/VendorFormModal";
 import TodoFormModal from "@/components/TodoFormModal";
+import CascadeWarning from "@/components/CascadeWarning";
 import Icon from "@/components/Icon";
 
 const statusConfig: Record<Todo["status"], { label: string; icon: string; color: string; bg: string }> = {
@@ -33,6 +34,13 @@ export default function NecessityDetailPage() {
   const [showVendorForm, setShowVendorForm] = useState(false);
   const [editingTodo, setEditingTodo] = useState<Todo | undefined>(undefined);
   const [showTodoForm, setShowTodoForm] = useState(false);
+  const [cascadeVendor, setCascadeVendor] = useState<Vendor | null>(null);
+  const [cascadeMode, setCascadeMode] = useState<"select" | "deselect">("select");
+  const maxFinalizes = 3;
+  const [finalizesUsed, setFinalizesUsed] = useState(
+    necessities.filter((n) => n.selectedVendorId).length
+  );
+  const remainingFinalizes = maxFinalizes - finalizesUsed;
 
   if (!necessity) {
     return (
@@ -43,10 +51,11 @@ export default function NecessityDetailPage() {
     );
   }
 
-  // Budget per necessity
-  const necessityInvoices = mockInvoices.filter(
-    (inv) => necessity.vendors.some((v) => v.id === inv.vendorId)
-  );
+  const selected = necessity.selectedVendorId
+    ? necessity.vendors.find((v) => v.id === necessity.selectedVendorId)
+    : null;
+
+  const necessityInvoices = mockInvoices.filter((inv) => inv.necessityId === id);
   const necessityBudget = necessity.vendors.reduce((s, v) => s + v.budget, 0);
   const necessitySpent = necessityInvoices.reduce((s, inv) => s + inv.amount, 0);
 
@@ -70,6 +79,48 @@ export default function NecessityDetailPage() {
       prev.map((n) => n.id !== id ? n : { ...n, vendors: n.vendors.filter((v) => v.id !== vendorId) })
     );
     setSelectedVendor(null);
+  };
+
+  const handleSelectVendor = (vendor: Vendor) => {
+    setCascadeVendor(vendor);
+    setCascadeMode("select");
+  };
+
+  const confirmSelectVendor = () => {
+    if (!cascadeVendor) return;
+    if (finalizesUsed >= maxFinalizes) return;
+    setFinalizesUsed((p) => p + 1);
+    setNecessities((prev) =>
+      prev.map((n) => {
+        if (n.id !== id) return n;
+        const activity = n.vendorActivity ?? [];
+        return {
+          ...n,
+          selectedVendorId: cascadeVendor.id,
+          vendorActivity: [
+            { id: `va${Date.now()}`, action: `Dipilih sebagai vendor final: ${cascadeVendor.name}`, date: new Date().toISOString() },
+            ...activity,
+          ],
+        };
+      })
+    );
+    setCascadeVendor(null);
+  };
+
+  const handleDeselectVendor = () => {
+    setCascadeVendor(selected!);
+    setCascadeMode("deselect");
+  };
+
+  const confirmDeselectVendor = () => {
+    setFinalizesUsed((p) => p - 1);
+    setNecessities((prev) =>
+      prev.map((n) => {
+        if (n.id !== id) return n;
+        return { ...n, selectedVendorId: undefined };
+      })
+    );
+    setCascadeVendor(null);
   };
 
   const handleSaveTodo = (data: Omit<Todo, "id"> & { id?: string }) => {
@@ -103,6 +154,65 @@ export default function NecessityDetailPage() {
     );
   };
 
+  const toggleVendorTask = (taskId: string) => {
+    setNecessities((prev) =>
+      prev.map((n) => {
+        if (n.id !== id) return n;
+        const tasks = (n.vendorTasks ?? []).map((t) =>
+          t.id === taskId ? { ...t, done: !t.done } : t
+        );
+        const doneTask = (n.vendorTasks ?? []).find((t) => t.id === taskId);
+        const activity = n.vendorActivity ?? [];
+        const newActivity = doneTask
+          ? { id: `va${Date.now()}`, action: `Task '${doneTask.title}' ${doneTask.done ? "dibatalkan" : "selesai"}`, date: new Date().toISOString() }
+          : null;
+        return {
+          ...n,
+          vendorTasks: tasks,
+          vendorActivity: newActivity ? [newActivity, ...activity] : activity,
+        };
+      })
+    );
+  };
+
+  const [newTask, setNewTask] = useState("");
+
+  const addVendorTask = () => {
+    if (!newTask.trim()) return;
+    setNecessities((prev) =>
+      prev.map((n) => {
+        if (n.id !== id) return n;
+        return {
+          ...n,
+          vendorTasks: [...(n.vendorTasks ?? []), { id: `vt${Date.now()}`, title: newTask.trim(), done: false }],
+          vendorActivity: [
+            { id: `va${Date.now()}`, action: `Task ditambahkan: '${newTask.trim()}'`, date: new Date().toISOString() },
+            ...(n.vendorActivity ?? []),
+          ],
+        };
+      })
+    );
+    setNewTask("");
+  };
+
+  const deleteVendorTask = (taskId: string) => {
+    setNecessities((prev) =>
+      prev.map((n) => {
+        if (n.id !== id) return n;
+        const task = (n.vendorTasks ?? []).find((t) => t.id === taskId);
+        const activity = n.vendorActivity ?? [];
+        const newActivity = task
+          ? { id: `va${Date.now()}`, action: `Task dihapus: '${task.title}'`, date: new Date().toISOString() }
+          : null;
+        return {
+          ...n,
+          vendorTasks: (n.vendorTasks ?? []).filter((t) => t.id !== taskId),
+          vendorActivity: newActivity ? [newActivity, ...activity] : activity,
+        };
+      })
+    );
+  };
+
   const handleEdit = (v: Vendor) => {
     setSelectedVendor(null);
     setEditingVendor(v);
@@ -115,31 +225,105 @@ export default function NecessityDetailPage() {
   return (
     <div className="max-w-5xl space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Link href="/necessity" className="text-amber-800/40 hover:text-orange transition-colors flex items-center gap-1">
             <Icon name="arrow_back" size={16} /> Kembali
           </Link>
-          <h1 className="text-xl sm:text-2xl font-bold text-amber-900">{necessity.name}</h1>
+          <h1 className="text-2xl font-bold text-amber-900">{necessity.name}</h1>
         </div>
         <button onClick={() => { setEditingVendor(undefined); setShowVendorForm(true); }}
-          className="flex items-center gap-2 px-5 min-h-[44px] bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm active:scale-90 w-full sm:w-auto justify-center">
+          className="flex items-center gap-2 px-5 py-2.5 bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm">
           <Icon name="add" size={18} /> Tambah Vendor
         </button>
       </div>
 
-      {/* Budget per necessity */}
-      {necessityBudget > 0 && (
-        <div className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm">
-          <p className="text-xs text-amber-800/60 mb-2">Budget {necessity.name}</p>
-          <div className="h-2.5 bg-cream rounded-full overflow-hidden border border-gold/30">
-            <div className="h-full bg-orange rounded-full transition-all" style={{
-              width: `${Math.min((necessitySpent / necessityBudget) * 100, 100)}%`
-            }} />
+      {/* Selected Vendor — prominent card */}
+      {selected && (
+        <div className="bg-gradient-to-r from-green/5 to-green/[0.02] border-2 border-green/30 rounded-2xl p-5 shadow-sm">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <div className="w-7 h-7 rounded-full bg-green/20 flex items-center justify-center">
+                <Icon name="check_circle" size={16} className="text-green" filled />
+              </div>
+              <span className="text-xs font-semibold text-green uppercase tracking-wider">Vendor Final</span>
+            </div>
+            <button onClick={handleDeselectVendor}
+              className="text-[11px] text-amber-800/40 hover:text-pink transition-colors flex items-center gap-1">
+              <Icon name="close" size={12} /> Hapus
+            </button>
           </div>
-          <div className="flex justify-between text-xs mt-1.5 text-amber-800/50">
-            <span>Terpakai: Rp {necessitySpent.toLocaleString()}</span>
-            <span>Total: Rp {necessityBudget.toLocaleString()}</span>
+
+          <div className="flex items-start gap-4">
+            <div className="w-14 h-14 rounded-2xl bg-green/10 flex items-center justify-center shrink-0">
+              <Icon name={getNecessityIcon(id, necessity.icon)} size={28} className="text-green" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h3 className="text-lg font-bold text-amber-900">{selected.name}</h3>
+              <div className="flex flex-wrap gap-3 mt-1 text-sm text-amber-800/60">
+                <span>Prioritas #{selected.priority}</span>
+                <span>Rp {selected.budget.toLocaleString()}</span>
+                {selected.pros.length > 0 && <span className="text-green">✓ {selected.pros[0]}</span>}
+              </div>
+              {selected.notes && (
+                <p className="text-xs text-amber-800/50 mt-2 italic">"{selected.notes}"</p>
+              )}
+            </div>
+            <button onClick={() => setSelectedVendor(selected)}
+              className="text-xs text-orange hover:underline flex items-center gap-1 shrink-0">
+              Detail <Icon name="open_in_new" size={12} />
+            </button>
+          </div>
+
+          {/* Vendor Tasks */}
+          <div className="mt-4 pt-4 border-t border-green/20">
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-xs font-medium text-amber-900/70">Task Vendor</p>
+              <span className="text-[10px] text-amber-800/40">
+                {(necessity.vendorTasks ?? []).filter((t) => t.done).length}/{(necessity.vendorTasks ?? []).length}
+              </span>
+            </div>
+
+            {/* Add task input */}
+            <form onSubmit={(e) => { e.preventDefault(); addVendorTask(); }}
+              className="flex items-center gap-2 mb-2">
+              <input value={newTask} onChange={(e) => setNewTask(e.target.value)}
+                placeholder="Tambah task…"
+                className="flex-1 px-3 py-2 rounded-lg border border-green/30 bg-green/[0.02] text-xs text-amber-900 focus:outline-none focus:border-green placeholder-amber-800/30" />
+              <button type="submit" disabled={!newTask.trim()}
+                className="px-3 py-2 rounded-lg bg-green text-white text-xs font-medium hover:bg-green/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
+                + Add
+              </button>
+            </form>
+
+            {(necessity.vendorTasks ?? []).length > 0 && (
+              <div className="space-y-1">
+                {(necessity.vendorTasks ?? []).map((task) => (
+                  <div key={task.id}
+                    className="flex items-center gap-2 py-1.5 px-2 rounded-lg hover:bg-green/5 transition-colors group">
+                    <button onClick={() => toggleVendorTask(task.id)}
+                      className="flex items-center gap-2.5 flex-1 text-left">
+                      <div className={`w-4 h-4 rounded border-2 flex items-center justify-center shrink-0 transition-colors ${
+                        task.done ? "bg-green border-green" : "border-amber-800/20 group-hover:border-green/50"
+                      }`}>
+                        {task.done && <Icon name="check" size={10} className="text-white" />}
+                      </div>
+                      <span className={`text-sm ${task.done ? "text-amber-800/50 line-through" : "text-amber-900"}`}>
+                        {task.title}
+                      </span>
+                    </button>
+                    <button onClick={() => deleteVendorTask(task.id)}
+                      className="opacity-0 group-hover:opacity-100 text-amber-800/30 hover:text-pink transition-all shrink-0">
+                      <Icon name="close" size={14} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {(necessity.vendorTasks ?? []).length === 0 && (
+              <p className="text-[11px] text-amber-800/30 italic text-center py-2">Belum ada task. Tambah di atas.</p>
+            )}
           </div>
         </div>
       )}
@@ -149,13 +333,9 @@ export default function NecessityDetailPage() {
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold text-amber-900">To-Do List</h2>
           <div className="flex items-center gap-3">
-            <span className="text-xs text-amber-800/50">
-              {necessity.todos.filter((t) => t.status === "done").length}/{necessity.todos.length} selesai
-            </span>
+            <span className="text-xs text-amber-800/50">{necessity.todos.filter((t) => t.status === "done").length}/{necessity.todos.length} selesai</span>
             <button onClick={() => { setEditingTodo(undefined); setShowTodoForm(true); }}
-              className="flex items-center gap-1 min-h-[44px] px-3 text-xs text-orange hover:underline rounded-xl hover:bg-orange/5 transition-colors active:scale-90">
-              <Icon name="add" size={14} /> Tambah
-            </button>
+              className="flex items-center gap-1 text-xs text-orange hover:underline"><Icon name="add" size={14} /> Tambah</button>
           </div>
         </div>
 
@@ -164,7 +344,7 @@ export default function NecessityDetailPage() {
             <Icon name="checklist" size={36} className="mb-2 text-amber-800/30" />
             <p className="text-sm mb-3">Belum ada to-do list</p>
             <button onClick={() => { setEditingTodo(undefined); setShowTodoForm(true); }}
-              className="inline-flex items-center gap-2 px-4 min-h-[44px] bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm text-xs active:scale-90">
+              className="inline-flex items-center gap-2 px-4 py-2 bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm text-xs">
               <Icon name="add" size={14} /> Tambah To-Do
             </button>
           </div>
@@ -179,37 +359,28 @@ export default function NecessityDetailPage() {
                     : todo.status === "in_progress" ? "border-gold/30 bg-gold/[0.02]"
                     : "border-gold/20 hover:bg-cream/50"
                   }`}>
-                  <button onClick={() => cycleTodoStatus(todo.id)}
-                    className="mt-0.5 shrink-0 transition-all active:scale-90">
+                  <button onClick={() => cycleTodoStatus(todo.id)} className="mt-0.5 shrink-0 transition-all active:scale-90">
                     <Icon name={config.icon} size={24} className={`${config.color} transition-colors duration-300`} filled={todo.status === "done"} />
                   </button>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <p className={`text-sm font-medium transition-all duration-300 ${todo.status === "done" ? "text-amber-800/50 line-through" : "text-amber-900"}`}>
-                        {todo.title}
-                      </p>
+                      <p className={`text-sm font-medium transition-all duration-300 ${todo.status === "done" ? "text-amber-800/50 line-through" : "text-amber-900"}`}>{todo.title}</p>
                       {todo.status === "in_progress" && <span className="animate-pulse w-1.5 h-1.5 rounded-full bg-gold shrink-0" />}
                     </div>
                     <div className="flex flex-wrap gap-3 mt-1 text-xs text-amber-800/50">
                       <span className="flex items-center gap-1"><Icon name="person" size={12} />{todo.pic}</span>
                       <span className="flex items-center gap-1"><Icon name="calendar_today" size={12} />{new Date(todo.dueDate).toLocaleDateString("id-ID")}</span>
-                      {todo.description && (
-                        <span className="flex items-center gap-1 text-amber-800/40"><Icon name="description" size={12} />{todo.description.length > 30 ? todo.description.slice(0, 30) + "..." : todo.description}</span>
-                      )}
+                      {todo.description && <span className="text-amber-800/40"><Icon name="description" size={12} />{todo.description.length > 30 ? todo.description.slice(0, 30) + "…" : todo.description}</span>}
                     </div>
                     {todo.link && (
                       <a href={todo.link} target="_blank" rel="noopener noreferrer"
-                        className="text-xs text-orange hover:underline mt-1 inline-flex items-center gap-1">
-                        <Icon name="link" size={14} /> Link referensi
-                      </a>
+                        className="text-xs text-orange hover:underline mt-1 inline-flex items-center gap-1"><Icon name="link" size={14} /> Link referensi</a>
                     )}
                   </div>
                   <div className="flex flex-col items-end gap-2 shrink-0">
                     <span className={`text-[11px] px-2.5 py-1 rounded-full font-medium whitespace-nowrap ${config.bg}`}>{config.label}</span>
                     <button onClick={() => { setEditingTodo(todo); setShowTodoForm(true); }}
-                      className="flex items-center justify-center w-11 h-11 rounded-xl text-amber-800/30 hover:text-orange hover:bg-gold/10 transition-colors active:scale-90">
-                      <Icon name="edit" size={14} />
-                    </button>
+                      className="text-[10px] text-amber-800/30 hover:text-orange transition-colors"><Icon name="edit" size={14} /></button>
                   </div>
                 </div>
               );
@@ -219,37 +390,75 @@ export default function NecessityDetailPage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Vendor Draft */}
         <div className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm">
-          <h2 className="text-lg font-semibold text-amber-900 mb-4">Vendor Saya</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-amber-900">Vendor Draft</h2>
+            {necessity.selectedVendorId ? (
+              <span className="text-[10px] bg-green/10 text-green px-2 py-0.5 rounded-full font-medium">Final sudah dipilih</span>
+            ) : (
+              <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${
+                remainingFinalizes > 0 ? "bg-orange/10 text-orange" : "bg-pink/10 text-pink"
+              }`}>
+                Sisa finalisasi: {remainingFinalizes}x
+              </span>
+            )}
+          </div>
           {userVendors.length === 0 ? (
             <div className="text-center py-8 text-amber-800/40">
               <Icon name="storefront" size={36} className="mb-2 text-amber-800/30" />
-              <p className="text-sm">Belum ada vendor</p>
+              <p className="text-sm">Belum ada vendor draft</p>
             </div>
           ) : (
             <div className="space-y-3">
               {userVendors.map((vendor) => {
-                const c = getNecessityColor(id);
+                const isSelected = vendor.id === necessity.selectedVendorId;
                 return (
-                  <button key={vendor.id} onClick={() => setSelectedVendor(vendor)}
-                    className={`w-full text-left p-4 rounded-xl ${c.bg} ${c.border} hover:shadow-md transition-all`}>
+                  <div key={vendor.id}
+                    className={`rounded-xl p-4 border transition-all ${
+                      isSelected
+                        ? "bg-green/[0.03] border-green/30 ring-1 ring-green/20"
+                        : "bg-white border-gold/20 hover:bg-cream/50"
+                    }`}>
                     <div className="flex items-center gap-3">
-                      <div className={`w-9 h-9 rounded-lg ${c.bg} flex items-center justify-center shrink-0 bg-white/60`}>
-                        <Icon name={getNecessityIcon(id, necessity.icon)} size={18} className={c.text} />
+                      <div className={`w-9 h-9 rounded-lg bg-cream flex items-center justify-center shrink-0`}>
+                        <Icon name={getNecessityIcon(id, necessity.icon)} size={18} className={isSelected ? "text-green" : "text-amber-800/50"} />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className={`text-sm font-semibold ${c.text}`}>{vendor.name}</p>
-                        <p className="text-xs text-amber-800/50">Prioritas #{vendor.priority} • Rp{vendor.budget.toLocaleString()}</p>
+                        <div className="flex items-center gap-2">
+                          <p className={`text-sm font-semibold ${isSelected ? "text-green" : "text-amber-900"}`}>{vendor.name}</p>
+                          {isSelected && <span className="text-[9px] bg-green/10 text-green px-1.5 py-0.5 rounded-full shrink-0">Final</span>}
+                        </div>
+                        <p className="text-xs text-amber-800/50">Prioritas #{vendor.priority} • Rp {vendor.budget.toLocaleString()}</p>
                       </div>
-                      <Icon name="chevron_right" size={16} className="text-amber-800/30" />
+                      <div className="flex gap-1.5 shrink-0">
+                        <button onClick={() => { setSelectedVendor(vendor); }}
+                          className="w-8 h-8 rounded-lg hover:bg-cream flex items-center justify-center text-amber-800/30 hover:text-orange transition-colors">
+                          <Icon name="visibility" size={16} />
+                        </button>
+                        {!isSelected && (
+                          <button onClick={() => handleSelectVendor(vendor)}
+                            disabled={remainingFinalizes <= 0}
+                            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors whitespace-nowrap ${
+                              remainingFinalizes > 0
+                                ? "bg-orange/10 hover:bg-orange/20 text-orange"
+                                : "bg-amber-800/10 text-amber-800/30 cursor-not-allowed"
+                            }`}
+                            title={remainingFinalizes <= 0 ? "Kuota finalisasi habis" : "Jadikan vendor final"}>
+                            <Icon name="check" size={14} />
+                            {remainingFinalizes > 0 ? "Finalize" : `Habis (${maxFinalizes}x)`}
+                          </button>
+                        )}
+                      </div>
                     </div>
-                  </button>
+                  </div>
                 );
               })}
             </div>
           )}
         </div>
 
+        {/* Recommended vendors */}
         <div className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm">
           <h2 className="text-lg font-semibold text-amber-900 mb-4 flex items-center gap-2">
             <Icon name="auto_awesome" size={20} /> Rekomendasi Vendor
@@ -262,10 +471,10 @@ export default function NecessityDetailPage() {
           ) : (
             <div className="space-y-3">
               {recommendedVendors.map((vendor) => {
-                const c = getNecessityColor(id);
+                const c = getNecessityColor(id, necessity.color);
                 return (
                   <button key={vendor.id} onClick={() => setSelectedVendor(vendor)}
-                    className={`w-full text-left p-4 rounded-xl ${c.bg} ${c.border} hover:shadow-md transition-all`}>
+                    className="w-full text-left p-4 rounded-xl border border-orange/20 bg-orange/[0.02] hover:bg-orange/5 transition-all">
                     <div className="flex items-center gap-3">
                       <div className={`w-9 h-9 rounded-lg ${c.bg} flex items-center justify-center shrink-0 bg-white/60`}>
                         <Icon name={getNecessityIcon(id, necessity.icon)} size={18} className={c.text} />
@@ -300,6 +509,13 @@ export default function NecessityDetailPage() {
         <TodoFormModal todo={editingTodo} necessityId={id}
           onSave={handleSaveTodo} onDelete={editingTodo ? handleDeleteTodo : undefined}
           onClose={() => { setShowTodoForm(false); setEditingTodo(undefined); }} />
+      )}
+      {cascadeVendor && (
+        <CascadeWarning vendor={cascadeVendor} mode={cascadeMode}
+          remainingFinalizes={maxFinalizes - finalizesUsed}
+          maxFinalizes={maxFinalizes}
+          onConfirm={cascadeMode === "select" ? confirmSelectVendor : confirmDeselectVendor}
+          onCancel={() => setCascadeVendor(null)} />
       )}
     </div>
   );

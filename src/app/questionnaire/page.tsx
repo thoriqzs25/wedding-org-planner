@@ -31,6 +31,19 @@ const budgetTiers = [
 
 export default function QuestionnairePage() {
   const [step, setStep] = useState(1);
+  const [groomName, setGroomName] = useState("");
+  const [brideName, setBrideName] = useState("");
+  const [weddingDate, setWeddingDate] = useState("");
+  const [location, setLocation] = useState("");
+  const [guestCount, setGuestCount] = useState(300);
+  const [totalBudget, setTotalBudget] = useState(350000000);
+  const [budgetTier, setBudgetTier] = useState("menengah-bawah");
+  const [selectedNecs, setSelectedNecs] = useState<string[]>(() =>
+    defaultNecessities.filter((n) => n.default).map((n) => n.id)
+  );
+  const [userId, setUserId] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -85,6 +98,8 @@ export default function QuestionnairePage() {
                     </label>
                     <input
                       type="text"
+                      value={groomName}
+                      onChange={(e) => setGroomName(e.target.value)}
                       className="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream/50 focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 text-amber-900 placeholder-amber-800/30"
                       placeholder="Cth: Rizky"
                     />
@@ -95,19 +110,23 @@ export default function QuestionnairePage() {
                     </label>
                     <input
                       type="text"
+                      value={brideName}
+                      onChange={(e) => setBrideName(e.target.value)}
                       className="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream/50 focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 text-amber-900 placeholder-amber-800/30"
                       placeholder="Cth: Aisyah"
                     />
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-amber-900/70 mb-1">
                       Tanggal Acara
                     </label>
                     <input
                       type="date"
+                      value={weddingDate}
+                      onChange={(e) => setWeddingDate(e.target.value)}
                       className="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream/50 focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 text-amber-900"
                     />
                   </div>
@@ -117,8 +136,23 @@ export default function QuestionnairePage() {
                     </label>
                     <input
                       type="text"
+                      value={location}
+                      onChange={(e) => setLocation(e.target.value)}
                       className="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream/50 focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 text-amber-900 placeholder-amber-800/30"
                       placeholder="Cth: Jakarta"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-amber-900/70 mb-1">
+                      Jumlah Tamu
+                    </label>
+                    <input
+                      type="number"
+                      min={1}
+                      value={guestCount}
+                      onChange={(e) => setGuestCount(Number(e.target.value))}
+                      className="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream/50 focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 text-amber-900 placeholder-amber-800/30"
+                      placeholder="Cth: 300"
                     />
                   </div>
                 </div>
@@ -133,10 +167,12 @@ export default function QuestionnairePage() {
 
                 <div>
                   <label className="block text-sm font-medium text-amber-900/70 mb-1">
-                    Total Budget
+                    Total Budget (Rp)
                   </label>
                   <input
                     type="number"
+                    value={totalBudget}
+                    onChange={(e) => setTotalBudget(Number(e.target.value))}
                     className="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream/50 focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 text-amber-900 placeholder-amber-800/30"
                     placeholder="Cth: 350000000"
                   />
@@ -156,6 +192,8 @@ export default function QuestionnairePage() {
                           type="radio"
                           name="budgetTier"
                           value={tier.value}
+                          checked={budgetTier === tier.value}
+                          onChange={(e) => setBudgetTier(e.target.value)}
                           className="accent-orange"
                         />
                         <div>
@@ -181,7 +219,14 @@ export default function QuestionnairePage() {
                       >
                         <input
                           type="checkbox"
-                          defaultChecked={nec.default}
+                          checked={selectedNecs.includes(nec.id)}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setSelectedNecs([...selectedNecs, nec.id]);
+                            } else {
+                              setSelectedNecs(selectedNecs.filter((id) => id !== nec.id));
+                            }
+                          }}
                           className="accent-orange"
                         />
                         <span className="text-sm text-amber-900">{nec.label}</span>
@@ -204,6 +249,8 @@ export default function QuestionnairePage() {
                   </label>
                   <input
                     type="text"
+                    value={userId}
+                    onChange={(e) => setUserId(e.target.value)}
                     className="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream/50 focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 text-amber-900 placeholder-amber-800/30"
                     placeholder="Buat ID untuk akunmu"
                   />
@@ -215,6 +262,8 @@ export default function QuestionnairePage() {
                   </label>
                   <input
                     type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     className="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream/50 focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 text-amber-900 placeholder-amber-800/30"
                     placeholder="Buat password"
                   />
@@ -226,6 +275,8 @@ export default function QuestionnairePage() {
                   </label>
                   <input
                     type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
                     className="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream/50 focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 text-amber-900 placeholder-amber-800/30"
                     placeholder="Ulangi password"
                   />

@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Icon from "./Icon";
 import { availableIcons } from "@/data/availableIcons";
+import { necessityColorPalette } from "@/data/necessityIcons";
+import type { NecessityColor } from "@/types";
 
 const recommended = [
   { name: "Venue", icon: "location_on" },
@@ -21,13 +23,14 @@ const recommended = [
 
 interface NecessityFormModalProps {
   existingNames: string[];
-  onSave: (name: string, icon: string) => void;
+  onSave: (name: string, icon: string, color: NecessityColor) => void;
   onClose: () => void;
 }
 
 export default function NecessityFormModal({ existingNames, onSave, onClose }: NecessityFormModalProps) {
   const [name, setName] = useState("");
   const [selectedIcon, setSelectedIcon] = useState("celebration");
+  const [selectedColor, setSelectedColor] = useState<NecessityColor>("orange");
 
   const missing = recommended.filter((r) => {
     const lower = r.name.toLowerCase();
@@ -37,7 +40,7 @@ export default function NecessityFormModal({ existingNames, onSave, onClose }: N
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (name.trim()) {
-      onSave(name.trim(), selectedIcon);
+      onSave(name.trim(), selectedIcon, selectedColor);
     }
   };
 
@@ -94,6 +97,26 @@ export default function NecessityFormModal({ existingNames, onSave, onClose }: N
               placeholder="Cth: Photo Booth" />
           </div>
 
+          {/* Color picker */}
+          <div>
+            <label className="block text-sm font-medium text-amber-900/70 mb-3">Pilih Warna</label>
+            <div className="flex gap-3">
+              {necessityColorPalette.map((palette) => (
+                <button key={palette.name} type="button"
+                  onClick={() => setSelectedColor(palette.name)}
+                  className={`flex-1 h-12 rounded-xl flex items-center justify-center transition-all ${
+                    selectedColor === palette.name
+                      ? `${palette.bg} ${palette.border} border-2 scale-105 shadow-sm`
+                      : `${palette.bg} border border-transparent hover:scale-105`
+                  }`}
+                  style={{ backgroundColor: palette.hex + "20" }}>
+                  <span className={`w-5 h-5 rounded-full ${palette.bg} ${palette.border} border-2`}
+                    style={{ backgroundColor: palette.hex, borderColor: palette.hex }} />
+                </button>
+              ))}
+            </div>
+          </div>
+
           {/* Icon picker */}
           <div>
             <label className="block text-sm font-medium text-amber-900/70 mb-3">Pilih Ikon</label>
@@ -113,9 +136,14 @@ export default function NecessityFormModal({ existingNames, onSave, onClose }: N
           </div>
 
           {/* Preview */}
-          <div className="flex items-center gap-3 p-3 rounded-xl bg-cream/70">
-            <div className="w-10 h-10 rounded-xl bg-orange/10 flex items-center justify-center">
-              <Icon name={selectedIcon} size={20} className="text-orange" />
+          <div className={`flex items-center gap-3 p-3 rounded-xl ${
+            necessityColorPalette.find((c) => c.name === selectedColor)?.bg || "bg-cream/70"
+          }`}>
+            <div className={`w-10 h-10 rounded-xl ${
+              necessityColorPalette.find((c) => c.name === selectedColor)?.bg || "bg-orange/10"
+            } flex items-center justify-center`}>
+              <Icon name={selectedIcon} size={20}
+                className={necessityColorPalette.find((c) => c.name === selectedColor)?.text || "text-orange"} />
             </div>
             <div>
               <p className="text-sm font-medium text-amber-900">{name || "Nama Kebutuhan"}</p>

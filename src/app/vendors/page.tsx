@@ -2,148 +2,228 @@
 
 import { useState } from "react";
 import { mockNecessities } from "@/data/mock";
-import { Vendor } from "@/types";
 import { getNecessityIcon, getNecessityColor } from "@/data/necessityIcons";
 import VendorModal from "@/components/VendorModal";
-import VendorFormModal from "@/components/VendorFormModal";
 import Icon from "@/components/Icon";
 
 export default function VendorsPage() {
   const [necessities, setNecessities] = useState(mockNecessities);
-  const [selectedVendor, setSelectedVendor] = useState<Vendor | null>(null);
-  const [editingVendor, setEditingVendor] = useState<Vendor | undefined>(undefined);
-  const [showForm, setShowForm] = useState(false);
-  const [filterNec, setFilterNec] = useState<string>("all");
-  const [sortBy, setSortBy] = useState<"priority" | "budget">("priority");
-  const [search, setSearch] = useState("");
+  const [selectedVendor, setSelectedVendor] = useState<any>(null);
+  const [newTaskInput, setNewTaskInput] = useState<Record<string, string>>({});
 
-  const allVendors = necessities.flatMap((n) =>
-    n.vendors.map((v) => ({ ...v, necessityName: n.name, necessityId: n.id }))
-  );
+  const selectedItems = necessities
+    .filter((n) => n.selectedVendorId)
+    .map((n) => {
+      const vendor = n.vendors.find((v) => v.id === n.selectedVendorId);
+      return { necessity: n, vendor };
+    })
+    .filter((item) => item.vendor);
 
-  const filtered = allVendors
-    .filter((v) => (filterNec === "all" || v.necessityId === filterNec))
-    .filter((v) => v.name.toLowerCase().includes(search.toLowerCase()))
-    .sort((a, b) =>
-      sortBy === "priority" ? a.priority - b.priority : a.budget - b.budget
-    );
-
-  const handleSave = (data: Omit<Vendor, "id"> & { id?: string }) => {
+  const toggleVendorTask = (necId: string, taskId: string) => {
     setNecessities((prev) =>
       prev.map((n) => {
-        if (n.id !== data.necessityId) return n;
-        if (data.id) {
-          return { ...n, vendors: n.vendors.map((v) => v.id === data.id ? { ...v, ...data } : v) };
-        }
-        return { ...n, vendors: [...n.vendors, { ...data, id: `v${Date.now()}` } as Vendor] };
+        if (n.id !== necId) return n;
+        const tasks = (n.vendorTasks ?? []).map((t) =>
+          t.id === taskId ? { ...t, done: !t.done } : t
+        );
+        const doneTask = (n.vendorTasks ?? []).find((t) => t.id === taskId);
+        const activity = n.vendorActivity ?? [];
+        const newActivity = doneTask
+          ? { id: `va${Date.now()}`, action: `Task '${doneTask.title}' ${doneTask.done ? "dibatalkan" : "selesai"}`, date: new Date().toISOString() }
+          : null;
+        return { ...n, vendorTasks: tasks, vendorActivity: newActivity ? [newActivity, ...activity] : activity };
       })
     );
-    setShowForm(false);
-    setEditingVendor(undefined);
-    setSelectedVendor(null);
   };
 
-  const handleDelete = (vendorId: string) => {
+  const addVendorTask = (necId: string) => {
+    const title = (newTaskInput[necId] ?? "").trim();
+    if (!title) return;
     setNecessities((prev) =>
-      prev.map((n) => ({ ...n, vendors: n.vendors.filter((v) => v.id !== vendorId) }))
+      prev.map((n) => {
+        if (n.id !== necId) return n;
+        return {
+          ...n,
+          vendorTasks: [...(n.vendorTasks ?? []), { id: `vt${Date.now()}`, title, done: false }],
+          vendorActivity: [
+            { id: `va${Date.now()}`, action: `Task ditambahkan: '${title}'`, date: new Date().toISOString() },
+            ...(n.vendorActivity ?? []),
+          ],
+        };
+      })
     );
-    setSelectedVendor(null);
+    setNewTaskInput((prev) => ({ ...prev, [necId]: "" }));
   };
 
-  const handleEdit = (v: Vendor) => {
-    setSelectedVendor(null);
-    setEditingVendor(v);
-    setShowForm(true);
+  const deleteVendorTask = (necId: string, taskId: string) => {
+    setNecessities((prev) =>
+      prev.map((n) => {
+        if (n.id !== necId) return n;
+        const task = (n.vendorTasks ?? []).find((t) => t.id === taskId);
+        const activity = n.vendorActivity ?? [];
+        const newActivity = task
+          ? { id: `va${Date.now()}`, action: `Task dihapus: '${task.title}'`, date: new Date().toISOString() }
+          : null;
+        return {
+          ...n,
+          vendorTasks: (n.vendorTasks ?? []).filter((t) => t.id !== taskId),
+          vendorActivity: newActivity ? [newActivity, ...activity] : activity,
+        };
+      })
+    );
+  };
+
+  const getRelativeTime = (dateStr: string) => {
+    const diff = new Date().getTime() - new Date(dateStr).getTime();
+    const mins = Math.floor(diff / 60000);
+    if (mins < 1) return "Baru saja";
+    if (mins < 60) return `${mins}m`;
+    const hours = Math.floor(mins / 60);
+    if (hours < 24) return `${hours}j`;
+    const days = Math.floor(hours / 24);
+    if (days < 7) return `${days}h`;
+    return new Date(dateStr).toLocaleDateString("id-ID", { day: "numeric", month: "short" });
   };
 
   return (
-    <div className="max-w-5xl space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-amber-900">Semua Vendor</h1>
-          <p className="text-amber-800/60">{allVendors.length} vendor terdaftar</p>
-        </div>
-        <button onClick={() => { setEditingVendor(undefined); setShowForm(true); }}
-          className="flex items-center gap-2 px-5 min-h-[44px] bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm active:scale-90">
-          <Icon name="add" size={18} /> Tambah Vendor
-        </button>
+    <div className="max-w-6xl space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold text-amber-900">Vendor Tracker</h1>
+        <p className="text-amber-800/60">{selectedItems.length} vendor final terpilih</p>
       </div>
 
-      {/* Filters */}
-      <div className="flex flex-wrap gap-3">
-        <div className="relative flex-1 min-w-[200px] max-w-sm">
-          <Icon name="search" size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-amber-800/30" />
-          <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Cari vendor..."
-            className="w-full pl-9 pr-4 min-h-[44px] rounded-xl border border-gold/40 bg-white text-sm text-amber-900 focus:outline-none focus:border-orange" />
-        </div>
-        <select value={filterNec} onChange={(e) => setFilterNec(e.target.value)}
-          className="px-4 min-h-[44px] rounded-xl border border-gold/40 bg-white text-sm text-amber-900 focus:outline-none focus:border-orange">
-          <option value="all">Semua Kebutuhan</option>
-          {necessities.map((n) => (<option key={n.id} value={n.id}>{n.name}</option>))}
-        </select>
-        <div className="flex bg-white rounded-xl border border-gold/40 overflow-hidden">
-          <button onClick={() => setSortBy("priority")}
-            className={`px-4 min-h-[44px] text-sm font-medium transition-colors ${sortBy === "priority" ? "bg-orange text-white" : "text-amber-900/60 hover:text-orange"}`}>Prioritas</button>
-          <button onClick={() => setSortBy("budget")}
-            className={`px-4 min-h-[44px] text-sm font-medium transition-colors ${sortBy === "budget" ? "bg-orange text-white" : "text-amber-900/60 hover:text-orange"}`}>Budget</button>
-        </div>
-      </div>
-
-      {/* Vendor cards — unified sticker style */}
-      {filtered.length === 0 ? (
-        <div className="text-center py-16 text-amber-800/40">
-          <Icon name="storefront" size={40} className="mb-3 text-amber-800/30" />
-          <p className="text-sm">{search ? "Tidak ada vendor sesuai pencarian" : "Belum ada vendor"}</p>
+      {selectedItems.length === 0 ? (
+        <div className="text-center py-20 text-amber-800/40">
+          <Icon name="storefront" size={48} className="mb-3 text-amber-800/20" />
+          <p className="text-sm mb-2">Belum ada vendor final</p>
+          <p className="text-xs text-amber-800/30">Pilih vendor final di halaman <strong>Kebutuhan</strong> untuk mulai tracking</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filtered.map((vendor) => {
-            const c = getNecessityColor(vendor.necessityId);
-            const nec = necessities.find((n) => n.id === vendor.necessityId);
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+          {selectedItems.map(({ necessity, vendor }) => {
+            const c = getNecessityColor(necessity.id, necessity.color);
+            const tasks = necessity.vendorTasks ?? [];
+            const activity = necessity.vendorActivity ?? [];
+            const doneTasks = tasks.filter((t) => t.done).length;
+            const pendingActivity = activity.filter((a) => !a.action.includes("selesai")).slice(0, 1);
+            const doneActivity = activity.filter((a) => a.action.includes("selesai")).slice(0, 2);
+            const displayActivity = [...pendingActivity, ...doneActivity];
+
             return (
-              <button key={vendor.id} onClick={() => setSelectedVendor(vendor)}
-                className={`text-left ${c.bg} ${c.border} border rounded-xl p-5 hover:shadow-md transition-all group`}>
-                <div className="flex items-start gap-3 mb-3">
-                  <div className={`w-10 h-10 rounded-xl ${c.bg} flex items-center justify-center shrink-0`}>
-                    <Icon name={getNecessityIcon(vendor.necessityId, nec?.icon)} size={20} className={c.text} />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <h3 className={`text-sm font-semibold ${c.text} truncate`}>{vendor.name}</h3>
-                      {vendor.isRecommended && (
-                        <span className="text-[9px] bg-white/80 text-orange px-1.5 py-0.5 rounded-full shrink-0">Rek.</span>
-                      )}
+              <div key={necessity.id}
+                className="bg-white rounded-2xl border border-gold/30 shadow-sm hover:shadow-md transition-all overflow-hidden group">
+                {/* Header */}
+                <div className={`${c.bg} ${c.border} border-b px-5 py-4`}>
+                  <div className="flex items-center gap-3">
+                    <div className={`w-12 h-12 rounded-xl ${c.bg} flex items-center justify-center bg-white/60`}>
+                      <Icon name={getNecessityIcon(necessity.id, necessity.icon)} size={24} className={c.text} />
                     </div>
-                    <p className="text-[11px] text-amber-800/50 truncate">{(vendor as Vendor & { necessityName: string }).necessityName}</p>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <h3 className={`text-base font-bold ${c.text}`}>{vendor!.name}</h3>
+                        <span className="text-[9px] bg-white/80 text-green px-1.5 py-0.5 rounded-full">Final</span>
+                      </div>
+                      <p className="text-xs text-amber-800/50">{necessity.name} • Prioritas #{vendor!.priority}</p>
+                    </div>
+                    <button onClick={() => setSelectedVendor(vendor!)}
+                      className="w-8 h-8 rounded-lg bg-white/60 hover:bg-white flex items-center justify-center text-amber-800/40 hover:text-orange transition-colors">
+                      <Icon name="visibility" size={16} />
+                    </button>
+                  </div>
+                  <div className="flex items-center gap-3 mt-3 text-xs">
+                    <span className="flex items-center gap-1 text-amber-800/50">
+                      <Icon name="account_balance_wallet" size={12} /> Rp {vendor!.budget.toLocaleString()}
+                    </span>
+                    <span className="flex items-center gap-1 text-amber-800/50">
+                      <Icon name="assignment" size={12} /> {doneTasks}/{tasks.length} task
+                    </span>
+                    <span className="flex items-center gap-1 text-amber-800/50">
+                      <Icon name="history" size={12} /> {activity.length} aktivitas
+                    </span>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 text-xs">
-                  <span className="text-amber-800/50 flex items-center gap-1">
-                    <Icon name="format_list_numbered" size={12} />#{vendor.priority}
-                  </span>
-                  <span className="text-amber-800/50 flex items-center gap-1">
-                    <Icon name="account_balance_wallet" size={12} />Rp {vendor.budget.toLocaleString()}
-                  </span>
+
+                {/* Body */}
+                <div className="p-5 space-y-4">
+                  {/* Tasks */}
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-xs font-medium text-amber-900/70">Task</p>
+                      <span className="text-[10px] text-amber-800/40">{doneTasks}/{tasks.length}</span>
+                    </div>
+
+                    {/* Add task */}
+                    <form onSubmit={(e) => { e.preventDefault(); addVendorTask(necessity.id); }}
+                      className="flex items-center gap-2 mb-2">
+                      <input value={newTaskInput[necessity.id] ?? ""}
+                        onChange={(e) => setNewTaskInput((prev) => ({ ...prev, [necessity.id]: e.target.value }))}
+                        placeholder="Tambah task…"
+                        className="flex-1 px-3 py-2 rounded-lg border border-gold/30 bg-cream/50 text-xs text-amber-900 focus:outline-none focus:border-orange placeholder-amber-800/30" />
+                      <button type="submit" disabled={!(newTaskInput[necessity.id] ?? "").trim()}
+                        className="px-3 py-2 rounded-lg bg-orange text-white text-xs font-medium hover:bg-orange/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
+                        + Add
+                      </button>
+                    </form>
+
+                    {tasks.length > 0 && (
+                      <div className="space-y-1">
+                        {tasks.map((task) => (
+                          <div key={task.id}
+                            className="flex items-center gap-2 py-1.5 px-2 rounded-lg hover:bg-cream/50 transition-colors group">
+                            <button onClick={() => toggleVendorTask(necessity.id, task.id)}
+                              className="flex items-center gap-2.5 flex-1 text-left">
+                              <div className={`w-4 h-4 rounded border-2 flex items-center justify-center shrink-0 transition-colors ${
+                                task.done ? "bg-green border-green" : "border-amber-800/20"
+                              }`}>
+                                {task.done && <Icon name="check" size={10} className="text-white" />}
+                              </div>
+                              <span className={`text-sm ${task.done ? "text-amber-800/50 line-through" : "text-amber-900"}`}>
+                                {task.title}
+                              </span>
+                            </button>
+                            <button onClick={() => deleteVendorTask(necessity.id, task.id)}
+                              className="opacity-0 group-hover:opacity-100 text-amber-800/30 hover:text-pink transition-all shrink-0">
+                              <Icon name="close" size={14} />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Activity */}
+                  {displayActivity.length > 0 && (
+                    <div>
+                      <p className="text-xs font-medium text-amber-900/70 mb-2">Aktivitas Terbaru</p>
+                      <div className="space-y-2">
+                        {displayActivity.map((act) => {
+                          const isDone = act.action.includes("selesai");
+                          return (
+                            <div key={act.id} className="flex items-start gap-2.5">
+                              <div className={`w-1.5 h-1.5 rounded-full mt-1.5 shrink-0 ${isDone ? "bg-green" : "bg-gold"}`} />
+                              <div className="flex-1 min-w-0">
+                                <p className="text-xs text-amber-800/70">{act.action}</p>
+                                <p className="text-[10px] text-amber-800/40">{getRelativeTime(act.date)}</p>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+
+                  {(tasks.length === 0 && displayActivity.length === 0) && (
+                    <p className="text-xs text-amber-800/40 text-center py-4">Belum ada aktivitas</p>
+                  )}
                 </div>
-                {vendor.pros.length > 0 && (
-                  <p className="text-[11px] text-green mt-2 truncate flex items-center gap-1">
-                    <Icon name="check_circle" size={12} filled /> {vendor.pros[0]}
-                  </p>
-                )}
-              </button>
+              </div>
             );
           })}
         </div>
       )}
 
       {selectedVendor && (
-        <VendorModal vendor={selectedVendor} onClose={() => setSelectedVendor(null)}
-          onEdit={selectedVendor.isRecommended ? undefined : handleEdit}
-          onDelete={selectedVendor.isRecommended ? undefined : handleDelete} />
-      )}
-      {showForm && (
-        <VendorFormModal vendor={editingVendor} necessityId={editingVendor?.necessityId ?? necessities[0]?.id ?? ""}
-          onSave={handleSave} onClose={() => { setShowForm(false); setEditingVendor(undefined); }} />
+        <VendorModal vendor={selectedVendor} onClose={() => setSelectedVendor(null)} />
       )}
     </div>
   );

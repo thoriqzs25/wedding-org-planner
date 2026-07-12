@@ -26,7 +26,7 @@ export default function VendorFormModal({ vendor, necessityId: initialNecId, onS
   );
 
   const nec = mockNecessities.find((n) => n.id === selectedNecId);
-  const c = getNecessityColor(selectedNecId);
+  const c = getNecessityColor(selectedNecId, nec?.color);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

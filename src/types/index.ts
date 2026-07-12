@@ -11,6 +11,7 @@ export interface Account {
   budget: number;
   budgetTier: BudgetTier;
   selectedNecessities: string[];
+  guestCount: number;
   status: AccountStatus;
 }
 
@@ -26,6 +27,7 @@ export interface Questionnaire {
   groomName: string;
   weddingDate: string;
   location: string;
+  guestCount: number;
   budget: number;
   budgetTier: BudgetTier;
   selectedNecessities: string[];
@@ -42,6 +44,18 @@ export interface Todo {
   link: string;
 }
 
+export interface VendorTask {
+  id: string;
+  title: string;
+  done: boolean;
+}
+
+export interface VendorActivity {
+  id: string;
+  action: string;
+  date: string;
+}
+
 export interface Vendor {
   id: string;
   necessityId: string;
@@ -49,19 +63,26 @@ export interface Vendor {
   socialLinks: { platform: string; url: string }[];
   priority: number;
   budget: number;
+  perPerson?: number;
   pros: string[];
   cons: string[];
   notes: string;
   isRecommended: boolean;
 }
 
+export type NecessityColor = "orange" | "pink" | "green" | "gold";
+
 export interface Necessity {
   id: string;
   name: string;
   icon?: string;
+  color?: NecessityColor;
   isDefault: boolean;
   todos: Todo[];
   vendors: Vendor[];
+  selectedVendorId?: string;
+  vendorTasks?: VendorTask[];
+  vendorActivity?: VendorActivity[];
 }
 
 export interface GalleryItem {
@@ -74,7 +95,8 @@ export interface GalleryItem {
 
 export interface Invoice {
   id: string;
-  vendorId: string;
+  necessityId: string;
+  necessityName: string;
   vendorName: string;
   photoUrl: string;
   amount: number;

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { mockAccounts } from "@/data/mock";
+import Icon from "@/components/Icon";
 
 export default function LoginPage() {
   const [clickCount, setClickCount] = useState(0);
@@ -140,10 +141,34 @@ export default function LoginPage() {
           )}
         </div>
 
-        <div className="text-center mt-6">
+        <div className="text-center mt-6 space-y-3">
           {showAdmin && (
             <p className="text-xs text-green font-medium mb-2">Admin access unlocked</p>
           )}
+
+          <details className="group text-left">
+            <summary className="text-xs text-amber-800/40 hover:text-amber-800/60 cursor-pointer list-none flex items-center justify-center gap-1 transition-colors">
+              <Icon name="gavel" size={12} />
+              Kebijakan Privasi
+              <Icon name="expand_more" size={14} className="group-open:rotate-180 transition-transform" />
+            </summary>
+            <div className="mt-2 p-3 rounded-xl bg-cream/80 border border-gold/20 text-[11px] text-amber-800/60 leading-relaxed space-y-1.5">
+              <p>
+                Semua data pernikahan yang Anda masukkan (informasi pasangan, vendor, pembayaran, galeri, jadwal)
+                disimpan dan dikelola oleh penyedia layanan WeddingKit.
+              </p>
+              <p>
+                Dengan menggunakan aplikasi ini, Anda menyetujui bahwa tanggung jawab hukum atas
+                penyimpanan, pemrosesan, dan keamanan data sepenuhnya berada pada penyedia layanan.
+              </p>
+              <p>
+                Data Anda tidak dibagikan kepada pihak ketiga tanpa persetujuan Anda.
+                Kami tidak bertanggung jawab atas kerugian yang timbul dari penggunaan data
+                di luar kendali kami.
+              </p>
+            </div>
+          </details>
+
           <p
             onClick={handleVersionClick}
             className="inline-block text-xs text-amber-800/60 text-center cursor-pointer select-none hover:text-amber-900 transition-colors"
