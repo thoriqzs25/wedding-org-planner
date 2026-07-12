@@ -64,7 +64,7 @@ export default function VendorsPage() {
           <p className="text-amber-800/60">{allVendors.length} vendor terdaftar</p>
         </div>
         <button onClick={() => { setEditingVendor(undefined); setShowForm(true); }}
-          className="flex items-center gap-2 px-5 py-2.5 bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm">
+          className="flex items-center gap-2 px-5 min-h-[44px] bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm active:scale-90">
           <Icon name="add" size={18} /> Tambah Vendor
         </button>
       </div>
@@ -74,18 +74,18 @@ export default function VendorsPage() {
         <div className="relative flex-1 min-w-[200px] max-w-sm">
           <Icon name="search" size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-amber-800/30" />
           <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Cari vendor..."
-            className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-gold/40 bg-white text-sm text-amber-900 focus:outline-none focus:border-orange" />
+            className="w-full pl-9 pr-4 min-h-[44px] rounded-xl border border-gold/40 bg-white text-sm text-amber-900 focus:outline-none focus:border-orange" />
         </div>
         <select value={filterNec} onChange={(e) => setFilterNec(e.target.value)}
-          className="px-4 py-2.5 rounded-xl border border-gold/40 bg-white text-sm text-amber-900 focus:outline-none focus:border-orange">
+          className="px-4 min-h-[44px] rounded-xl border border-gold/40 bg-white text-sm text-amber-900 focus:outline-none focus:border-orange">
           <option value="all">Semua Kebutuhan</option>
           {necessities.map((n) => (<option key={n.id} value={n.id}>{n.name}</option>))}
         </select>
         <div className="flex bg-white rounded-xl border border-gold/40 overflow-hidden">
           <button onClick={() => setSortBy("priority")}
-            className={`px-4 py-2.5 text-sm font-medium transition-colors ${sortBy === "priority" ? "bg-orange text-white" : "text-amber-900/60 hover:text-orange"}`}>Prioritas</button>
+            className={`px-4 min-h-[44px] text-sm font-medium transition-colors ${sortBy === "priority" ? "bg-orange text-white" : "text-amber-900/60 hover:text-orange"}`}>Prioritas</button>
           <button onClick={() => setSortBy("budget")}
-            className={`px-4 py-2.5 text-sm font-medium transition-colors ${sortBy === "budget" ? "bg-orange text-white" : "text-amber-900/60 hover:text-orange"}`}>Budget</button>
+            className={`px-4 min-h-[44px] text-sm font-medium transition-colors ${sortBy === "budget" ? "bg-orange text-white" : "text-amber-900/60 hover:text-orange"}`}>Budget</button>
         </div>
       </div>
 

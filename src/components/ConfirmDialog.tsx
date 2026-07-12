@@ -32,11 +32,11 @@ export default function ConfirmDialog({
         </div>
         <div className="flex gap-3">
           <button onClick={onCancel}
-            className="flex-1 py-2.5 rounded-xl border border-gold/40 text-amber-900 font-medium hover:bg-cream transition-colors">
+            className="flex-1 min-h-[44px] rounded-xl border border-gold/40 text-amber-900 font-medium hover:bg-cream transition-colors active:scale-[0.98]">
             {cancelLabel}
           </button>
           <button onClick={onConfirm}
-            className={`flex-1 py-2.5 rounded-xl text-white font-medium transition-colors ${
+            className={`flex-1 min-h-[44px] rounded-xl text-white font-medium transition-colors active:scale-[0.98] ${
               variant === "danger"
                 ? "bg-pink hover:bg-pink/90"
                 : "bg-orange hover:bg-orange/90"

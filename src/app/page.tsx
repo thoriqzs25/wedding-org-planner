@@ -165,9 +165,9 @@ export default function DashboardPage() {
             backgroundSize: '40px 40px, 30px 30px, 50px 50px',
           }}
         />
-        <div className="relative px-8 py-6 flex items-center gap-8">
+        <div className="relative px-5 sm:px-8 py-5 sm:py-6 flex items-center gap-4 sm:gap-8">
           <div className="relative shrink-0">
-            <div className="relative w-24 h-24">
+            <div className="relative w-20 h-20 sm:w-24 sm:h-24">
               <svg className="w-24 h-24 -rotate-90" viewBox="0 0 36 36">
                 <circle cx="18" cy="18" r="15.5" fill="none" stroke="#FFFAE5" strokeWidth="2.5" />
                 <circle cx="18" cy="18" r="15.5" fill="none"
@@ -188,11 +188,11 @@ export default function DashboardPage() {
             <p className={`text-sm font-semibold tracking-wide uppercase mb-1 ${
               warnThreshold.time ? "text-pink" : "text-amber-800/50"
             }`}>Countdown</p>
-            <p className={`text-4xl sm:text-5xl font-bold leading-none tracking-tight ${
+            <p className={`text-2xl sm:text-5xl font-bold leading-none tracking-tight ${
               warnThreshold.time ? "text-pink" : "text-amber-900"
             }`}>
               {daysToWedding}
-              <span className={`text-lg sm:text-xl font-normal ml-2 ${
+              <span className={`text-sm sm:text-xl font-normal ml-2 ${
                 warnThreshold.time ? "text-pink/60" : "text-amber-800/50"
               }`}>days to go</span>
             </p>
@@ -226,7 +226,7 @@ export default function DashboardPage() {
         </div>
 
         {warnThreshold.time && (
-          <div className="relative px-8 py-2 bg-pink/5 border-t border-pink/20 flex items-center gap-2">
+          <div className="relative px-5 sm:px-8 py-2 bg-pink/5 border-t border-pink/20 flex items-center gap-2">
             <Icon name="warning" size={14} className="text-pink" filled />
             <p className="text-xs text-pink font-medium">Less than 30 days to go — time to finalize everything!</p>
           </div>
@@ -394,7 +394,7 @@ export default function DashboardPage() {
       {overdueTodos.length > 0 && (
         <div className="rounded-2xl overflow-hidden shadow-lg border-2 border-pink/50 bg-white">
           {/* Header banner */}
-          <div className="bg-gradient-to-r from-pink to-pink/80 px-6 py-4 flex items-center justify-between">
+          <div className="bg-gradient-to-r from-pink to-pink/80 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-11 h-11 rounded-xl bg-white/20 flex items-center justify-center shadow-inner">
                 <Icon name="warning" size={24} className="text-white" filled />
@@ -419,13 +419,13 @@ export default function DashboardPage() {
               const urgency = daysOverdue >= 7 ? "high" : daysOverdue >= 3 ? "medium" : "low";
               return (
                 <div key={todo.id}
-                  className={`flex items-center gap-4 px-6 py-4 transition-colors ${
+                  className={`flex items-center gap-3 sm:gap-4 px-4 sm:px-6 py-3 sm:py-4 transition-colors ${
                     urgency === "high" ? "bg-pink/[0.03]" : "hover:bg-pink/[0.02]"
                   }`}>
                   {/* Check button */}
                   <Tooltip content="Klik untuk tandai selesai">
                     <button onClick={() => cycleStatus(todo.id)}
-                      className="w-8 h-8 rounded-xl border-2 border-pink/40 flex items-center justify-center shrink-0 hover:bg-pink hover:border-pink hover:text-white transition-all active:scale-90 group">
+                      className="flex items-center justify-center w-11 h-11 rounded-xl border-2 border-pink/40 shrink-0 hover:bg-pink hover:border-pink hover:text-white transition-all active:scale-90 group">
                       <Icon name="check" size={16} className="text-pink/50 group-hover:text-white transition-colors" />
                     </button>
                   </Tooltip>

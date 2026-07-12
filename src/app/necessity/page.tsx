@@ -59,9 +59,9 @@ export default function NecessityListPage() {
     );
   }
 
-  const tabs: { key: Tab; label: string; icon: string }[] = [
-    { key: "kebutuhan", label: "Kebutuhan", icon: "checklist" },
-    { key: "todos", label: `Semua To-Do (${allTodos.length})`, icon: "format_list_bulleted" },
+  const tabs: { key: Tab; label: string; mobile: string; icon: string }[] = [
+    { key: "kebutuhan", label: "Kebutuhan", mobile: "Kebutuhan", icon: "checklist" },
+    { key: "todos", label: `Semua To-Do (${allTodos.length})`, mobile: `To-Do (${allTodos.length})`, icon: "format_list_bulleted" },
   ];
 
   return (
@@ -72,10 +72,10 @@ export default function NecessityListPage() {
           <p className="text-amber-800/60">Kelola setiap kebutuhan pernikahanmu</p>
         </div>
         {tab === "kebutuhan" && (
-          <button onClick={() => setShowForm(true)}
-            className="flex items-center gap-2 px-5 py-2.5 bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm">
-            <Icon name="add" size={18} /> Tambah Kebutuhan
-          </button>
+        <button onClick={() => setShowForm(true)}
+          className="flex items-center gap-2 px-5 min-h-[44px] bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm active:scale-90">
+          <Icon name="add" size={18} /> Tambah Kebutuhan
+        </button>
         )}
       </div>
 
@@ -89,7 +89,8 @@ export default function NecessityListPage() {
                 : "text-amber-800/60 hover:text-orange hover:bg-orange/5"
             }`}>
             <Icon name={t.icon} size={18} />
-            {t.label}
+            <span className="sm:hidden">{t.mobile}</span>
+            <span className="hidden sm:inline">{t.label}</span>
           </button>
         ))}
       </div>
@@ -234,10 +235,10 @@ export default function NecessityListPage() {
                     </div>
                   </Link>
 
-                  <button onClick={() => setDeleteId(nec.id)}
-                    className="absolute top-3 right-3 w-6 h-6 rounded-full bg-white/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-amber-800/30 hover:text-pink hover:bg-pink/10">
-                    <Icon name="close" size={14} />
-                  </button>
+              <button onClick={() => setDeleteId(nec.id)}
+                className="absolute top-3 right-3 flex items-center justify-center w-11 h-11 rounded-xl text-amber-800/30 hover:text-pink hover:bg-pink/10 transition-colors active:scale-90">
+                <Icon name="close" size={16} />
+              </button>
                 </div>
               );
             })}
@@ -266,14 +267,14 @@ export default function NecessityListPage() {
                       isOverdue ? "bg-pink/[0.02]" : ""
                     }`}>
                     <button onClick={(e) => { e.preventDefault(); cycleStatus(todo.id); }}
-                      className={`w-6 h-6 rounded-full border-2 shrink-0 flex items-center justify-center transition-all active:scale-90 ${
+                      className={`flex items-center justify-center w-11 h-11 shrink-0 rounded-full border-2 transition-all active:scale-90 ${
                         isDone
                           ? "bg-green border-green"
                           : isOverdue
                           ? "border-pink/50 hover:bg-pink/10"
                           : "border-gold/50 hover:bg-gold/10"
                       }`}>
-                      {isDone && <Icon name="check" size={14} className="text-white" />}
+                      {isDone ? <Icon name="check" size={14} className="text-white" /> : <span className="w-0" />}
                     </button>
 
                     <div className="flex-1 min-w-0">

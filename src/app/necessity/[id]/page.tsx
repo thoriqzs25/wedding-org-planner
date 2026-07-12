@@ -115,15 +115,15 @@ export default function NecessityDetailPage() {
   return (
     <div className="max-w-5xl space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           <Link href="/necessity" className="text-amber-800/40 hover:text-orange transition-colors flex items-center gap-1">
             <Icon name="arrow_back" size={16} /> Kembali
           </Link>
-          <h1 className="text-2xl font-bold text-amber-900">{necessity.name}</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-amber-900">{necessity.name}</h1>
         </div>
         <button onClick={() => { setEditingVendor(undefined); setShowVendorForm(true); }}
-          className="flex items-center gap-2 px-5 py-2.5 bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm">
+          className="flex items-center gap-2 px-5 min-h-[44px] bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm active:scale-90 w-full sm:w-auto justify-center">
           <Icon name="add" size={18} /> Tambah Vendor
         </button>
       </div>
@@ -153,7 +153,7 @@ export default function NecessityDetailPage() {
               {necessity.todos.filter((t) => t.status === "done").length}/{necessity.todos.length} selesai
             </span>
             <button onClick={() => { setEditingTodo(undefined); setShowTodoForm(true); }}
-              className="flex items-center gap-1 text-xs text-orange hover:underline">
+              className="flex items-center gap-1 min-h-[44px] px-3 text-xs text-orange hover:underline rounded-xl hover:bg-orange/5 transition-colors active:scale-90">
               <Icon name="add" size={14} /> Tambah
             </button>
           </div>
@@ -164,7 +164,7 @@ export default function NecessityDetailPage() {
             <Icon name="checklist" size={36} className="mb-2 text-amber-800/30" />
             <p className="text-sm mb-3">Belum ada to-do list</p>
             <button onClick={() => { setEditingTodo(undefined); setShowTodoForm(true); }}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm text-xs">
+              className="inline-flex items-center gap-2 px-4 min-h-[44px] bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm text-xs active:scale-90">
               <Icon name="add" size={14} /> Tambah To-Do
             </button>
           </div>
@@ -207,7 +207,7 @@ export default function NecessityDetailPage() {
                   <div className="flex flex-col items-end gap-2 shrink-0">
                     <span className={`text-[11px] px-2.5 py-1 rounded-full font-medium whitespace-nowrap ${config.bg}`}>{config.label}</span>
                     <button onClick={() => { setEditingTodo(todo); setShowTodoForm(true); }}
-                      className="text-[10px] text-amber-800/30 hover:text-orange transition-colors">
+                      className="flex items-center justify-center w-11 h-11 rounded-xl text-amber-800/30 hover:text-orange hover:bg-gold/10 transition-colors active:scale-90">
                       <Icon name="edit" size={14} />
                     </button>
                   </div>

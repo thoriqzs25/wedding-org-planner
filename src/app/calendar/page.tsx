@@ -58,7 +58,7 @@ export default function CalendarPage() {
           <p className="text-amber-800/60">Jadwalkan meeting dan deadline persiapan</p>
         </div>
         <button onClick={() => { setEditingEvent(undefined); setShowForm(true); }}
-          className="flex items-center gap-2 px-5 py-2.5 bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm">
+          className="flex items-center gap-2 px-5 min-h-[44px] bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm active:scale-90">
           <Icon name="add" size={18} /> Tambah Jadwal
         </button>
       </div>
@@ -66,12 +66,12 @@ export default function CalendarPage() {
       <div className="bg-white rounded-2xl border border-gold/30 shadow-sm overflow-hidden">
         <div className="flex items-center justify-between p-5 border-b border-gold/30">
           <button onClick={prevMonth}
-            className="w-10 h-10 rounded-xl hover:bg-cream flex items-center justify-center text-amber-900/60 hover:text-orange transition-colors">
+            className="flex items-center justify-center w-11 h-11 rounded-xl hover:bg-cream text-amber-900/60 hover:text-orange transition-colors active:scale-90">
             <Icon name="chevron_left" size={24} />
           </button>
-          <h2 className="text-lg font-semibold text-amber-900">{monthNames[currentMonth]} {currentYear}</h2>
+          <h2 className="text-base sm:text-lg font-semibold text-amber-900">{monthNames[currentMonth]} {currentYear}</h2>
           <button onClick={nextMonth}
-            className="w-10 h-10 rounded-xl hover:bg-cream flex items-center justify-center text-amber-900/60 hover:text-orange transition-colors">
+            className="flex items-center justify-center w-11 h-11 rounded-xl hover:bg-cream text-amber-900/60 hover:text-orange transition-colors active:scale-90">
             <Icon name="chevron_right" size={24} />
           </button>
         </div>
@@ -80,28 +80,30 @@ export default function CalendarPage() {
           {dayNames.map((d) => (<div key={d} className="p-3 text-center text-xs font-medium text-amber-800/50">{d}</div>))}
         </div>
 
-        <div className="grid grid-cols-7">
-          {Array.from({ length: firstDay }).map((_, i) => (<div key={`empty-${i}`} className="p-3" />))}
-          {Array.from({ length: daysInMonth }).map((_, i) => {
-            const day = i + 1;
-            const dayEvents = getEventsForDay(day);
-            const isToday = day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear();
-            return (
-              <div key={day} className={`p-2 min-h-[90px] border-b border-r border-gold/10 hover:bg-cream/50 transition-colors ${isToday ? "bg-orange/5" : ""}`}>
-                <span className={`inline-flex w-7 h-7 items-center justify-center text-sm rounded-full ${isToday ? "bg-orange text-white font-semibold" : "text-amber-900"}`}>{day}</span>
-                <div className="mt-1 space-y-1">
-                  {dayEvents.map((event) => (
-                    <div key={event.id}
-                      className="text-[10px] bg-orange/10 text-orange px-1.5 py-0.5 rounded truncate cursor-pointer hover:bg-orange/20"
-                      title={event.title}
-                      onClick={() => { setEditingEvent(event); setShowForm(true); }}>
-                      {event.title}
-                    </div>
-                  ))}
+        <div className="overflow-x-auto pb-2">
+          <div className="grid grid-cols-7 min-w-[490px] sm:min-w-0">
+            {Array.from({ length: firstDay }).map((_, i) => (<div key={`empty-${i}`} className="p-3" />))}
+            {Array.from({ length: daysInMonth }).map((_, i) => {
+              const day = i + 1;
+              const dayEvents = getEventsForDay(day);
+              const isToday = day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear();
+              return (
+                <div key={day} className={`p-2 min-h-[80px] sm:min-h-[90px] border-b border-r border-gold/10 hover:bg-cream/50 transition-colors ${isToday ? "bg-orange/5" : ""}`}>
+                  <span className={`inline-flex w-7 h-7 items-center justify-center text-sm rounded-full ${isToday ? "bg-orange text-white font-semibold" : "text-amber-900"}`}>{day}</span>
+                  <div className="mt-1 space-y-1">
+                    {dayEvents.map((event) => (
+                      <div key={event.id}
+                        className="text-[10px] bg-orange/10 text-orange px-1.5 py-0.5 rounded truncate cursor-pointer hover:bg-orange/20"
+                        title={event.title}
+                        onClick={() => { setEditingEvent(event); setShowForm(true); }}>
+                        {event.title}
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
 
@@ -130,7 +132,7 @@ export default function CalendarPage() {
                   {event.description && <p className="text-xs text-amber-800/60 mt-1">{event.description}</p>}
                 </div>
                 <button onClick={(e) => { e.stopPropagation(); setDeleteId(event.id); }}
-                  className="text-amber-800/30 hover:text-pink transition-colors opacity-0 group-hover:opacity-100 shrink-0">
+                  className="flex items-center justify-center w-11 h-11 rounded-xl text-amber-800/30 hover:text-pink hover:bg-pink/10 transition-colors shrink-0 active:scale-90">
                   <Icon name="delete" size={16} />
                 </button>
               </div>

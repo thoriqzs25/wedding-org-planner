@@ -39,7 +39,7 @@ export default function GalleryPage() {
           <p className="text-amber-800/60">Kumpulan referensi untuk pernikahanmu</p>
         </div>
         <button onClick={() => { setEditingItem(undefined); setShowForm(true); }}
-          className="flex items-center gap-2 px-5 py-2.5 bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm">
+          className="flex items-center gap-2 px-5 min-h-[44px] bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm active:scale-90">
           <Icon name="add" size={18} /> Tambah Inspirasi
         </button>
       </div>
@@ -49,10 +49,10 @@ export default function GalleryPage() {
         <div className="relative flex-1 min-w-[200px] max-w-sm">
           <Icon name="search" size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-amber-800/30" />
           <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Cari inspirasi..."
-            className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-gold/40 bg-white text-sm text-amber-900 focus:outline-none focus:border-orange" />
+            className="w-full pl-9 pr-4 min-h-[44px] rounded-xl border border-gold/40 bg-white text-sm text-amber-900 focus:outline-none focus:border-orange" />
         </div>
         <select value={filterNec} onChange={(e) => setFilterNec(e.target.value)}
-          className="px-4 py-2.5 rounded-xl border border-gold/40 bg-white text-sm text-amber-900 focus:outline-none focus:border-orange">
+          className="px-4 min-h-[44px] rounded-xl border border-gold/40 bg-white text-sm text-amber-900 focus:outline-none focus:border-orange">
           <option value="all">Semua Kategori</option>
           {mockNecessities.map((n) => (<option key={n.id} value={n.id}>{n.name}</option>))}
         </select>
@@ -84,11 +84,15 @@ export default function GalleryPage() {
               <div className="p-4">
                 <div className="flex items-start justify-between">
                   <p className="text-sm text-amber-900 font-medium flex-1">{item.description}</p>
-                  <div className="flex gap-1 shrink-0 ml-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="flex gap-1 shrink-0 ml-2">
                     <button onClick={() => { setEditingItem(item); setShowForm(true); }}
-                      className="text-amber-800/30 hover:text-orange transition-colors"><Icon name="edit" size={16} /></button>
+                      className="flex items-center justify-center w-11 h-11 rounded-xl text-amber-800/30 hover:text-orange hover:bg-gold/20 transition-colors active:scale-90">
+                      <Icon name="edit" size={16} />
+                    </button>
                     <button onClick={() => setDeleteId(item.id)}
-                      className="text-amber-800/30 hover:text-pink transition-colors"><Icon name="delete" size={16} /></button>
+                      className="flex items-center justify-center w-11 h-11 rounded-xl text-amber-800/30 hover:text-pink hover:bg-pink/10 transition-colors active:scale-90">
+                      <Icon name="delete" size={16} />
+                    </button>
                   </div>
                 </div>
                 <div className="flex items-center justify-between mt-2">

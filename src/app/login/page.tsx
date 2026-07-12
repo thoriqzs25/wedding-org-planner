@@ -42,7 +42,7 @@ export default function LoginPage() {
           <p className="text-amber-800/60 mt-1">Wedding Organizer</p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-lg border border-gold/30 p-8">
+        <div className="bg-white rounded-2xl shadow-lg border border-gold/30 p-5 sm:p-8">
           <h2 className="text-xl font-semibold text-amber-900 mb-6 text-center">
             {showAdmin ? "Admin Login" : "Masuk"}
           </h2>
@@ -78,14 +78,14 @@ export default function LoginPage() {
               )}
               <button
                 type="submit"
-                className="w-full py-3 bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm"
+                className="w-full min-h-[44px] bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm active:scale-[0.98]"
               >
                 Sign in as Admin
               </button>
               <button
                 type="button"
                 onClick={() => { setShowAdmin(false); setAdminError(""); }}
-                className="w-full py-2 text-sm text-amber-800/60 hover:text-amber-900 transition-colors"
+                className="w-full min-h-[44px] text-sm text-amber-800/60 hover:text-amber-900 transition-colors"
               >
                 Back to user login
               </button>
@@ -120,7 +120,7 @@ export default function LoginPage() {
               </div>
               <button
                 type="submit"
-                className="w-full py-3 bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm"
+                className="w-full min-h-[44px] bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm active:scale-[0.98]"
               >
                 Masuk
               </button>

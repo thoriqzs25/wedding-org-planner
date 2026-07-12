@@ -47,12 +47,12 @@ export default function QuestionnairePage() {
           <p className="text-amber-800/60 mt-1">Mulai rencanakan pernikahanmu</p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-lg border border-gold/30 p-8">
+        <div className="bg-white rounded-2xl shadow-lg border border-gold/30 p-5 sm:p-8">
           <div className="flex items-center gap-2 mb-8">
             {[1, 2, 3].map((s) => (
               <div key={s} className="flex items-center gap-2 flex-1">
                 <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors ${
+                  className={`w-10 h-10 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors ${
                     step >= s
                       ? "bg-orange text-white"
                       : "bg-cream text-amber-800/40"
@@ -78,7 +78,7 @@ export default function QuestionnairePage() {
                   Data Pasangan
                 </h2>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-amber-900/70 mb-1">
                       Nama Panggilan Calon Pria
@@ -101,7 +101,7 @@ export default function QuestionnairePage() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-amber-900/70 mb-1">
                       Tanggal Acara
@@ -146,7 +146,7 @@ export default function QuestionnairePage() {
                   <label className="block text-sm font-medium text-amber-900/70 mb-3">
                     Range Budget
                   </label>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {budgetTiers.map((tier) => (
                       <label
                         key={tier.value}
@@ -173,7 +173,7 @@ export default function QuestionnairePage() {
                   <label className="block text-sm font-medium text-amber-900/70 mb-3">
                     Kebutuhan yang Diambil
                   </label>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {defaultNecessities.map((nec) => (
                       <label
                         key={nec.id}
@@ -233,12 +233,12 @@ export default function QuestionnairePage() {
               </div>
             )}
 
-            <div className="flex justify-between mt-8">
+            <div className="flex justify-between gap-3 mt-8">
               {step > 1 ? (
                 <button
                   type="button"
                   onClick={() => setStep(step - 1)}
-                  className="px-6 py-3 rounded-xl border border-gold/40 text-amber-900 font-medium hover:bg-cream transition-colors"
+                  className="px-6 min-h-[44px] rounded-xl border border-gold/40 text-amber-900 font-medium hover:bg-cream transition-colors active:scale-95"
                 >
                   Kembali
                 </button>
@@ -250,14 +250,14 @@ export default function QuestionnairePage() {
                 <button
                   type="button"
                   onClick={() => setStep(step + 1)}
-                  className="px-6 py-3 bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm"
+                  className="px-6 min-h-[44px] bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm active:scale-95"
                 >
                   Lanjut
                 </button>
               ) : (
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-green text-white rounded-xl font-medium hover:bg-green/90 transition-colors shadow-sm"
+                  className="px-6 min-h-[44px] bg-green text-white rounded-xl font-medium hover:bg-green/90 transition-colors shadow-sm active:scale-95"
                 >
                   Buat Akun & Mulai
                 </button>

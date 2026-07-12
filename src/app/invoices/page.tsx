@@ -37,28 +37,28 @@ export default function InvoicesPage() {
           <p className="text-amber-800/60">Pantau pengeluaran pernikahanmu</p>
         </div>
         <button onClick={() => { setEditingInvoice(undefined); setShowForm(true); }}
-          className="flex items-center gap-2 px-5 py-2.5 bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm">
+          className="flex items-center gap-2 px-5 min-h-[44px] bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm active:scale-90">
           <Icon name="add" size={18} /> Tambah Invoice
         </button>
       </div>
 
       {/* Summary */}
-      <div className="grid grid-cols-3 gap-4">
-        <div className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm relative group">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+        <div className="bg-white rounded-2xl border border-gold/30 p-4 sm:p-5 shadow-sm relative group">
           <p className="text-xs text-amber-800/60">Total Budget</p>
-          <p className="text-2xl font-bold text-amber-900 mt-1">Rp {totalBudget.toLocaleString()}</p>
+          <p className="text-xl sm:text-2xl font-bold text-amber-900 mt-1">Rp {totalBudget.toLocaleString()}</p>
           <button onClick={() => { setBudgetInput(String(totalBudget)); setShowBudgetEditor(true); }}
-            className="absolute top-3 right-3 p-1.5 rounded-lg text-amber-800/30 hover:text-orange hover:bg-gold/20 opacity-0 group-hover:opacity-100 transition-all">
+            className="absolute top-2 right-2 sm:top-3 sm:right-3 p-2 rounded-lg text-amber-800/30 hover:text-orange hover:bg-gold/20 transition-all active:scale-90">
             <Icon name="edit" size={16} />
           </button>
         </div>
-        <div className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm">
+        <div className="bg-white rounded-2xl border border-gold/30 p-4 sm:p-5 shadow-sm">
           <p className="text-xs text-amber-800/60">Terpakai</p>
-          <p className="text-2xl font-bold text-orange mt-1">Rp {totalSpent.toLocaleString()}</p>
+          <p className="text-xl sm:text-2xl font-bold text-orange mt-1">Rp {totalSpent.toLocaleString()}</p>
         </div>
-        <div className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm">
+        <div className="bg-white rounded-2xl border border-gold/30 p-4 sm:p-5 shadow-sm">
           <p className="text-xs text-amber-800/60">Sisa Budget</p>
-          <p className={`text-2xl font-bold mt-1 ${remaining >= 0 ? "text-green" : "text-pink"}`}>
+          <p className={`text-xl sm:text-2xl font-bold mt-1 ${remaining >= 0 ? "text-green" : "text-pink"}`}>
             Rp {remaining.toLocaleString()}
           </p>
         </div>
@@ -76,20 +76,24 @@ export default function InvoicesPage() {
         ) : (
           <div className="space-y-3">
             {invoices.map((inv) => (
-              <div key={inv.id} className="flex items-center gap-4 p-4 rounded-xl border border-gold/20 group">
-                <div className="w-12 h-12 rounded-xl bg-cream flex items-center justify-center shrink-0">
-                  <Icon name="receipt_long" size={24} className="text-orange" />
+              <div key={inv.id} className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-xl border border-gold/20">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-cream flex items-center justify-center shrink-0">
+                  <Icon name="receipt_long" size={20} className="text-orange" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-amber-900">{inv.vendorName}</p>
-                  <p className="text-xs text-amber-800/50">{inv.notes} • {new Date(inv.date).toLocaleDateString("id-ID")}</p>
+                  <p className="text-sm font-medium text-amber-900 truncate">{inv.vendorName}</p>
+                  <p className="text-xs text-amber-800/50 truncate">{inv.notes} • {new Date(inv.date).toLocaleDateString("id-ID")}</p>
                 </div>
-                <p className="text-sm font-semibold text-orange">Rp {inv.amount.toLocaleString()}</p>
-                <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <p className="text-xs sm:text-sm font-semibold text-orange shrink-0">Rp {inv.amount.toLocaleString()}</p>
+                <div className="flex gap-1">
                   <button onClick={() => { setEditingInvoice(inv); setShowForm(true); }}
-                    className="text-amber-800/30 hover:text-orange transition-colors"><Icon name="edit" size={16} /></button>
+                    className="flex items-center justify-center w-11 h-11 rounded-xl text-amber-800/30 hover:text-orange hover:bg-gold/20 transition-colors active:scale-90">
+                    <Icon name="edit" size={16} />
+                  </button>
                   <button onClick={() => setDeleteId(inv.id)}
-                    className="text-amber-800/30 hover:text-pink transition-colors"><Icon name="delete" size={16} /></button>
+                    className="flex items-center justify-center w-11 h-11 rounded-xl text-amber-800/30 hover:text-pink hover:bg-pink/10 transition-colors active:scale-90">
+                    <Icon name="delete" size={16} />
+                  </button>
                 </div>
               </div>
             ))}
@@ -119,9 +123,9 @@ export default function InvoicesPage() {
             </div>
             <div className="flex gap-3">
               <button onClick={() => setShowBudgetEditor(false)}
-                className="flex-1 py-2.5 rounded-xl border border-gold/40 text-amber-900 font-medium hover:bg-cream transition-colors">Batal</button>
+                className="flex-1 min-h-[44px] rounded-xl border border-gold/40 text-amber-900 font-medium hover:bg-cream transition-colors">Batal</button>
               <button onClick={() => { setTotalBudget(Number(budgetInput) || 0); setShowBudgetEditor(false); }}
-                className="flex-1 py-2.5 rounded-xl bg-orange text-white font-medium hover:bg-orange/90 transition-colors">Simpan</button>
+                className="flex-1 min-h-[44px] rounded-xl bg-orange text-white font-medium hover:bg-orange/90 transition-colors">Simpan</button>
             </div>
           </div>
         </div>

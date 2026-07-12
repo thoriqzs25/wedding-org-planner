@@ -80,36 +80,36 @@ export default function AdminPage() {
   return (
     <div className="min-h-screen bg-cream">
       <header className="bg-white border-b border-gold/30 shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <h1 className="text-xl font-bold text-orange">
+            <h1 className="text-lg sm:text-xl font-bold text-orange">
               Wedding<span className="text-pink">Kit</span>
             </h1>
-            <span className="text-sm text-amber-800/40 font-medium">Admin Panel</span>
+            <span className="text-xs sm:text-sm text-amber-800/40 font-medium hidden sm:inline">Admin Panel</span>
           </div>
           <a
             href="/"
-            className="text-sm text-amber-800/60 hover:text-orange transition-colors flex items-center gap-1"
+            className="text-xs sm:text-sm text-amber-800/60 hover:text-orange transition-colors flex items-center gap-1"
           >
-            <Icon name="arrow_back" size={16} />
-            Back to App
+            <Icon name="arrow_back" size={14} />
+            <span className="hidden sm:inline">Back to App</span>
           </a>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-6 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="text-2xl font-bold text-amber-900">Account Management</h2>
-            <p className="text-sm text-amber-800/60 mt-1">
+            <h2 className="text-xl sm:text-2xl font-bold text-amber-900">Account Management</h2>
+            <p className="text-xs sm:text-sm text-amber-800/60 mt-1">
               Manage all registered wedding accounts
             </p>
           </div>
-          <div className="flex items-center gap-2 text-sm text-amber-800/60">
+          <div className="flex items-center gap-2 text-xs sm:text-sm text-amber-800/60">
             <span className="flex items-center gap-1">
               <span className="w-2 h-2 rounded-full bg-green" /> {activeCount} Active
             </span>
-            <span className="flex items-center gap-1">
+            <span className="hidden sm:flex items-center gap-1">
               <span className="w-2 h-2 rounded-full bg-amber-300" /> {inactiveCount} Inactive
             </span>
           </div>
@@ -122,11 +122,12 @@ export default function AdminPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by bride, groom, or username..."
-              className="w-full max-w-md px-4 py-2 rounded-xl border border-gold/40 bg-cream/50 focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 text-amber-900 placeholder-amber-800/30 text-sm"
+              className="w-full px-4 min-h-[44px] rounded-xl border border-gold/40 bg-cream/50 focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 text-amber-900 placeholder-amber-800/30 text-sm"
             />
           </div>
 
-          <div className="overflow-x-auto">
+          {/* Desktop table */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-cream text-amber-800/70 text-left">
@@ -157,7 +158,7 @@ export default function AdminPage() {
                     <td className="px-4 py-3">
                       <button
                         onClick={() => toggleStatus(account)}
-                        className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium transition-colors ${
+                        className={`inline-flex items-center gap-1.5 px-3 min-h-[32px] rounded-full text-xs font-medium transition-colors ${
                           account.status === "active"
                             ? "bg-green/10 text-green"
                             : "bg-amber-100 text-amber-600"
@@ -175,14 +176,14 @@ export default function AdminPage() {
                       <div className="flex items-center justify-end gap-1">
                         <button
                           onClick={() => openEdit(account)}
-                          className="p-2 rounded-lg hover:bg-gold/20 text-amber-600 transition-colors"
+                          className="flex items-center justify-center w-11 h-11 rounded-lg hover:bg-gold/20 text-amber-600 transition-colors active:scale-90"
                           title="Edit"
                         >
                           <Icon name="edit" size={18} />
                         </button>
                         <button
                           onClick={() => setDeleteTarget(account)}
-                          className="p-2 rounded-lg hover:bg-pink/10 text-pink transition-colors"
+                          className="flex items-center justify-center w-11 h-11 rounded-lg hover:bg-pink/10 text-pink transition-colors active:scale-90"
                           title="Delete"
                         >
                           <Icon name="delete" size={18} />
@@ -200,6 +201,52 @@ export default function AdminPage() {
                 )}
               </tbody>
             </table>
+          </div>
+
+          {/* Mobile card list */}
+          <div className="md:hidden divide-y divide-gold/10">
+            {filtered.map((account) => (
+              <div key={account.id} className="p-4 space-y-3">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-amber-900">{account.brideName} & {account.groomName}</p>
+                    <p className="text-xs text-amber-800/50 mt-0.5">{account.weddingDate}</p>
+                  </div>
+                  <div className="flex gap-1">
+                    <button onClick={() => openEdit(account)}
+                      className="flex items-center justify-center w-11 h-11 rounded-xl hover:bg-gold/20 text-amber-600 transition-colors active:scale-90">
+                      <Icon name="edit" size={18} />
+                    </button>
+                    <button onClick={() => setDeleteTarget(account)}
+                      className="flex items-center justify-center w-11 h-11 rounded-xl hover:bg-pink/10 text-pink transition-colors active:scale-90">
+                      <Icon name="delete" size={18} />
+                    </button>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 text-xs">
+                  <span className="text-amber-800/50 font-mono">{account.username}</span>
+                  <span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-gold/20 text-amber-800">
+                    {getBudgetDisplay(account.budgetTier)}
+                  </span>
+                  <button
+                    onClick={() => toggleStatus(account)}
+                    className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium transition-colors ${
+                      account.status === "active"
+                        ? "bg-green/10 text-green"
+                        : "bg-amber-100 text-amber-600"
+                    }`}
+                  >
+                    <span className={`w-1.5 h-1.5 rounded-full ${account.status === "active" ? "bg-green" : "bg-amber-400"}`} />
+                    {account.status === "active" ? "Active" : "Inactive"}
+                  </button>
+                </div>
+              </div>
+            ))}
+            {filtered.length === 0 && (
+              <div className="px-4 py-12 text-center text-amber-800/40 text-sm">
+                No accounts found
+              </div>
+            )}
           </div>
         </div>
 
@@ -219,7 +266,7 @@ export default function AdminPage() {
               <h3 className="text-lg font-semibold text-amber-900">Edit Account</h3>
               <button
                 onClick={() => setEditingAccount(null)}
-                className="p-1 rounded-lg hover:bg-cream text-amber-600 transition-colors"
+                className="flex items-center justify-center w-11 h-11 rounded-lg hover:bg-cream text-amber-600 transition-colors active:scale-90"
               >
                 <Icon name="close" size={20} />
               </button>
@@ -292,13 +339,13 @@ export default function AdminPage() {
             <div className="flex gap-3 pt-2">
               <button
                 onClick={() => setEditingAccount(null)}
-                className="flex-1 py-2.5 rounded-xl border border-gold/40 text-amber-900 font-medium hover:bg-cream transition-colors"
+                className="flex-1 min-h-[44px] rounded-xl border border-gold/40 text-amber-900 font-medium hover:bg-cream transition-colors active:scale-[0.98]"
               >
                 Cancel
               </button>
               <button
                 onClick={saveEdit}
-                className="flex-1 py-2.5 rounded-xl bg-orange text-white font-medium hover:bg-orange/90 transition-colors"
+                className="flex-1 min-h-[44px] rounded-xl bg-orange text-white font-medium hover:bg-orange/90 transition-colors active:scale-[0.98]"
               >
                 Save Changes
               </button>
