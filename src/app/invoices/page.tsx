@@ -71,7 +71,7 @@ export default function InvoicesPage() {
       )}
 
       {/* Summary */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm">
           <p className="text-xs text-amber-800/60">Total Budget</p>
           <p className="text-2xl font-bold text-amber-900 mt-1">Rp {totalBudget.toLocaleString()}</p>
