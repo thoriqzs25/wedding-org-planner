@@ -78,46 +78,48 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-cream">
-      <header className="bg-white border-b border-gold/30 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <h1 className="text-lg sm:text-xl font-bold text-orange">
-              Wedding<span className="text-pink">Kit</span>
+    <div id="admin-page" className="min-h-screen bg-cream">
+      <header id="admin-header" className="bg-white border-b border-gold/30 shadow-sm">
+        <div id="admin-header-inner" className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
+          <div id="admin-header-logo" className="flex items-center gap-3">
+            <h1 id="admin-title" className="text-lg sm:text-xl font-bold text-orange">
+              Wedding<span id="admin-title-highlight" className="text-pink">Kit</span>
             </h1>
-            <span className="text-xs sm:text-sm text-amber-800/40 font-medium hidden sm:inline">Admin Panel</span>
+            <span id="admin-header-label" className="text-xs sm:text-sm text-amber-800/40 font-medium hidden sm:inline">Admin Panel</span>
           </div>
           <a
+            id="admin-back-link"
             href="/"
             className="text-xs sm:text-sm text-amber-800/60 hover:text-orange transition-colors flex items-center gap-1"
           >
             <Icon name="arrow_back" size={14} />
-            <span className="hidden sm:inline">Back to App</span>
+            <span id="admin-back-text" className="hidden sm:inline">Back to App</span>
           </a>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h2 className="text-xl sm:text-2xl font-bold text-amber-900">Account Management</h2>
-            <p className="text-xs sm:text-sm text-amber-800/60 mt-1">
+      <main id="admin-main" className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        <div id="admin-management-header" className="flex items-center justify-between mb-6">
+          <div id="admin-management-title-group">
+            <h2 id="admin-management-title" className="text-xl sm:text-2xl font-bold text-amber-900">Account Management</h2>
+            <p id="admin-management-desc" className="text-xs sm:text-sm text-amber-800/60 mt-1">
               Manage all registered wedding accounts
             </p>
           </div>
-          <div className="flex items-center gap-2 text-xs sm:text-sm text-amber-800/60">
-            <span className="flex items-center gap-1">
-              <span className="w-2 h-2 rounded-full bg-green" /> {activeCount} Active
+          <div id="admin-stats" className="flex items-center gap-2 text-xs sm:text-sm text-amber-800/60">
+            <span id="admin-stats-active" className="flex items-center gap-1">
+              <span id="admin-stats-active-dot" className="w-2 h-2 rounded-full bg-green" /> {activeCount} Active
             </span>
-            <span className="hidden sm:flex items-center gap-1">
-              <span className="w-2 h-2 rounded-full bg-amber-300" /> {inactiveCount} Inactive
+            <span id="admin-stats-inactive" className="hidden sm:flex items-center gap-1">
+              <span id="admin-stats-inactive-dot" className="w-2 h-2 rounded-full bg-amber-300" /> {inactiveCount} Inactive
             </span>
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-lg border border-gold/30 overflow-hidden">
-          <div className="p-4 border-b border-gold/20">
+        <div id="admin-table-card" className="bg-white rounded-2xl shadow-lg border border-gold/30 overflow-hidden">
+          <div id="admin-search-bar" className="p-4 border-b border-gold/20">
             <input
+              id="admin-search-input"
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -127,36 +129,38 @@ export default function AdminPage() {
           </div>
 
           {/* Desktop table */}
-          <div className="hidden md:block overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="bg-cream text-amber-800/70 text-left">
-                  <th className="px-4 py-3 font-medium">Bride</th>
-                  <th className="px-4 py-3 font-medium">Groom</th>
-                  <th className="px-4 py-3 font-medium">Wedding Date</th>
-                  <th className="px-4 py-3 font-medium">Username</th>
-                  <th className="px-4 py-3 font-medium">Budget Tier</th>
-                  <th className="px-4 py-3 font-medium">Status</th>
-                  <th className="px-4 py-3 font-medium text-right">Actions</th>
+          <div id="admin-desktop-table" className="hidden md:block overflow-x-auto">
+            <table id="admin-accounts-table" className="w-full text-sm">
+              <thead id="admin-table-head">
+                <tr id="admin-table-header-row" className="bg-cream text-amber-800/70 text-left">
+                  <th id="admin-table-header-bride" className="px-4 py-3 font-medium">Bride</th>
+                  <th id="admin-table-header-groom" className="px-4 py-3 font-medium">Groom</th>
+                  <th id="admin-table-header-wedding-date" className="px-4 py-3 font-medium">Wedding Date</th>
+                  <th id="admin-table-header-username" className="px-4 py-3 font-medium">Username</th>
+                  <th id="admin-table-header-budget-tier" className="px-4 py-3 font-medium">Budget Tier</th>
+                  <th id="admin-table-header-status" className="px-4 py-3 font-medium">Status</th>
+                  <th id="admin-table-header-actions" className="px-4 py-3 font-medium text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="admin-table-body">
                 {filtered.map((account) => (
                   <tr
                     key={account.id}
+                    id={`admin-table-row-${account.id}`}
                     className="border-t border-gold/10 hover:bg-cream/50 transition-colors"
                   >
-                    <td className="px-4 py-3 text-amber-900 font-medium">{account.brideName}</td>
-                    <td className="px-4 py-3 text-amber-900">{account.groomName}</td>
-                    <td className="px-4 py-3 text-amber-800/70">{account.weddingDate}</td>
-                    <td className="px-4 py-3 text-amber-800/60 font-mono text-xs">{account.username}</td>
-                    <td className="px-4 py-3">
-                      <span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-gold/20 text-amber-800">
+                    <td id={`admin-table-cell-bride-${account.id}`} className="px-4 py-3 text-amber-900 font-medium">{account.brideName}</td>
+                    <td id={`admin-table-cell-groom-${account.id}`} className="px-4 py-3 text-amber-900">{account.groomName}</td>
+                    <td id={`admin-table-cell-date-${account.id}`} className="px-4 py-3 text-amber-800/70">{account.weddingDate}</td>
+                    <td id={`admin-table-cell-username-${account.id}`} className="px-4 py-3 text-amber-800/60 font-mono text-xs">{account.username}</td>
+                    <td id={`admin-table-cell-budget-${account.id}`} className="px-4 py-3">
+                      <span id={`admin-budget-badge-${account.id}`} className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-gold/20 text-amber-800">
                         {getBudgetDisplay(account.budgetTier)}
                       </span>
                     </td>
-                    <td className="px-4 py-3">
+                    <td id={`admin-table-cell-status-${account.id}`} className="px-4 py-3">
                       <button
+                        id={`admin-status-toggle-${account.id}`}
                         onClick={() => toggleStatus(account)}
                         className={`inline-flex items-center gap-1.5 px-3 min-h-[32px] rounded-full text-xs font-medium transition-colors ${
                           account.status === "active"
@@ -165,6 +169,7 @@ export default function AdminPage() {
                         }`}
                       >
                         <span
+                          id={`admin-status-dot-${account.id}`}
                           className={`w-1.5 h-1.5 rounded-full ${
                             account.status === "active" ? "bg-green" : "bg-amber-400"
                           }`}
@@ -172,9 +177,10 @@ export default function AdminPage() {
                         {account.status === "active" ? "Active" : "Inactive"}
                       </button>
                     </td>
-                    <td className="px-4 py-3 text-right">
-                      <div className="flex items-center justify-end gap-1">
+                    <td id={`admin-table-cell-actions-${account.id}`} className="px-4 py-3 text-right">
+                      <div id={`admin-actions-group-${account.id}`} className="flex items-center justify-end gap-1">
                         <button
+                          id={`admin-edit-btn-${account.id}`}
                           onClick={() => openEdit(account)}
                           className="flex items-center justify-center w-11 h-11 rounded-lg hover:bg-gold/20 text-amber-600 transition-colors active:scale-90"
                           title="Edit"
@@ -182,6 +188,7 @@ export default function AdminPage() {
                           <Icon name="edit" size={18} />
                         </button>
                         <button
+                          id={`admin-delete-btn-${account.id}`}
                           onClick={() => setDeleteTarget(account)}
                           className="flex items-center justify-center w-11 h-11 rounded-lg hover:bg-red/10 text-red transition-colors active:scale-90"
                           title="Delete"
@@ -193,8 +200,8 @@ export default function AdminPage() {
                   </tr>
                 ))}
                 {filtered.length === 0 && (
-                  <tr>
-                    <td colSpan={7} className="px-4 py-12 text-center text-amber-800/40">
+                  <tr id="admin-table-empty-row">
+                    <td id="admin-table-empty-cell" colSpan={7} className="px-4 py-12 text-center text-amber-800/40">
                       No accounts found
                     </td>
                   </tr>
@@ -204,31 +211,32 @@ export default function AdminPage() {
           </div>
 
           {/* Mobile card list */}
-          <div className="md:hidden divide-y divide-gold/10">
+          <div id="admin-mobile-list" className="md:hidden divide-y divide-gold/10">
             {filtered.map((account) => (
-              <div key={account.id} className="p-4 space-y-3">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-amber-900">{account.brideName} & {account.groomName}</p>
-                    <p className="text-xs text-amber-800/50 mt-0.5">{account.weddingDate}</p>
+              <div key={account.id} id={`admin-mobile-card-${account.id}`} className="p-4 space-y-3">
+                <div id={`admin-mobile-card-header-${account.id}`} className="flex items-start justify-between">
+                  <div id={`admin-mobile-card-info-${account.id}`}>
+                    <p id={`admin-mobile-card-names-${account.id}`} className="text-sm font-medium text-amber-900">{account.brideName} & {account.groomName}</p>
+                    <p id={`admin-mobile-card-date-${account.id}`} className="text-xs text-amber-800/50 mt-0.5">{account.weddingDate}</p>
                   </div>
-                  <div className="flex gap-1">
-                    <button onClick={() => openEdit(account)}
+                  <div id={`admin-mobile-card-actions-${account.id}`} className="flex gap-1">
+                    <button id={`admin-mobile-edit-btn-${account.id}`} onClick={() => openEdit(account)}
                       className="flex items-center justify-center w-11 h-11 rounded-xl hover:bg-gold/20 text-amber-600 transition-colors active:scale-90">
                       <Icon name="edit" size={18} />
                     </button>
-                    <button onClick={() => setDeleteTarget(account)}
+                    <button id={`admin-mobile-delete-btn-${account.id}`} onClick={() => setDeleteTarget(account)}
                       className="flex items-center justify-center w-11 h-11 rounded-xl hover:bg-red/10 text-red transition-colors active:scale-90">
                       <Icon name="delete" size={18} />
                     </button>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 text-xs">
-                  <span className="text-amber-800/50 font-mono">{account.username}</span>
-                  <span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-gold/20 text-amber-800">
+                <div id={`admin-mobile-card-meta-${account.id}`} className="flex items-center gap-3 text-xs">
+                  <span id={`admin-mobile-card-username-${account.id}`} className="text-amber-800/50 font-mono">{account.username}</span>
+                  <span id={`admin-mobile-budget-badge-${account.id}`} className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-gold/20 text-amber-800">
                     {getBudgetDisplay(account.budgetTier)}
                   </span>
                   <button
+                    id={`admin-mobile-status-toggle-${account.id}`}
                     onClick={() => toggleStatus(account)}
                     className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium transition-colors ${
                       account.status === "active"
@@ -236,35 +244,37 @@ export default function AdminPage() {
                         : "bg-amber-100 text-amber-600"
                     }`}
                   >
-                    <span className={`w-1.5 h-1.5 rounded-full ${account.status === "active" ? "bg-green" : "bg-amber-400"}`} />
+                    <span id={`admin-mobile-status-dot-${account.id}`} className={`w-1.5 h-1.5 rounded-full ${account.status === "active" ? "bg-green" : "bg-amber-400"}`} />
                     {account.status === "active" ? "Active" : "Inactive"}
                   </button>
                 </div>
               </div>
             ))}
             {filtered.length === 0 && (
-              <div className="px-4 py-12 text-center text-amber-800/40 text-sm">
+              <div id="admin-mobile-empty" className="px-4 py-12 text-center text-amber-800/40 text-sm">
                 No accounts found
               </div>
             )}
           </div>
         </div>
 
-        <p className="text-xs text-amber-800/30 text-center mt-6">
+        <p id="admin-footer" className="text-xs text-amber-800/30 text-center mt-6">
           v1.0.0 &middot; WeddingKit Admin
         </p>
       </main>
 
       {editingAccount && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <div id="admin-modal-overlay" className="fixed inset-0 z-50 flex items-center justify-center">
           <div
+            id="admin-modal-backdrop"
             className="absolute inset-0 bg-black/40 backdrop-blur-sm"
             onClick={() => setEditingAccount(null)}
           />
-          <div className="relative bg-white rounded-2xl shadow-xl max-w-md w-full mx-4 p-6 space-y-5">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-amber-900">Edit Account</h3>
+          <div id="admin-modal-content" className="relative bg-white rounded-2xl shadow-xl max-w-md w-full mx-4 p-6 space-y-5">
+            <div id="admin-modal-header" className="flex items-center justify-between">
+              <h3 id="admin-modal-title" className="text-lg font-semibold text-amber-900">Edit Account</h3>
               <button
+                id="admin-modal-close-btn"
                 onClick={() => setEditingAccount(null)}
                 className="flex items-center justify-center w-11 h-11 rounded-lg hover:bg-cream text-amber-600 transition-colors active:scale-90"
               >
@@ -272,78 +282,85 @@ export default function AdminPage() {
               </button>
             </div>
 
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-amber-900/70 mb-1">
+            <div id="admin-modal-fields" className="space-y-4">
+              <div id="admin-modal-bride-field">
+                <label id="admin-modal-bride-label" className="block text-sm font-medium text-amber-900/70 mb-1">
                   Bride Name
                 </label>
                 <input
+                  id="admin-modal-bride-input"
                   type="text"
                   value={editBride}
                   onChange={(e) => setEditBride(e.target.value)}
                   className="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream/50 focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 text-amber-900 placeholder-amber-800/30"
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-amber-900/70 mb-1">
+              <div id="admin-modal-groom-field">
+                <label id="admin-modal-groom-label" className="block text-sm font-medium text-amber-900/70 mb-1">
                   Groom Name
                 </label>
                 <input
+                  id="admin-modal-groom-input"
                   type="text"
                   value={editGroom}
                   onChange={(e) => setEditGroom(e.target.value)}
                   className="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream/50 focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 text-amber-900 placeholder-amber-800/30"
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-amber-900/70 mb-1">
+              <div id="admin-modal-username-field">
+                <label id="admin-modal-username-label" className="block text-sm font-medium text-amber-900/70 mb-1">
                   Username
                 </label>
                 <input
+                  id="admin-modal-username-input"
                   type="text"
                   value={editUsername}
                   onChange={(e) => setEditUsername(e.target.value)}
                   className="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream/50 focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 text-amber-900 placeholder-amber-800/30"
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-amber-900/70 mb-1">
+              <div id="admin-modal-budget-field">
+                <label id="admin-modal-budget-label" className="block text-sm font-medium text-amber-900/70 mb-1">
                   Budget Tier
                 </label>
                 <select
+                  id="admin-modal-budget-select"
                   value={editBudgetTier}
                   onChange={(e) => setEditBudgetTier(e.target.value)}
                   className="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream/50 focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 text-amber-900"
                 >
-                  <option value="murah">Low</option>
-                  <option value="menengah-bawah">Mid-Low</option>
-                  <option value="menengah-atas">Mid-High</option>
-                  <option value="mewah">Luxury</option>
+                  <option id="admin-modal-budget-option-murah" value="murah">Low</option>
+                  <option id="admin-modal-budget-option-menengah-bawah" value="menengah-bawah">Mid-Low</option>
+                  <option id="admin-modal-budget-option-menengah-atas" value="menengah-atas">Mid-High</option>
+                  <option id="admin-modal-budget-option-mewah" value="mewah">Luxury</option>
                 </select>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-amber-900/70 mb-1">
+              <div id="admin-modal-status-field">
+                <label id="admin-modal-status-label" className="block text-sm font-medium text-amber-900/70 mb-1">
                   Status
                 </label>
                 <select
+                  id="admin-modal-status-select"
                   value={editStatus}
                   onChange={(e) => setEditStatus(e.target.value as AccountStatus)}
                   className="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream/50 focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 text-amber-900"
                 >
-                  <option value="active">Active</option>
-                  <option value="inactive">Inactive</option>
+                  <option id="admin-modal-status-option-active" value="active">Active</option>
+                  <option id="admin-modal-status-option-inactive" value="inactive">Inactive</option>
                 </select>
               </div>
             </div>
 
-            <div className="flex gap-3 pt-2">
+            <div id="admin-modal-actions" className="flex gap-3 pt-2">
               <button
+                id="admin-modal-cancel-btn"
                 onClick={() => setEditingAccount(null)}
                 className="flex-1 min-h-[44px] rounded-xl border border-gold/40 text-amber-900 font-medium hover:bg-cream transition-colors active:scale-[0.98]"
               >
                 Cancel
               </button>
               <button
+                id="admin-modal-save-btn"
                 onClick={saveEdit}
                 className="flex-1 min-h-[44px] rounded-xl bg-orange text-white font-medium hover:bg-orange/90 transition-colors active:scale-[0.98]"
               >

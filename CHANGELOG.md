@@ -5,6 +5,7 @@ All notable changes will be documented in this file.
 ## [Unreleased]
 
 ### Changed
+- Added `id` attributes to every HTML element across all pages for easy identification and targeting
 - "Todo Terlewat" section: changed accent color from pink to red, added due date detail below each todo item
 - Mood Board detail page item description label increased from text-[10px] to text-xs with semibold weight
 - Guest count moved from progress card grid to dashboard header, inline with wedding date and location

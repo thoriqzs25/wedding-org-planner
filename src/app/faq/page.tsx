@@ -110,36 +110,37 @@ export default function FAQPage() {
   let globalIdx = 0;
 
   return (
-    <div className="max-w-4xl space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-amber-900 flex items-center gap-2">
+    <div id="faq-page" className="max-w-4xl space-y-6">
+      <div id="faq-header">
+        <h1 id="faq-title" className="text-2xl font-bold text-amber-900 flex items-center gap-2">
           <Icon name="help" size={24} className="text-orange" />
           FAQ Seputar Pernikahan
         </h1>
-        <p className="text-amber-800/60 mt-1">
+        <p id="faq-subtitle" className="text-amber-800/60 mt-1">
           Pertanyaan dan pengetahuan umum tentang pernikahan di Indonesia
         </p>
       </div>
 
       {faqCategories.map((cat, ci) => (
-        <div key={ci} className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm">
-          <div className="flex items-center gap-2 mb-3">
+        <div key={ci} id={`faq-category-${ci}`} className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm">
+          <div id={`faq-category-header-${ci}`} className="flex items-center gap-2 mb-3">
             <Icon name={cat.icon as any} size={20} className="text-orange" />
-            <h2 className="text-lg font-semibold text-amber-900">{cat.title}</h2>
+            <h2 id={`faq-category-title-${ci}`} className="text-lg font-semibold text-amber-900">{cat.title}</h2>
           </div>
-          <div className="space-y-1">
+          <div id={`faq-category-items-${ci}`} className="space-y-1">
             {cat.items.map((item) => {
               const idx = globalIdx++;
               return (
-                <div key={idx}
+                <div key={idx} id={`faq-item-${idx}`}
                   className="rounded-xl border border-gold/20 overflow-hidden transition-colors">
                   <button
+                    id={`faq-item-toggle-${idx}`}
                     onClick={() => toggle(idx)}
                     className={`w-full flex items-center justify-between gap-3 px-4 py-3.5 text-left transition-colors ${
                       openIdx === idx ? "bg-orange/5" : "hover:bg-cream/50"
                     }`}
                   >
-                    <span className="text-sm font-medium text-amber-900 pr-4">{item.q}</span>
+                    <span id={`faq-item-question-${idx}`} className="text-sm font-medium text-amber-900 pr-4">{item.q}</span>
                     <Icon
                       name={openIdx === idx ? "expand_less" : "expand_more"}
                       size={18}
@@ -149,8 +150,8 @@ export default function FAQPage() {
                     />
                   </button>
                   {openIdx === idx && (
-                    <div className="px-4 pb-3.5">
-                      <p className="text-sm text-amber-800/70 leading-relaxed">{item.a}</p>
+                    <div id={`faq-item-answer-${idx}`} className="px-4 pb-3.5">
+                      <p id={`faq-item-answer-text-${idx}`} className="text-sm text-amber-800/70 leading-relaxed">{item.a}</p>
                     </div>
                   )}
                 </div>
@@ -160,8 +161,8 @@ export default function FAQPage() {
         </div>
       ))}
 
-      <div className="text-center py-4">
-        <p className="text-xs text-amber-800/40">
+      <div id="faq-footer" className="text-center py-4">
+        <p id="faq-disclaimer" className="text-xs text-amber-800/40">
           Informasi ini bersifat umum dan dapat berubah sesuai kebijakan pemerintah daerah masing-masing.
           Disarankan untuk mengonfirmasi langsung ke KUA setempat.
         </p>

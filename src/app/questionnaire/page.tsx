@@ -51,20 +51,21 @@ export default function QuestionnairePage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-cream p-4">
-      <div className="w-full max-w-2xl">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-orange">
-            Wedding<span className="text-pink">Kit</span>
+    <div id="questionnaire-page" className="min-h-screen flex items-center justify-center bg-cream p-4">
+      <div id="questionnaire-container" className="w-full max-w-2xl">
+        <div id="questionnaire-header" className="text-center mb-8">
+          <h1 id="questionnaire-title" className="text-3xl font-bold text-orange">
+            Wedding<span id="questionnaire-title-highlight" className="text-pink">Kit</span>
           </h1>
-          <p className="text-amber-800/60 mt-1">Mulai rencanakan pernikahanmu</p>
+          <p id="questionnaire-subtitle" className="text-amber-800/60 mt-1">Mulai rencanakan pernikahanmu</p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-lg border border-gold/30 p-5 sm:p-8">
-          <div className="flex items-center gap-2 mb-8">
+        <div id="questionnaire-card" className="bg-white rounded-2xl shadow-lg border border-gold/30 p-5 sm:p-8">
+          <div id="questionnaire-steps" className="flex items-center gap-2 mb-8">
             {[1, 2, 3].map((s) => (
-              <div key={s} className="flex items-center gap-2 flex-1">
+              <div key={s} id={`questionnaire-step-item-${s}`} className="flex items-center gap-2 flex-1">
                 <div
+                  id={`questionnaire-step-circle-${s}`}
                   className={`w-10 h-10 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors ${
                     step >= s
                       ? "bg-orange text-white"
@@ -75,6 +76,7 @@ export default function QuestionnairePage() {
                 </div>
                 {s < 3 && (
                   <div
+                    id={`questionnaire-step-connector-${s}`}
                     className={`flex-1 h-0.5 transition-colors ${
                       step > s ? "bg-orange" : "bg-cream"
                     }`}
@@ -84,19 +86,20 @@ export default function QuestionnairePage() {
             ))}
           </div>
 
-          <form onSubmit={handleSubmit}>
+          <form id="questionnaire-form" onSubmit={handleSubmit}>
             {step === 1 && (
-              <div className="space-y-5">
-                <h2 className="text-lg font-semibold text-amber-900">
+              <div id="questionnaire-step-1-content" className="space-y-5">
+                <h2 id="questionnaire-step-1-title" className="text-lg font-semibold text-amber-900">
                   Data Pasangan
                 </h2>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-amber-900/70 mb-1">
+                <div id="questionnaire-step-1-pair-grid" className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div id="questionnaire-step-1-groom-field">
+                    <label id="questionnaire-step-1-groom-label" className="block text-sm font-medium text-amber-900/70 mb-1">
                       Nama Panggilan Calon Pria
                     </label>
                     <input
+                      id="questionnaire-step-1-groom-input"
                       type="text"
                       value={groomName}
                       onChange={(e) => setGroomName(e.target.value)}
@@ -104,11 +107,12 @@ export default function QuestionnairePage() {
                       placeholder="Cth: Rizky"
                     />
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium text-amber-900/70 mb-1">
+                  <div id="questionnaire-step-1-bride-field">
+                    <label id="questionnaire-step-1-bride-label" className="block text-sm font-medium text-amber-900/70 mb-1">
                       Nama Panggilan Calon Wanita
                     </label>
                     <input
+                      id="questionnaire-step-1-bride-input"
                       type="text"
                       value={brideName}
                       onChange={(e) => setBrideName(e.target.value)}
@@ -118,23 +122,25 @@ export default function QuestionnairePage() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-amber-900/70 mb-1">
+                <div id="questionnaire-step-1-details-grid" className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div id="questionnaire-step-1-date-field">
+                    <label id="questionnaire-step-1-date-label" className="block text-sm font-medium text-amber-900/70 mb-1">
                       Tanggal Acara
                     </label>
                     <input
+                      id="questionnaire-step-1-date-input"
                       type="date"
                       value={weddingDate}
                       onChange={(e) => setWeddingDate(e.target.value)}
                       className="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream/50 focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 text-amber-900"
                     />
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium text-amber-900/70 mb-1">
+                  <div id="questionnaire-step-1-location-field">
+                    <label id="questionnaire-step-1-location-label" className="block text-sm font-medium text-amber-900/70 mb-1">
                       Lokasi Acara
                     </label>
                     <input
+                      id="questionnaire-step-1-location-input"
                       type="text"
                       value={location}
                       onChange={(e) => setLocation(e.target.value)}
@@ -142,11 +148,12 @@ export default function QuestionnairePage() {
                       placeholder="Cth: Jakarta"
                     />
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium text-amber-900/70 mb-1">
+                  <div id="questionnaire-step-1-guest-field">
+                    <label id="questionnaire-step-1-guest-label" className="block text-sm font-medium text-amber-900/70 mb-1">
                       Jumlah Tamu
                     </label>
                     <input
+                      id="questionnaire-step-1-guest-input"
                       type="number"
                       min={1}
                       value={guestCount}
@@ -160,16 +167,17 @@ export default function QuestionnairePage() {
             )}
 
             {step === 2 && (
-              <div className="space-y-5">
-                <h2 className="text-lg font-semibold text-amber-900">
+              <div id="questionnaire-step-2-content" className="space-y-5">
+                <h2 id="questionnaire-step-2-title" className="text-lg font-semibold text-amber-900">
                   Budget & Kebutuhan
                 </h2>
 
-                <div>
-                  <label className="block text-sm font-medium text-amber-900/70 mb-1">
+                <div id="questionnaire-step-2-budget-field">
+                  <label id="questionnaire-step-2-budget-label" className="block text-sm font-medium text-amber-900/70 mb-1">
                     Total Budget (Rp)
                   </label>
                   <input
+                    id="questionnaire-step-2-budget-input"
                     type="number"
                     value={totalBudget}
                     onChange={(e) => setTotalBudget(Number(e.target.value))}
@@ -178,17 +186,19 @@ export default function QuestionnairePage() {
                   />
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-amber-900/70 mb-3">
+                <div id="questionnaire-step-2-tier-field">
+                  <label id="questionnaire-step-2-tier-label" className="block text-sm font-medium text-amber-900/70 mb-3">
                     Range Budget
                   </label>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div id="questionnaire-step-2-tier-options" className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {budgetTiers.map((tier) => (
                       <label
                         key={tier.value}
+                        id={`questionnaire-step-2-tier-label-${tier.value}`}
                         className="flex items-center gap-3 p-3 rounded-xl border border-gold/30 hover:border-orange/50 cursor-pointer transition-colors has-checked:bg-orange/10 has-checked:border-orange"
                       >
                         <input
+                          id={`questionnaire-step-2-tier-radio-${tier.value}`}
                           type="radio"
                           name="budgetTier"
                           value={tier.value}
@@ -196,28 +206,30 @@ export default function QuestionnairePage() {
                           onChange={(e) => setBudgetTier(e.target.value)}
                           className="accent-orange"
                         />
-                        <div>
-                          <p className="text-sm font-medium text-amber-900">
+                        <div id={`questionnaire-step-2-tier-info-${tier.value}`}>
+                          <p id={`questionnaire-step-2-tier-name-${tier.value}`} className="text-sm font-medium text-amber-900">
                             {tier.label}
                           </p>
-                          <p className="text-xs text-amber-800/50">{tier.range}</p>
+                          <p id={`questionnaire-step-2-tier-range-${tier.value}`} className="text-xs text-amber-800/50">{tier.range}</p>
                         </div>
                       </label>
                     ))}
                   </div>
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-amber-900/70 mb-3">
+                <div id="questionnaire-step-2-necs-field">
+                  <label id="questionnaire-step-2-necs-label" className="block text-sm font-medium text-amber-900/70 mb-3">
                     Kebutuhan yang Diambil
                   </label>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div id="questionnaire-step-2-necs-options" className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {defaultNecessities.map((nec) => (
                       <label
                         key={nec.id}
+                        id={`questionnaire-step-2-nec-${nec.id}`}
                         className="flex items-center gap-3 p-3 rounded-xl border border-gold/30 hover:border-orange/50 cursor-pointer transition-colors has-checked:bg-orange/10 has-checked:border-orange"
                       >
                         <input
+                          id={`questionnaire-step-2-nec-checkbox-${nec.id}`}
                           type="checkbox"
                           checked={selectedNecs.includes(nec.id)}
                           onChange={(e) => {
@@ -229,7 +241,7 @@ export default function QuestionnairePage() {
                           }}
                           className="accent-orange"
                         />
-                        <span className="text-sm text-amber-900">{nec.label}</span>
+                        <span id={`questionnaire-step-2-nec-name-${nec.id}`} className="text-sm text-amber-900">{nec.label}</span>
                       </label>
                     ))}
                   </div>
@@ -238,16 +250,17 @@ export default function QuestionnairePage() {
             )}
 
             {step === 3 && (
-              <div className="space-y-5">
-                <h2 className="text-lg font-semibold text-amber-900">
+              <div id="questionnaire-step-3-content" className="space-y-5">
+                <h2 id="questionnaire-step-3-title" className="text-lg font-semibold text-amber-900">
                   Buat Akun
                 </h2>
 
-                <div>
-                  <label className="block text-sm font-medium text-amber-900/70 mb-1">
+                <div id="questionnaire-step-3-user-id-field">
+                  <label id="questionnaire-step-3-user-id-label" className="block text-sm font-medium text-amber-900/70 mb-1">
                     ID Pengguna
                   </label>
                   <input
+                    id="questionnaire-step-3-user-id-input"
                     type="text"
                     value={userId}
                     onChange={(e) => setUserId(e.target.value)}
@@ -256,11 +269,12 @@ export default function QuestionnairePage() {
                   />
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-amber-900/70 mb-1">
+                <div id="questionnaire-step-3-password-field">
+                  <label id="questionnaire-step-3-password-label" className="block text-sm font-medium text-amber-900/70 mb-1">
                     Password
                   </label>
                   <input
+                    id="questionnaire-step-3-password-input"
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -269,11 +283,12 @@ export default function QuestionnairePage() {
                   />
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-amber-900/70 mb-1">
+                <div id="questionnaire-step-3-confirm-field">
+                  <label id="questionnaire-step-3-confirm-label" className="block text-sm font-medium text-amber-900/70 mb-1">
                     Konfirmasi Password
                   </label>
                   <input
+                    id="questionnaire-step-3-confirm-input"
                     type="password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
@@ -284,9 +299,10 @@ export default function QuestionnairePage() {
               </div>
             )}
 
-            <div className="flex justify-between gap-3 mt-8">
+            <div id="questionnaire-form-actions" className="flex justify-between gap-3 mt-8">
               {step > 1 ? (
                 <button
+                  id="questionnaire-back-btn"
                   type="button"
                   onClick={() => setStep(step - 1)}
                   className="px-6 min-h-[44px] rounded-xl border border-gold/40 text-amber-900 font-medium hover:bg-cream transition-colors active:scale-95"
@@ -294,11 +310,12 @@ export default function QuestionnairePage() {
                   Kembali
                 </button>
               ) : (
-                <div />
+                <div id="questionnaire-spacer" />
               )}
 
               {step < 3 ? (
                 <button
+                  id="questionnaire-next-btn"
                   type="button"
                   onClick={() => setStep(step + 1)}
                   className="px-6 min-h-[44px] bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm active:scale-95"
@@ -307,6 +324,7 @@ export default function QuestionnairePage() {
                 </button>
               ) : (
                 <button
+                  id="questionnaire-submit-btn"
                   type="submit"
                   className="px-6 min-h-[44px] bg-green text-white rounded-xl font-medium hover:bg-green/90 transition-colors shadow-sm active:scale-95"
                 >

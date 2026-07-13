@@ -137,24 +137,24 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="max-w-6xl space-y-6">
+    <div id="dashboard-page" className="max-w-6xl space-y-6">
       {/* Header */}
-      <div className="flex items-start justify-between">
+      <div id="dashboard-header" className="flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-amber-900">
+          <h1 id="header-greeting" className="text-2xl font-bold text-amber-900">
             Hai, {weddingInfo.brideName} & {weddingInfo.groomName}!{" "}
             <Icon name="waving_hand" size={24} className="inline" />
           </h1>
-          <div className="flex items-center flex-wrap gap-x-2 gap-y-1 mt-1">
-            <p className="text-amber-800/60">
+          <div id="header-meta" className="flex items-center flex-wrap gap-x-2 gap-y-1 mt-1">
+            <p id="header-date-location" className="text-amber-800/60">
               {weddingInfo.weddingDate} • {weddingInfo.location}
             </p>
-            <span className="text-amber-800/20 hidden sm:inline">•</span>
-            <p className="text-amber-800/60 flex items-center gap-1">
+            <span id="header-dot-sep" className="text-amber-800/20 hidden sm:inline">•</span>
+            <p id="header-guest-count" className="text-amber-800/60 flex items-center gap-1">
               <Icon name="people" size={14} className="text-gold" />
               {weddingInfo.guestCount.toLocaleString()} tamu
             </p>
-            <button onClick={() => { setInfoTab("acara"); setShowInfoForm(true); }}
+            <button id="header-edit-date-btn" onClick={() => { setInfoTab("acara"); setShowInfoForm(true); }}
               className="text-amber-800/30 hover:text-orange transition-colors cursor-pointer" title="Edit tanggal & lokasi">
               <Icon name="edit" size={14} />
             </button>
@@ -163,7 +163,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Full-width countdown banner */}
-      <div className={`relative overflow-hidden rounded-2xl shadow-sm ${
+      <div id="countdown-banner" className={`relative overflow-hidden rounded-2xl shadow-sm ${
         warnThreshold.time
           ? "bg-gradient-to-br from-pink/15 via-pink/5 to-amber-50 border-2 border-pink/30"
           : "bg-gradient-to-br from-orange/10 via-gold/10 to-amber-50 border border-gold/30"
@@ -176,18 +176,18 @@ export default function DashboardPage() {
             backgroundSize: '40px 40px, 30px 30px, 50px 50px',
           }}
         />
-        <div className="relative px-5 sm:px-8 py-5 sm:py-6 flex items-center gap-4 sm:gap-8">
-          <div className="relative shrink-0">
-            <div className="relative w-20 h-20 sm:w-24 sm:h-24">
-              <svg className="w-24 h-24 -rotate-90" viewBox="0 0 36 36">
-                <circle cx="18" cy="18" r="15.5" fill="none" stroke="#FFFAE5" strokeWidth="2.5" />
-                <circle cx="18" cy="18" r="15.5" fill="none"
+        <div id="countdown-inner" className="relative px-5 sm:px-8 py-5 sm:py-6 flex items-center gap-4 sm:gap-8">
+          <div id="countdown-ring-wrap" className="relative shrink-0">
+            <div id="countdown-ring" className="relative w-20 h-20 sm:w-24 sm:h-24">
+              <svg id="countdown-svg" className="w-24 h-24 -rotate-90" viewBox="0 0 36 36">
+                <circle id="countdown-ring-bg" cx="18" cy="18" r="15.5" fill="none" stroke="#FFFAE5" strokeWidth="2.5" />
+                <circle id="countdown-ring-fill" cx="18" cy="18" r="15.5" fill="none"
                   stroke={warnThreshold.time ? "#FC95B4" : "#EB7B26"}
                   strokeWidth="2.5" strokeLinecap="round"
                   strokeDasharray={`${timeProgress} ${100 - timeProgress}`}
                   className="transition-all duration-700" />
               </svg>
-              <span className={`absolute inset-0 flex items-center justify-center text-3xl font-bold ${
+              <span id="countdown-days-num" className={`absolute inset-0 flex items-center justify-center text-3xl font-bold ${
                 warnThreshold.time ? "text-pink" : "text-orange"
               }`}>
                 {daysToWedding}
@@ -195,37 +195,37 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <div className="flex-1 min-w-0">
-            <p className={`text-sm font-semibold tracking-wide uppercase mb-1 ${
+          <div id="countdown-text" className="flex-1 min-w-0">
+            <p id="countdown-label" className={`text-sm font-semibold tracking-wide uppercase mb-1 ${
               warnThreshold.time ? "text-pink" : "text-amber-800/50"
             }`}>Countdown</p>
-            <p className={`text-2xl sm:text-5xl font-bold leading-none tracking-tight ${
+            <p id="countdown-days-large" className={`text-2xl sm:text-5xl font-bold leading-none tracking-tight ${
               warnThreshold.time ? "text-pink" : "text-amber-900"
             }`}>
               {daysToWedding}
-              <span className={`text-sm sm:text-xl font-normal ml-2 ${
+              <span id="countdown-days-to-go" className={`text-sm sm:text-xl font-normal ml-2 ${
                 warnThreshold.time ? "text-pink/60" : "text-amber-800/50"
               }`}>days to go</span>
             </p>
-            <div className="flex items-center gap-3 mt-2">
-              <p className="text-sm text-amber-800/60">
+            <div id="countdown-meta" className="flex items-center gap-3 mt-2">
+              <p id="countdown-wedding-date" className="text-sm text-amber-800/60">
                 {weddingDate.toLocaleDateString("id-ID", {
                   day: "numeric", month: "long", year: "numeric",
                 })}
               </p>
-              <span className="text-amber-800/20">•</span>
-              <p className="text-sm text-amber-800/50">{timeProgress}% journey</p>
+              <span id="countdown-meta-dot" className="text-amber-800/20">•</span>
+              <p id="countdown-journey-pct" className="text-sm text-amber-800/50">{timeProgress}% journey</p>
             </div>
-            <div className="mt-3 max-w-md">
-              <div className="h-2 rounded-full bg-cream overflow-hidden">
-                <div className={`h-full rounded-full transition-all duration-700 ${
+            <div id="countdown-progress" className="mt-3 max-w-md">
+              <div id="countdown-progress-bg" className="h-2 rounded-full bg-cream overflow-hidden">
+                <div id="countdown-progress-fill" className={`h-full rounded-full transition-all duration-700 ${
                   warnThreshold.time ? "bg-pink" : "bg-orange/60"
                 }`} style={{ width: `${timeProgress}%` }} />
               </div>
             </div>
           </div>
 
-          <div className="hidden sm:flex flex-col items-center gap-1 shrink-0 cursor-pointer"
+          <div id="countdown-confetti-trigger" className="hidden sm:flex flex-col items-center gap-1 shrink-0 cursor-pointer"
             onClick={() => {
               fireConfetti(0.85, 0.25)
               fireConfetti(0.15, 0.15)
@@ -236,7 +236,7 @@ export default function DashboardPage() {
             <Icon name={warnThreshold.time ? "emergency" : "celebration"} size={32}
               className={warnThreshold.time ? "text-pink" : "text-gold"} filled />
             {!warnThreshold.time && (
-              <span className="text-[10px] text-amber-800/40 font-medium uppercase tracking-wide">
+              <span id="countdown-cta-text" className="text-[10px] text-amber-800/40 font-medium uppercase tracking-wide">
                 {daysToWedding <= 90 ? "Soon!" : "Excited?"}
               </span>
             )}
@@ -244,62 +244,62 @@ export default function DashboardPage() {
         </div>
 
         {warnThreshold.time && (
-          <div className="relative px-5 sm:px-8 py-2 bg-pink/5 border-t border-pink/20 flex items-center gap-2">
+          <div id="countdown-warning-banner" className="relative px-5 sm:px-8 py-2 bg-pink/5 border-t border-pink/20 flex items-center gap-2">
             <Icon name="warning" size={14} className="text-pink" filled />
-            <p className="text-xs text-pink font-medium">Less than 30 days to go — time to finalize everything!</p>
+            <p id="countdown-warning-text" className="text-xs text-pink font-medium">Less than 30 days to go — time to finalize everything!</p>
           </div>
         )}
       </div>
 
       {/* Progress card */}
-      <div className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="relative w-14 h-14">
-            <svg className="w-14 h-14 -rotate-90" viewBox="0 0 36 36">
-              <circle cx="18" cy="18" r="15.5" fill="none" stroke="#FFFAE5" strokeWidth="2.5" />
-              <circle cx="18" cy="18" r="15.5" fill="none" stroke="#EB7B26" strokeWidth="2.5"
+      <div id="progress-card" className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm">
+        <div id="progress-header" className="flex items-center gap-3 mb-4">
+          <div id="progress-ring-wrap" className="relative w-14 h-14">
+            <svg id="progress-ring-svg" className="w-14 h-14 -rotate-90" viewBox="0 0 36 36">
+              <circle id="progress-ring-bg" cx="18" cy="18" r="15.5" fill="none" stroke="#FFFAE5" strokeWidth="2.5" />
+              <circle id="progress-ring-fill" cx="18" cy="18" r="15.5" fill="none" stroke="#EB7B26" strokeWidth="2.5"
                 strokeDasharray={`${overallPct} ${100 - overallPct}`}
                 strokeLinecap="round" className="transition-all duration-700" />
             </svg>
-            <span className="absolute inset-0 flex items-center justify-center text-xs font-bold text-orange">
+            <span id="progress-pct" className="absolute inset-0 flex items-center justify-center text-xs font-bold text-orange">
               {overallPct}%
             </span>
           </div>
-          <div>
-            <h2 className="text-lg font-semibold text-amber-900">Progress Pernikahan</h2>
-            <p className="text-xs text-amber-800/50">
+          <div id="progress-title-wrap">
+            <h2 id="progress-title" className="text-lg font-semibold text-amber-900">Progress Pernikahan</h2>
+            <p id="progress-subtitle" className="text-xs text-amber-800/50">
               {doneTodos} dari {totalTodos} to-do selesai
             </p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="bg-cream/60 rounded-xl p-4">
-            <div className="flex items-center gap-2 mb-2">
+        <div id="progress-grid" className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div id="progress-budget-card" className="bg-cream/60 rounded-xl p-4">
+            <div id="progress-budget-header" className="flex items-center gap-2 mb-2">
               <Icon name="account_balance_wallet" size={16} className={warnThreshold.budget ? "text-pink" : "text-orange"} />
-              <span className="text-xs font-medium text-amber-900/70">Budget</span>
+              <span id="progress-budget-label" className="text-xs font-medium text-amber-900/70">Budget</span>
               {warnThreshold.budget && <Tooltip content="Budget sudah terpakai lebih dari 80%"><Icon name="warning" size={12} className="text-pink" filled /></Tooltip>}
-              <button onClick={() => { setInfoTab("budget"); setShowInfoForm(true); }}
+              <button id="progress-budget-edit-btn" onClick={() => { setInfoTab("budget"); setShowInfoForm(true); }}
                 className="ml-auto text-amber-800/30 hover:text-orange transition-colors cursor-pointer" title="Edit budget">
                 <Icon name="edit" size={12} />
               </button>
             </div>
             <ProgressBar value={totalSpent} max={totalBudget} label="" color="bg-orange" showWarning={false} />
-            <div className="flex justify-between text-[11px] text-amber-800/50 mt-1.5">
-              <span>Rp {totalSpent.toLocaleString()}</span>
-              <span>Rp {totalBudget.toLocaleString()}</span>
+            <div id="progress-budget-values" className="flex justify-between text-[11px] text-amber-800/50 mt-1.5">
+              <span id="progress-budget-spent">Rp {totalSpent.toLocaleString()}</span>
+              <span id="progress-budget-total">Rp {totalBudget.toLocaleString()}</span>
             </div>
           </div>
 
-          <div className="bg-cream/60 rounded-xl p-4">
-            <div className="flex items-center gap-2 mb-2">
+          <div id="progress-checklist-card" className="bg-cream/60 rounded-xl p-4">
+            <div id="progress-checklist-header" className="flex items-center gap-2 mb-2">
               <Icon name="checklist" size={16} className="text-green" />
-              <span className="text-xs font-medium text-amber-900/70">Ceklis Kebutuhan</span>
+              <span id="progress-checklist-label" className="text-xs font-medium text-amber-900/70">Ceklis Kebutuhan</span>
             </div>
             <ProgressBar value={checklistedNec} max={necessities.length} label="" color="bg-green" showWarning={false} />
-            <div className="flex justify-between text-[11px] text-amber-800/50 mt-1.5">
-              <span>{checklistedNec} kebutuhan</span>
-              <span>{necessities.length} total</span>
+            <div id="progress-checklist-values" className="flex justify-between text-[11px] text-amber-800/50 mt-1.5">
+              <span id="progress-checklist-done">{checklistedNec} kebutuhan</span>
+              <span id="progress-checklist-total">{necessities.length} total</span>
             </div>
           </div>
         </div>
@@ -308,36 +308,36 @@ export default function DashboardPage() {
       {/* Bottom row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Masih perlu dicari — scrollable grid */}
-        <div className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm flex flex-col max-h-[420px]">
-          <div className="flex items-center justify-between mb-4 shrink-0">
-            <h2 className="text-lg font-semibold text-amber-900 flex items-center gap-2">
+        <div id="needs-vendor" className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm flex flex-col max-h-[420px]">
+          <div id="needs-vendor-header" className="flex items-center justify-between mb-4 shrink-0">
+            <h2 id="needs-vendor-title" className="text-lg font-semibold text-amber-900 flex items-center gap-2">
               <Icon name="storefront" size={20} />
               Masih perlu dicari
             </h2>
             {needsVendor.length > 0 && (
-              <span className="text-xs bg-pink/10 text-pink px-2.5 py-1 rounded-full font-medium">
+              <span id="needs-vendor-badge" className="text-xs bg-pink/10 text-pink px-2.5 py-1 rounded-full font-medium">
                 {needsVendor.length} perlu vendor
               </span>
             )}
           </div>
-          <div className="flex-1 overflow-y-auto min-h-0">
+          <div id="needs-vendor-list" className="flex-1 overflow-y-auto min-h-0">
             {needsVendor.length === 0 ? (
-              <div className="text-center py-8 text-amber-800/40">
+              <div id="needs-vendor-empty" className="text-center py-8 text-amber-800/40">
                 <Icon name="celebration" size={36} className="mb-2" />
-                <p className="text-sm">Semua kebutuhan sudah punya vendor!</p>
+                <p id="needs-vendor-empty-text" className="text-sm">Semua kebutuhan sudah punya vendor!</p>
               </div>
             ) : (
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <div id="needs-vendor-grid" className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {needsVendor.map((n) => {
                   const c = getNecessityColor(n.id, n.color);
                   return (
-                    <Link key={n.id} href={`/necessity/${n.id}`}
+                    <Link key={n.id} id={`needs-vendor-item-${n.id}`} href={`/necessity/${n.id}`}
                       className={`${c.bg} ${c.border} border rounded-xl p-4 hover:shadow-md transition-all group`}>
-                      <div className={`w-9 h-9 rounded-lg ${c.bg} flex items-center justify-center mb-3`}>
+                      <div id={`needs-vendor-icon-${n.id}`} className={`w-9 h-9 rounded-lg ${c.bg} flex items-center justify-center mb-3`}>
                         <Icon name={getNecessityIcon(n.id, n.icon)} size={20} className={c.text} />
                       </div>
-                      <p className={`text-sm font-semibold ${c.text} mb-1 truncate`}>{n.name}</p>
-                      <span className={`text-[10px] ${c.text}/60 flex items-center gap-0.5 group-hover:underline`}>
+                      <p id={`needs-vendor-name-${n.id}`} className={`text-sm font-semibold ${c.text} mb-1 truncate`}>{n.name}</p>
+                      <span id={`needs-vendor-cta-${n.id}`} className={`text-[10px] ${c.text}/60 flex items-center gap-0.5 group-hover:underline`}>
                         Cari vendor <Icon name="arrow_forward" size={10} />
                       </span>
                     </Link>
@@ -349,22 +349,22 @@ export default function DashboardPage() {
         </div>
 
         {/* Recent activity — scrollable log */}
-        <div className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm flex flex-col max-h-[420px]">
-          <div className="flex items-center justify-between mb-4 shrink-0">
-            <h2 className="text-lg font-semibold text-amber-900 flex items-center gap-2">
+        <div id="recent-activity" className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm flex flex-col max-h-[420px]">
+          <div id="recent-activity-header" className="flex items-center justify-between mb-4 shrink-0">
+            <h2 id="recent-activity-title" className="text-lg font-semibold text-amber-900 flex items-center gap-2">
               <Icon name="edit_note" size={20} />
               Aktivitas Terakhir
             </h2>
             {activities.length > 0 && (
-              <span className="text-xs text-amber-800/40">{activities.length} aktivitas</span>
+              <span id="recent-activity-count" className="text-xs text-amber-800/40">{activities.length} aktivitas</span>
             )}
           </div>
-          <div className="flex-1 overflow-y-auto min-h-0 pr-1">
+          <div id="recent-activity-list" className="flex-1 overflow-y-auto min-h-0 pr-1">
             {activities.length === 0 ? (
-              <div className="text-center py-8 text-amber-800/40">
+              <div id="recent-activity-empty" className="text-center py-8 text-amber-800/40">
                 <Icon name="edit_note" size={32} className="mb-2 text-amber-800/20" />
-                <p className="text-sm">Belum ada aktivitas</p>
-                <Link href="/necessity" className="text-xs text-orange font-medium hover:underline mt-1 inline-block">
+                <p id="recent-activity-empty-text" className="text-sm">Belum ada aktivitas</p>
+                <Link id="recent-activity-empty-link" href="/necessity" className="text-xs text-orange font-medium hover:underline mt-1 inline-block">
                   Mulai atur kebutuhan pernikahan
                 </Link>
               </div>
@@ -375,24 +375,24 @@ export default function DashboardPage() {
                 const ago = getRelativeTime(act.createdAt);
 
                 return (
-                  <Link key={act.id} href={`/necessity/${act.necessityId}`}
+                  <Link key={act.id} id={`activity-${act.id}`} href={`/necessity/${act.necessityId}`}
                     className={`flex gap-4 group`}>
-                    <div className="flex flex-col items-center shrink-0">
-                      <div className={`w-8 h-8 rounded-lg ${actionMeta.bg} flex items-center justify-center shadow-sm`}>
+                    <div id={`activity-icon-col-${act.id}`} className="flex flex-col items-center shrink-0">
+                      <div id={`activity-icon-${act.id}`} className={`w-8 h-8 rounded-lg ${actionMeta.bg} flex items-center justify-center shadow-sm`}>
                         <Icon name={actionMeta.icon} size={14} className={actionMeta.color} filled />
                       </div>
-                      {!isLast && <div className="w-0.5 flex-1 bg-gold/30 min-h-[16px]" />}
+                      {!isLast && <div id={`activity-line-${act.id}`} className="w-0.5 flex-1 bg-gold/30 min-h-[16px]" />}
                     </div>
-                    <div className={`flex-1 min-w-0 pt-0.5 ${isLast ? "" : "pb-4"}`}>
-                      <p className="text-sm text-amber-900 leading-snug">
-                        <span className="group-hover:text-orange transition-colors">{act.action}</span>
+                    <div id={`activity-content-${act.id}`} className={`flex-1 min-w-0 pt-0.5 ${isLast ? "" : "pb-4"}`}>
+                      <p id={`activity-action-${act.id}`} className="text-sm text-amber-900 leading-snug">
+                        <span id={`activity-action-text-${act.id}`} className="group-hover:text-orange transition-colors">{act.action}</span>
                       </p>
-                      <div className="flex items-center gap-2 mt-1">
-                        <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium ${actionMeta.badge}`}>
+                      <div id={`activity-meta-${act.id}`} className="flex items-center gap-2 mt-1">
+                        <span id={`activity-badge-${act.id}`} className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium ${actionMeta.badge}`}>
                           {actionMeta.label}
                         </span>
-                        <span className="text-[11px] text-amber-800/40">{act.necessityName}</span>
-                        <span className="text-[11px] text-amber-800/30">{ago}</span>
+                        <span id={`activity-necessity-${act.id}`} className="text-[11px] text-amber-800/40">{act.necessityName}</span>
+                        <span id={`activity-time-${act.id}`} className="text-[11px] text-amber-800/30">{ago}</span>
                       </div>
                     </div>
                   </Link>
@@ -405,45 +405,45 @@ export default function DashboardPage() {
 
       {/* Overdue warning — collapsible */}
       {overdueTodos.length > 0 && showOverdue && (
-        <div className="rounded-2xl bg-white border-l-4 border-red shadow-sm">
-          <div className="px-5 py-3">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
+        <div id="todo-terlewat-expanded" className="rounded-2xl bg-white border-l-4 border-red shadow-sm">
+          <div id="todo-terlewat-header" className="px-5 py-3">
+            <div id="todo-terlewat-header-row" className="flex items-center justify-between">
+              <div id="todo-terlewat-title-wrap" className="flex items-center gap-2">
                 <Icon name="warning" size={16} className="text-red" filled />
-                <span className="text-sm font-bold text-red-700">Todo Terlewat</span>
-                <span className="bg-red/10 text-red text-[10px] px-2 py-0.5 rounded-full font-bold">{overdueTodos.length}</span>
+                <span id="todo-terlewat-title" className="text-sm font-bold text-red-700">Todo Terlewat</span>
+                <span id="todo-terlewat-count" className="bg-red/10 text-red text-[10px] px-2 py-0.5 rounded-full font-bold">{overdueTodos.length}</span>
               </div>
-              <button onClick={() => setShowOverdue(false)}
+              <button id="todo-terlewat-close-btn" onClick={() => setShowOverdue(false)}
                 className="text-amber-800/30 hover:text-amber-800 transition-colors p-0.5">
                 <Icon name="close" size={16} />
               </button>
             </div>
           </div>
-          <div className="px-5 pb-3 space-y-1.5">
+          <div id="todo-terlewat-list" className="px-5 pb-3 space-y-1.5">
             {overdueTodos.map((todo) => {
               const daysOverdue = getDaysOverdue(todo.dueDate);
               return (
-                <div key={todo.id}
+                <div key={todo.id} id={`todo-terlewat-item-${todo.id}`}
                   className="flex items-center gap-2.5 py-1.5 px-2.5 rounded-lg hover:bg-red/[0.02] transition-colors -mx-2.5">
-                  <button onClick={() => cycleStatus(todo.id)}
+                  <button id={`todo-terlewat-check-${todo.id}`} onClick={() => cycleStatus(todo.id)}
                     className="flex items-center justify-center w-6 h-6 rounded-md border border-red/30 shrink-0 hover:bg-red hover:border-red hover:text-white transition-all active:scale-90">
                     <Icon name="check" size={11} className="text-red/40 hover:text-white transition-colors" />
                   </button>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm text-amber-900 truncate">{todo.title}</p>
-                    <span className="text-[10px] text-amber-800/40 truncate flex items-center gap-1">
+                  <div id={`todo-terlewat-content-${todo.id}`} className="flex-1 min-w-0">
+                    <p id={`todo-terlewat-title-${todo.id}`} className="text-sm text-amber-900 truncate">{todo.title}</p>
+                    <span id={`todo-terlewat-date-${todo.id}`} className="text-[10px] text-amber-800/40 truncate flex items-center gap-1">
                       <Icon name="calendar_today" size={10} />
                       {new Date(todo.dueDate).toLocaleDateString("id-ID")}
-                      <span className="hidden sm:inline">· {(todo as Todo & { necessityName: string }).necessityName}</span>
+                      <span id={`todo-terlewat-necessity-${todo.id}`} className="hidden sm:inline">· {(todo as Todo & { necessityName: string }).necessityName}</span>
                     </span>
                   </div>
-                  <span className="shrink-0 text-[11px] font-bold text-red">{daysOverdue === 0 ? "Hari ini" : `${daysOverdue}h`}</span>
+                  <span id={`todo-terlewat-overdue-${todo.id}`} className="shrink-0 text-[11px] font-bold text-red">{daysOverdue === 0 ? "Hari ini" : `${daysOverdue}h`}</span>
                 </div>
               );
             })}
           </div>
-          <div className="px-5 py-2 border-t border-amber-800/5">
-            <Link href="/necessity" className="text-[11px] text-red font-medium hover:underline inline-flex items-center gap-1">
+          <div id="todo-terlewat-footer" className="px-5 py-2 border-t border-amber-800/5">
+            <Link id="todo-terlewat-view-all" href="/necessity" className="text-[11px] text-red font-medium hover:underline inline-flex items-center gap-1">
               <span>Lihat semua kebutuhan</span>
               <Icon name="chevron_right" size={12} />
             </Link>
@@ -451,15 +451,15 @@ export default function DashboardPage() {
         </div>
       )}
       {overdueTodos.length > 0 && !showOverdue && (
-        <button onClick={() => setShowOverdue(true)}
+        <button id="todo-terlewat-collapsed" onClick={() => setShowOverdue(true)}
           className="relative overflow-hidden w-full rounded-2xl bg-red/5 border-2 border-dashed border-red/40 p-4 hover:border-red/60 hover:bg-red/10 hover:shadow-md transition-all group">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red to-red/80 flex items-center justify-center shadow-sm">
+          <div id="todo-terlewat-collapsed-inner" className="flex items-center gap-3">
+            <div id="todo-terlewat-collapsed-icon" className="w-10 h-10 rounded-xl bg-gradient-to-br from-red to-red/80 flex items-center justify-center shadow-sm">
               <Icon name="warning" size={20} className="text-white" filled />
             </div>
-            <div className="flex-1 text-left">
-              <p className="text-sm font-semibold text-red-700">Todo Terlewat</p>
-              <p className="text-xs text-amber-800/50">{overdueTodos.length} item perlu segera ditindaklanjuti — klik untuk buka</p>
+            <div id="todo-terlewat-collapsed-text" className="flex-1 text-left">
+              <p id="todo-terlewat-collapsed-title" className="text-sm font-semibold text-red-700">Todo Terlewat</p>
+              <p id="todo-terlewat-collapsed-subtitle" className="text-xs text-amber-800/50">{overdueTodos.length} item perlu segera ditindaklanjuti — klik untuk buka</p>
             </div>
             <Icon name="add_circle" size={20} className="text-red/50 group-hover:text-red transition-colors" />
           </div>
@@ -468,24 +468,24 @@ export default function DashboardPage() {
 
       {/* Vendor Recommendations - collapsible */}
       {necessities.some((n) => n.vendors.length > 0) && showVendorRecs && (
-        <div className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
+        <div id="vendor-recs-expanded" className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm">
+          <div id="vendor-recs-header" className="flex items-center justify-between mb-4">
+            <div id="vendor-recs-title-wrap" className="flex items-center gap-2">
               <Icon name="auto_awesome" size={20} className="text-orange" filled />
-              <h2 className="text-lg font-semibold text-amber-900">Rekomendasi Vendor Terbaik</h2>
-              <span className="text-xs bg-orange/10 text-orange px-2 py-0.5 rounded-full font-medium">
+              <h2 id="vendor-recs-title" className="text-lg font-semibold text-amber-900">Rekomendasi Vendor Terbaik</h2>
+              <span id="vendor-recs-guest-badge" className="text-xs bg-orange/10 text-orange px-2 py-0.5 rounded-full font-medium">
                 {weddingInfo.guestCount} tamu
               </span>
             </div>
-            <button onClick={() => setShowVendorRecs(false)}
+            <button id="vendor-recs-close-btn" onClick={() => setShowVendorRecs(false)}
               className="text-xs text-amber-800/40 hover:text-orange transition-colors">
               Tutup
             </button>
           </div>
-          <p className="text-xs text-amber-800/50 mb-4">
+          <p id="vendor-recs-subtitle" className="text-xs text-amber-800/50 mb-4">
             Berdasarkan jumlah tamu ({weddingInfo.guestCount} orang) dan total budget (Rp {weddingInfo.budget.toLocaleString()})
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div id="vendor-recs-grid" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {getTopRecommendations(
               necessities.flatMap((n) =>
                 n.vendors.map((v) => ({ vendor: v, necessityName: n.name }))
@@ -499,35 +499,35 @@ export default function DashboardPage() {
               );
               const necId = nec?.id ?? "";
               return (
-                <button key={vendor.id} onClick={() =>
+                <button key={vendor.id} id={`vendor-recs-card-${vendor.id}`} onClick={() =>
                   setQuickAddVendor({ vendor, necessityId: necId, necessityName })
                 }
                   className="bg-cream rounded-xl p-4 border border-gold/20 hover:shadow-md hover:border-orange/40 hover:bg-cream/80 transition-all text-left cursor-pointer group">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-medium text-amber-800/50 uppercase tracking-wide">{necessityName}</span>
+                  <div id={`vendor-recs-card-header-${vendor.id}`} className="flex items-center justify-between mb-2">
+                    <span id={`vendor-recs-necessity-${vendor.id}`} className="text-xs font-medium text-amber-800/50 uppercase tracking-wide">{necessityName}</span>
                     {fitScore >= 80 && (
-                      <span className="text-[10px] bg-green/10 text-green px-2 py-0.5 rounded-full font-bold">Best Match</span>
+                      <span id={`vendor-recs-badge-${vendor.id}`} className="text-[10px] bg-green/10 text-green px-2 py-0.5 rounded-full font-bold">Best Match</span>
                     )}
                   </div>
-                  <p className="text-sm font-semibold text-amber-900 truncate">{vendor.name}</p>
-                  <div className="flex items-center gap-3 mt-2 text-xs text-amber-800/60">
-                    <span>Budget: Rp {(vendor.budget / 1000000).toFixed(0)}jt</span>
+                  <p id={`vendor-recs-name-${vendor.id}`} className="text-sm font-semibold text-amber-900 truncate">{vendor.name}</p>
+                  <div id={`vendor-recs-budget-${vendor.id}`} className="flex items-center gap-3 mt-2 text-xs text-amber-800/60">
+                    <span id={`vendor-recs-budget-val-${vendor.id}`}>Budget: Rp {(vendor.budget / 1000000).toFixed(0)}jt</span>
                     {vendor.perPerson && (
-                      <span>Rp {vendor.perPerson.toLocaleString()}/org</span>
+                      <span id={`vendor-recs-perperson-${vendor.id}`}>Rp {vendor.perPerson.toLocaleString()}/org</span>
                     )}
                   </div>
-                  <div className="mt-2 flex items-center gap-2">
-                    <div className="flex-1 h-1.5 rounded-full bg-cream overflow-hidden">
-                      <div className={`h-full rounded-full ${
+                  <div id={`vendor-recs-fit-${vendor.id}`} className="mt-2 flex items-center gap-2">
+                    <div id={`vendor-recs-fit-bar-${vendor.id}`} className="flex-1 h-1.5 rounded-full bg-cream overflow-hidden">
+                      <div id={`vendor-recs-fit-fill-${vendor.id}`} className={`h-full rounded-full ${
                         fitScore >= 80 ? "bg-green" : fitScore >= 50 ? "bg-gold" : "bg-pink/50"
                       }`} style={{ width: `${fitScore}%` }} />
                     </div>
-                    <span className="text-[10px] font-medium text-amber-800/50">{fitScore}%</span>
+                    <span id={`vendor-recs-fit-pct-${vendor.id}`} className="text-[10px] font-medium text-amber-800/50">{fitScore}%</span>
                   </div>
-                  <p className="text-[10px] text-amber-800/40 mt-1.5">
+                  <p id={`vendor-recs-estimate-${vendor.id}`} className="text-[10px] text-amber-800/40 mt-1.5">
                     Estimasi: Rp {estimatedTotal.toLocaleString()}
                   </p>
-                  <div className="mt-3 pt-2 border-t border-gold/10 text-[10px] text-orange font-medium flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div id={`vendor-recs-add-${vendor.id}`} className="mt-3 pt-2 border-t border-gold/10 text-[10px] text-orange font-medium flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                     <Icon name="add_circle" size={12} />
                     Tambah ke {necessityName}
                   </div>
@@ -538,15 +538,15 @@ export default function DashboardPage() {
         </div>
       )}
       {necessities.some((n) => n.vendors.length > 0) && !showVendorRecs && (
-        <button onClick={() => setShowVendorRecs(true)}
+        <button id="vendor-recs-collapsed" onClick={() => setShowVendorRecs(true)}
           className="relative overflow-hidden w-full rounded-2xl bg-amber-50 border-2 border-dashed border-orange/40 p-4 hover:border-orange/60 hover:bg-amber-50/80 hover:shadow-md transition-all group">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange to-gold flex items-center justify-center shadow-sm">
+          <div id="vendor-recs-collapsed-inner" className="flex items-center gap-3">
+            <div id="vendor-recs-collapsed-icon" className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange to-gold flex items-center justify-center shadow-sm">
               <Icon name="auto_awesome" size={20} className="text-white" filled />
             </div>
-            <div className="flex-1 text-left">
-              <p className="text-sm font-semibold text-amber-900">Rekomendasi Vendor Terbaik</p>
-              <p className="text-xs text-amber-800/50">Berdasarkan budget dan jumlah tamu — klik untuk buka</p>
+            <div id="vendor-recs-collapsed-text" className="flex-1 text-left">
+              <p id="vendor-recs-collapsed-title" className="text-sm font-semibold text-amber-900">Rekomendasi Vendor Terbaik</p>
+              <p id="vendor-recs-collapsed-subtitle" className="text-xs text-amber-800/50">Berdasarkan budget dan jumlah tamu — klik untuk buka</p>
             </div>
             <Icon name="add_circle" size={20} className="text-orange/50 group-hover:text-orange transition-colors" />
           </div>
@@ -555,8 +555,8 @@ export default function DashboardPage() {
 
       {/* Before You Marry Widget */}
       {showBeforeMarry && (
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-pink/10 via-gold/10 to-orange/5 border-2 border-pink/20 shadow-sm">
-          <div className="absolute inset-0 opacity-[0.06] pointer-events-none"
+        <div id="before-you-marry-expanded" className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-pink/10 via-gold/10 to-orange/5 border-2 border-pink/20 shadow-sm">
+          <div id="before-you-marry-bg-pattern" className="absolute inset-0 opacity-[0.06] pointer-events-none"
             style={{
               backgroundImage: `radial-gradient(circle at 10% 90%, #FC95B4 1px, transparent 1px),
                                 radial-gradient(circle at 90% 10%, #FFCE62 1px, transparent 1px),
@@ -564,23 +564,23 @@ export default function DashboardPage() {
               backgroundSize: '30px 30px, 40px 40px, 20px 20px',
             }}
           />
-          <div className="relative px-5 sm:px-6 py-4 sm:py-5">
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-pink to-orange flex items-center justify-center shadow-md shrink-0 animate-bounce">
+          <div id="before-you-marry-inner" className="relative px-5 sm:px-6 py-4 sm:py-5">
+            <div id="before-you-marry-hero" className="flex items-start gap-4">
+              <div id="before-you-marry-icon" className="w-12 h-12 rounded-2xl bg-gradient-to-br from-pink to-orange flex items-center justify-center shadow-md shrink-0 animate-bounce">
                 <Icon name="diamond" size={24} className="text-white" filled />
               </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
-                  <h2 className="text-lg font-bold text-amber-900">Before You Marry</h2>
-                  <span className="text-xs bg-gradient-to-r from-pink/20 to-orange/20 text-pink px-2.5 py-0.5 rounded-full font-medium">Wajib Tahu!</span>
+              <div id="before-you-marry-text" className="flex-1 min-w-0">
+                <div id="before-you-marry-title-wrap" className="flex items-center gap-2">
+                  <h2 id="before-you-marry-title" className="text-lg font-bold text-amber-900">Before You Marry</h2>
+                  <span id="before-you-marry-badge" className="text-xs bg-gradient-to-r from-pink/20 to-orange/20 text-pink px-2.5 py-0.5 rounded-full font-medium">Wajib Tahu!</span>
                 </div>
-                <p className="text-sm text-amber-800/60 mt-1">
+                <p id="before-you-marry-subtitle" className="text-sm text-amber-800/60 mt-1">
                   Hal-hal penting yang wajib diketahui sebelum menikah di Indonesia
                 </p>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+            <div id="before-you-marry-grid" className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
               {[
                 {
                   icon: "description",
@@ -613,20 +613,20 @@ export default function DashboardPage() {
                   desc: "Pas foto 2x3 & 3x4 (masing-masing 6 lembar), NPWP (jika ada), akta cerai/akta kematian bila perlu",
                 },
               ].map((item, i) => (
-                <div key={i}
+                <div key={i} id={`before-you-marry-item-${i}`}
                   className="flex gap-3 p-3 rounded-xl bg-white/60 border border-gold/20 hover:bg-white/90 transition-colors">
                   <Icon name={item.icon} size={22} className="text-amber-800/60 shrink-0 mt-0.5" />
-                  <div>
-                    <p className="text-sm font-semibold text-amber-900">{item.title}</p>
-                    <p className="text-xs text-amber-800/60 mt-0.5 leading-relaxed">{item.desc}</p>
+                  <div id={`before-you-marry-item-text-${i}`}>
+                    <p id={`before-you-marry-item-title-${i}`} className="text-sm font-semibold text-amber-900">{item.title}</p>
+                    <p id={`before-you-marry-item-desc-${i}`} className="text-xs text-amber-800/60 mt-0.5 leading-relaxed">{item.desc}</p>
                   </div>
                 </div>
               ))}
             </div>
 
-            <div className="mt-4 pt-3 border-t border-gold/20 flex items-center justify-between">
-              <p className="text-[10px] text-amber-800/40">Sumber: Kementerian Agama RI</p>
-              <button onClick={() => setShowBeforeMarry(false)}
+            <div id="before-you-marry-footer" className="mt-4 pt-3 border-t border-gold/20 flex items-center justify-between">
+              <p id="before-you-marry-source" className="text-[10px] text-amber-800/40">Sumber: Kementerian Agama RI</p>
+              <button id="before-you-marry-close-btn" onClick={() => setShowBeforeMarry(false)}
                 className="flex items-center gap-1 text-xs text-orange font-medium hover:underline">
                 Tutup
                 <Icon name="close" size={14} />
@@ -636,15 +636,15 @@ export default function DashboardPage() {
         </div>
       )}
       {!showBeforeMarry && (
-        <button onClick={() => setShowBeforeMarry(true)}
+        <button id="before-you-marry-collapsed" onClick={() => setShowBeforeMarry(true)}
           className="relative overflow-hidden w-full rounded-2xl bg-pink/15 border-2 border-dashed border-pink/40 p-4 hover:border-pink/60 hover:bg-pink/20 hover:shadow-md transition-all group">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-pink to-orange flex items-center justify-center shadow-sm">
+          <div id="before-you-marry-collapsed-inner" className="flex items-center gap-3">
+            <div id="before-you-marry-collapsed-icon" className="w-10 h-10 rounded-xl bg-gradient-to-br from-pink to-orange flex items-center justify-center shadow-sm">
                 <Icon name="diamond" size={20} className="text-white" filled />
             </div>
-            <div className="flex-1 text-left">
-              <p className="text-sm font-semibold text-amber-900">Before You Marry</p>
-              <p className="text-xs text-amber-800/50">Hal wajib tahu sebelum menikah — klik untuk buka</p>
+            <div id="before-you-marry-collapsed-text" className="flex-1 text-left">
+              <p id="before-you-marry-collapsed-title" className="text-sm font-semibold text-amber-900">Before You Marry</p>
+              <p id="before-you-marry-collapsed-subtitle" className="text-xs text-amber-800/50">Hal wajib tahu sebelum menikah — klik untuk buka</p>
             </div>
             <Icon name="add_circle" size={20} className="text-pink/50 group-hover:text-pink transition-colors" />
           </div>
@@ -653,29 +653,29 @@ export default function DashboardPage() {
 
       {/* Quick-add vendor modal */}
       {quickAddVendor && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
-          <div className="bg-white rounded-2xl shadow-xl max-w-md w-full mx-4 p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-green/10 flex items-center justify-center">
+        <div id="quick-add-vendor-modal" className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
+          <div id="quick-add-vendor-card" className="bg-white rounded-2xl shadow-xl max-w-md w-full mx-4 p-6">
+            <div id="quick-add-vendor-header" className="flex items-center gap-3 mb-4">
+              <div id="quick-add-vendor-icon" className="w-10 h-10 rounded-xl bg-green/10 flex items-center justify-center">
                 <Icon name="business" size={20} className="text-green" filled />
               </div>
-              <div>
-                <h3 className="text-base font-bold text-amber-900">Tambah Vendor</h3>
-                <p className="text-xs text-amber-800/50">Rekomendasi sistem</p>
+              <div id="quick-add-vendor-title-wrap">
+                <h3 id="quick-add-vendor-title" className="text-base font-bold text-amber-900">Tambah Vendor</h3>
+                <p id="quick-add-vendor-subtitle" className="text-xs text-amber-800/50">Rekomendasi sistem</p>
               </div>
             </div>
-            <p className="text-sm text-amber-900 mb-1">
-              Tambah <span className="font-semibold">{quickAddVendor.vendor.name}</span>
+            <p id="quick-add-vendor-body" className="text-sm text-amber-900 mb-1">
+              Tambah <span id="quick-add-vendor-name" className="font-semibold">{quickAddVendor.vendor.name}</span>
             </p>
-            <p className="text-xs text-amber-800/50 mb-5">
-              ke <span className="font-medium">{quickAddVendor.necessityName}</span> sebagai draft vendor?
+            <p id="quick-add-vendor-desc" className="text-xs text-amber-800/50 mb-5">
+              ke <span id="quick-add-vendor-necessity" className="font-medium">{quickAddVendor.necessityName}</span> sebagai draft vendor?
             </p>
-            <div className="flex items-center gap-3">
-              <button onClick={() => setQuickAddVendor(null)}
+            <div id="quick-add-vendor-actions" className="flex items-center gap-3">
+              <button id="quick-add-vendor-cancel-btn" onClick={() => setQuickAddVendor(null)}
                 className="flex-1 px-4 py-2.5 rounded-xl border border-gold/30 text-sm text-amber-800/60 font-medium hover:bg-cream transition-colors">
                 Batal
               </button>
-              <button onClick={handleQuickAddVendor}
+              <button id="quick-add-vendor-confirm-btn" onClick={handleQuickAddVendor}
                 className="flex-1 px-4 py-2.5 rounded-xl bg-orange text-white text-sm font-medium hover:bg-orange/90 transition-colors">
                 Tambahkan
               </button>
