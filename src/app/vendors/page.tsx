@@ -182,7 +182,7 @@ export default function VendorsPage() {
                               </span>
                             </button>
                             <button onClick={() => deleteVendorTask(necessity.id, task.id)}
-                              className="opacity-0 group-hover:opacity-100 text-amber-800/30 hover:text-pink transition-all shrink-0">
+                              className="opacity-0 group-hover:opacity-100 text-amber-800/30 hover:text-red transition-all shrink-0">
                               <Icon name="close" size={14} />
                             </button>
                           </div>

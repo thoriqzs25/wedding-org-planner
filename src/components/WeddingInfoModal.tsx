@@ -34,7 +34,7 @@ export default function WeddingInfoModal({ info, onSave, onClose }: WeddingInfoM
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm cursor-pointer" onClick={onClose} />
       <div className="relative bg-white rounded-2xl shadow-xl max-w-lg w-full mx-4">
         <div className="sticky top-0 bg-white rounded-t-2xl border-b border-gold/30 px-6 py-4 flex items-center justify-between">
           <h2 className="text-lg font-bold text-amber-900">Edit Informasi</h2>

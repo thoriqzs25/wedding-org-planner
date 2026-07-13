@@ -54,31 +54,31 @@ export default function CascadeWarning({ vendor, mode, remainingFinalizes, maxFi
                 <Icon name="assignment" size={16} className="text-orange mt-0.5 shrink-0" />
                 <span>Task vendor akan terlihat di halaman Vendor Tracker</span>
               </div>
-              <div className="flex items-start gap-2.5 text-sm text-pink">
-                <Icon name="warning" size={16} className="text-pink mt-0.5 shrink-0" />
+              <div className="flex items-start gap-2.5 text-sm text-red">
+                <Icon name="warning" size={16} className="text-red mt-0.5 shrink-0" />
                 <span>Mengganti vendor final nantinya akan mempertahankan invoice dan task yang sudah ada</span>
               </div>
-              <div className="flex items-start gap-2.5 text-sm font-medium text-pink bg-pink/5 rounded-xl p-3 border border-pink/20">
-                <Icon name="gavel" size={16} className="text-pink mt-0.5 shrink-0" />
+              <div className="flex items-start gap-2.5 text-sm font-medium text-red bg-red/5 rounded-xl p-3 border border-red/20">
+                <Icon name="gavel" size={16} className="text-red mt-0.5 shrink-0" />
                 <span>Sisa finalisasi: <strong>{remainingFinalizes}x</strong> dari maksimal {maxFinalizes}x. Setelah habis, tidak bisa mengganti vendor final lagi tanpa menghubungi admin.</span>
               </div>
             </>
           ) : (
             <>
               <div className="flex items-start gap-2.5 text-sm text-amber-800/70">
-                <Icon name="info" size={16} className="text-pink mt-0.5 shrink-0" />
+                <Icon name="info" size={16} className="text-red mt-0.5 shrink-0" />
                 <span>Vendor akan dihapus dari <strong>Vendor Tracker</strong></span>
               </div>
               <div className="flex items-start gap-2.5 text-sm text-amber-800/70">
-                <Icon name="receipt_long" size={16} className="text-pink mt-0.5 shrink-0" />
+                <Icon name="receipt_long" size={16} className="text-red mt-0.5 shrink-0" />
                 <span>Invoice tetap ada dan masih terhubung ke kategori ini</span>
               </div>
               <div className="flex items-start gap-2.5 text-sm text-amber-800/70">
-                <Icon name="assignment" size={16} className="text-pink mt-0.5 shrink-0" />
+                <Icon name="assignment" size={16} className="text-red mt-0.5 shrink-0" />
                 <span>Task vendor akan tetap tersimpan</span>
               </div>
-              <div className="flex items-start gap-2.5 text-sm font-medium text-pink bg-pink/5 rounded-xl p-3 border border-pink/20">
-                <Icon name="gavel" size={16} className="text-pink mt-0.5 shrink-0" />
+              <div className="flex items-start gap-2.5 text-sm font-medium text-red bg-red/5 rounded-xl p-3 border border-red/20">
+                <Icon name="gavel" size={16} className="text-red mt-0.5 shrink-0" />
                 <span>Sisa finalisasi: <strong>{remainingFinalizes}x</strong> dari maksimal {maxFinalizes}x. Menghapus vendor final tetap menghabiskan kuota finalisasi.</span>
               </div>
             </>
@@ -92,7 +92,7 @@ export default function CascadeWarning({ vendor, mode, remainingFinalizes, maxFi
           </button>
           <button onClick={onConfirm}
             className={`flex-1 py-3 rounded-xl text-white font-medium transition-colors shadow-sm ${
-              isSelect ? "bg-orange hover:bg-orange/90" : "bg-pink hover:bg-pink/90"
+              isSelect ? "bg-orange hover:bg-orange/90" : "bg-red hover:bg-red/90"
             }`}>
             {isSelect ? "Ya, Pilih" : "Ya, Hapus"}
           </button>

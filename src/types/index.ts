@@ -111,12 +111,25 @@ export interface CalendarEvent {
   necessityId: string;
   necessityName: string;
   description: string;
+  todoId?: string;
 }
+
+export type ActionType =
+  | "todo_created"
+  | "todo_completed"
+  | "vendor_added"
+  | "vendor_selected"
+  | "vendor_deselected"
+  | "vendor_task_completed"
+  | "invoice_added"
+  | "gallery_item_added"
+  | "calendar_event_added";
 
 export interface RecentActivity {
   id: string;
   necessityId: string;
   necessityName: string;
   action: string;
+  actionType: ActionType;
   createdAt: string;
 }

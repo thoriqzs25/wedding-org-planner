@@ -7,23 +7,15 @@ import Icon from "@/components/Icon";
 import {
   mockQuestionnaire,
   mockNecessities,
+  mockRecentActivities,
   getTotalSpent,
 } from "@/data/mock";
 import { getNecessityIcon, getNecessityColor } from "@/data/necessityIcons";
-import { Todo } from "@/types";
+import { Todo, RecentActivity, Vendor } from "@/types";
 import Tooltip from "@/components/Tooltip";
 import WeddingInfoModal from "@/components/WeddingInfoModal";
 import { getTopRecommendations } from "@/utils/recommendations";
-
-interface TodoActivity {
-  id: string;
-  necessityId: string;
-  necessityName: string;
-  todoId: string;
-  todoTitle: string;
-  newStatus: Todo["status"];
-  createdAt: string;
-}
+import { fireConfetti } from "@/lib/confetti";
 
 export default function DashboardPage() {
   const [necessities, setNecessities] = useState(mockNecessities);
@@ -31,22 +23,14 @@ export default function DashboardPage() {
   const [showInfoForm, setShowInfoForm] = useState(false);
   const [infoTab, setInfoTab] = useState<"acara" | "budget">("acara");
   const [showBeforeMarry, setShowBeforeMarry] = useState(true);
-  const [activities, setActivities] = useState<TodoActivity[]>(() =>
-    mockNecessities.flatMap((n) =>
-      n.todos
-        .filter((t) => t.status !== "pending")
-        .sort((a, b) => b.dueDate.localeCompare(a.dueDate))
-        .map((t) => ({
-          id: `init-${t.id}`,
-          necessityId: n.id,
-          necessityName: n.name,
-          todoId: t.id,
-          todoTitle: t.title,
-          newStatus: t.status as Todo["status"],
-          createdAt: new Date(t.dueDate).toISOString(),
-        }))
-    ).slice(0, 10)
-  );
+  const [showVendorRecs, setShowVendorRecs] = useState(true);
+  const [showOverdue, setShowOverdue] = useState(true);
+  const [quickAddVendor, setQuickAddVendor] = useState<{
+    vendor: Vendor;
+    necessityId: string;
+    necessityName: string;
+  } | null>(null);
+  const activities = mockRecentActivities;
 
   const allTodos = necessities.flatMap((n) =>
     n.todos.map((t) => ({ ...t, necessityName: n.name }))
@@ -95,24 +79,29 @@ export default function DashboardPage() {
             in_progress: "done",
             done: "pending",
           };
-          const updated = { ...t, status: nextStatus[t.status] };
-          setActivities((a) => [
-            {
-              id: `act-${Date.now()}`,
-              necessityId: n.id,
-              necessityName: n.name,
-              todoId: updated.id,
-              todoTitle: updated.title,
-              newStatus: updated.status,
-              createdAt: new Date().toISOString(),
-            },
-            ...a,
-          ]);
-          return updated;
+          return { ...t, status: nextStatus[t.status] };
         }),
       }));
       return next;
     });
+  };
+
+  const handleQuickAddVendor = () => {
+    if (!quickAddVendor) return;
+    const { vendor, necessityId } = quickAddVendor;
+    const newVendor: Vendor = {
+      ...vendor,
+      id: `v-quick-${Date.now()}`,
+      necessityId,
+    };
+    setNecessities((prev) =>
+      prev.map((n) =>
+        n.id === necessityId
+          ? { ...n, vendors: [...n.vendors, newVendor] }
+          : n
+      )
+    );
+    setQuickAddVendor(null);
   };
 
   const getDaysOverdue = (dueDate: string) => {
@@ -132,6 +121,21 @@ export default function DashboardPage() {
     return new Date(dateStr).toLocaleDateString("id-ID");
   };
 
+  const getActionMeta = (type: RecentActivity["actionType"]) => {
+    const map: Record<RecentActivity["actionType"], { icon: string; color: string; bg: string; label: string; badge: string }> = {
+      todo_created:        { icon: "add_task",     color: "text-blue",    bg: "bg-blue/10",   label: "To-do Baru",     badge: "bg-blue/10 text-blue" },
+      todo_completed:      { icon: "check_circle",  color: "text-green",  bg: "bg-green/10",  label: "Selesai",        badge: "bg-green/10 text-green" },
+      vendor_added:        { icon: "business",     color: "text-orange", bg: "bg-orange/10", label: "Vendor Baru",    badge: "bg-orange/10 text-orange" },
+      vendor_selected:     { icon: "how_to_reg",   color: "text-green",  bg: "bg-green/10",  label: "Vendor Final",   badge: "bg-green/10 text-green" },
+      vendor_deselected:   { icon: "remove_circle", color: "text-pink",  bg: "bg-pink/10",   label: "Vendor Diganti", badge: "bg-pink/10 text-pink" },
+      vendor_task_completed: { icon: "checklist",  color: "text-emerald", bg: "bg-emerald/10", label: "Task Vendor",   badge: "bg-emerald/10 text-emerald" },
+      invoice_added:       { icon: "receipt",      color: "text-gold",   bg: "bg-gold/20",   label: "Invoice",        badge: "bg-gold/30 text-amber-800" },
+      gallery_item_added:  { icon: "collections",  color: "text-purple", bg: "bg-purple/10", label: "Mood Board",     badge: "bg-purple/10 text-purple" },
+      calendar_event_added: { icon: "event",       color: "text-amber", bg: "bg-amber/10",  label: "Jadwal",         badge: "bg-amber/10 text-amber" },
+    };
+    return map[type] ?? map.todo_created;
+  };
+
   return (
     <div className="max-w-6xl space-y-6">
       {/* Header */}
@@ -141,12 +145,17 @@ export default function DashboardPage() {
             Hai, {weddingInfo.brideName} & {weddingInfo.groomName}!{" "}
             <Icon name="waving_hand" size={24} className="inline" />
           </h1>
-          <div className="flex items-center gap-2 mt-1">
+          <div className="flex items-center flex-wrap gap-x-2 gap-y-1 mt-1">
             <p className="text-amber-800/60">
               {weddingInfo.weddingDate} • {weddingInfo.location}
             </p>
+            <span className="text-amber-800/20 hidden sm:inline">•</span>
+            <p className="text-amber-800/60 flex items-center gap-1">
+              <Icon name="people" size={14} className="text-gold" />
+              {weddingInfo.guestCount.toLocaleString()} tamu
+            </p>
             <button onClick={() => { setInfoTab("acara"); setShowInfoForm(true); }}
-              className="text-amber-800/30 hover:text-orange transition-colors" title="Edit tanggal & lokasi">
+              className="text-amber-800/30 hover:text-orange transition-colors cursor-pointer" title="Edit tanggal & lokasi">
               <Icon name="edit" size={14} />
             </button>
           </div>
@@ -216,7 +225,14 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <div className="hidden sm:flex flex-col items-center gap-1 shrink-0">
+          <div className="hidden sm:flex flex-col items-center gap-1 shrink-0 cursor-pointer"
+            onClick={() => {
+              fireConfetti(0.85, 0.25)
+              fireConfetti(0.15, 0.15)
+              fireConfetti(0.5, 0.1)
+              fireConfetti(0.15, 0.6)
+              fireConfetti(0.85, 0.6)
+            }}>
             <Icon name={warnThreshold.time ? "emergency" : "celebration"} size={32}
               className={warnThreshold.time ? "text-pink" : "text-gold"} filled />
             {!warnThreshold.time && (
@@ -264,7 +280,7 @@ export default function DashboardPage() {
               <span className="text-xs font-medium text-amber-900/70">Budget</span>
               {warnThreshold.budget && <Tooltip content="Budget sudah terpakai lebih dari 80%"><Icon name="warning" size={12} className="text-pink" filled /></Tooltip>}
               <button onClick={() => { setInfoTab("budget"); setShowInfoForm(true); }}
-                className="ml-auto text-amber-800/30 hover:text-orange transition-colors" title="Edit budget">
+                className="ml-auto text-amber-800/30 hover:text-orange transition-colors cursor-pointer" title="Edit budget">
                 <Icon name="edit" size={12} />
               </button>
             </div>
@@ -291,9 +307,9 @@ export default function DashboardPage() {
 
       {/* Bottom row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        {/* Masih perlu dicari — grid of stickers */}
-        <div className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm">
-          <div className="flex items-center justify-between mb-4">
+        {/* Masih perlu dicari — scrollable grid */}
+        <div className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm flex flex-col max-h-[420px]">
+          <div className="flex items-center justify-between mb-4 shrink-0">
             <h2 className="text-lg font-semibold text-amber-900 flex items-center gap-2">
               <Icon name="storefront" size={20} />
               Masih perlu dicari
@@ -304,190 +320,167 @@ export default function DashboardPage() {
               </span>
             )}
           </div>
-          {needsVendor.length === 0 ? (
-            <div className="text-center py-8 text-amber-800/40">
-              <Icon name="celebration" size={36} className="mb-2" />
-              <p className="text-sm">Semua kebutuhan sudah punya vendor!</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-              {needsVendor.map((n) => {
-                const c = getNecessityColor(n.id, n.color);
-                return (
-                  <Link key={n.id} href={`/necessity/${n.id}`}
-                    className={`${c.bg} ${c.border} border rounded-xl p-4 hover:shadow-md transition-all group`}>
-                    <div className={`w-9 h-9 rounded-lg ${c.bg} flex items-center justify-center mb-3`}>
-                      <Icon name={getNecessityIcon(n.id, n.icon)} size={20} className={c.text} />
-                    </div>
-                    <p className={`text-sm font-semibold ${c.text} mb-1 truncate`}>{n.name}</p>
-                    <span className={`text-[10px] ${c.text}/60 flex items-center gap-0.5 group-hover:underline`}>
-                      Cari vendor <Icon name="arrow_forward" size={10} />
-                    </span>
-                  </Link>
-                );
-              })}
-            </div>
-          )}
+          <div className="flex-1 overflow-y-auto min-h-0">
+            {needsVendor.length === 0 ? (
+              <div className="text-center py-8 text-amber-800/40">
+                <Icon name="celebration" size={36} className="mb-2" />
+                <p className="text-sm">Semua kebutuhan sudah punya vendor!</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {needsVendor.map((n) => {
+                  const c = getNecessityColor(n.id, n.color);
+                  return (
+                    <Link key={n.id} href={`/necessity/${n.id}`}
+                      className={`${c.bg} ${c.border} border rounded-xl p-4 hover:shadow-md transition-all group`}>
+                      <div className={`w-9 h-9 rounded-lg ${c.bg} flex items-center justify-center mb-3`}>
+                        <Icon name={getNecessityIcon(n.id, n.icon)} size={20} className={c.text} />
+                      </div>
+                      <p className={`text-sm font-semibold ${c.text} mb-1 truncate`}>{n.name}</p>
+                      <span className={`text-[10px] ${c.text}/60 flex items-center gap-0.5 group-hover:underline`}>
+                        Cari vendor <Icon name="arrow_forward" size={10} />
+                      </span>
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* Recent activity - timeline style */}
-        <div className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm">
-          <div className="flex items-center justify-between mb-4">
+        {/* Recent activity — scrollable log */}
+        <div className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm flex flex-col max-h-[420px]">
+          <div className="flex items-center justify-between mb-4 shrink-0">
             <h2 className="text-lg font-semibold text-amber-900 flex items-center gap-2">
               <Icon name="edit_note" size={20} />
               Aktivitas Terakhir
             </h2>
             {activities.length > 0 && (
-              <Link href="/necessity" className="text-xs text-orange font-medium hover:underline">
-                Lihat semua
-              </Link>
+              <span className="text-xs text-amber-800/40">{activities.length} aktivitas</span>
             )}
           </div>
-          <div className="relative">
-            <div className="absolute left-[7px] top-2 bottom-2 w-0.5 bg-gold/30" />
-            <div className="space-y-0">
-              {activities.length === 0 ? (
-                <div className="text-center py-8 text-amber-800/40">
-                  <Icon name="edit_note" size={32} className="mb-2 text-amber-800/20" />
-                  <p className="text-sm">Belum ada aktivitas</p>
-                  <Link href="/necessity" className="text-xs text-orange font-medium hover:underline mt-1 inline-block">
-                    Ubah status to-do untuk memulai
+          <div className="flex-1 overflow-y-auto min-h-0 pr-1">
+            {activities.length === 0 ? (
+              <div className="text-center py-8 text-amber-800/40">
+                <Icon name="edit_note" size={32} className="mb-2 text-amber-800/20" />
+                <p className="text-sm">Belum ada aktivitas</p>
+                <Link href="/necessity" className="text-xs text-orange font-medium hover:underline mt-1 inline-block">
+                  Mulai atur kebutuhan pernikahan
+                </Link>
+              </div>
+            ) : (
+              activities.map((act, idx) => {
+                const isLast = idx === activities.length - 1;
+                const actionMeta = getActionMeta(act.actionType);
+                const ago = getRelativeTime(act.createdAt);
+
+                return (
+                  <Link key={act.id} href={`/necessity/${act.necessityId}`}
+                    className={`flex gap-4 group`}>
+                    <div className="flex flex-col items-center shrink-0">
+                      <div className={`w-8 h-8 rounded-lg ${actionMeta.bg} flex items-center justify-center shadow-sm`}>
+                        <Icon name={actionMeta.icon} size={14} className={actionMeta.color} filled />
+                      </div>
+                      {!isLast && <div className="w-0.5 flex-1 bg-gold/30 min-h-[16px]" />}
+                    </div>
+                    <div className={`flex-1 min-w-0 pt-0.5 ${isLast ? "" : "pb-4"}`}>
+                      <p className="text-sm text-amber-900 leading-snug">
+                        <span className="group-hover:text-orange transition-colors">{act.action}</span>
+                      </p>
+                      <div className="flex items-center gap-2 mt-1">
+                        <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium ${actionMeta.badge}`}>
+                          {actionMeta.label}
+                        </span>
+                        <span className="text-[11px] text-amber-800/40">{act.necessityName}</span>
+                        <span className="text-[11px] text-amber-800/30">{ago}</span>
+                      </div>
+                    </div>
                   </Link>
-                </div>
-              ) : (
-                activities.slice(0, 5).map((act, idx) => {
-                  const isLast = idx === Math.min(activities.length, 5) - 1;
-                  const dotColor = act.newStatus === "done" ? "bg-green" : act.newStatus === "in_progress" ? "bg-gold" : "bg-amber-800/30";
-                  const statusLabel = act.newStatus === "done" ? "Selesai" : act.newStatus === "in_progress" ? "Diproses" : "Pending";
-                  const ago = getRelativeTime(act.createdAt);
-                  return (
-                    <Link key={act.id} href={`/necessity/${act.necessityId}`}
-                      className={`flex gap-4 group ${isLast ? "" : "pb-4"} block`}>
-                      <div className="relative z-10 mt-1">
-                        <div className={`w-[15px] h-[15px] rounded-full ${dotColor} border-[3px] border-white shadow-sm`} />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm text-amber-900">
-                          <span className="group-hover:text-orange transition-colors">{act.todoTitle}</span>
-                        </p>
-                        <p className="text-[11px] text-amber-800/50 mt-0.5">
-                          Status: <span className="font-medium">{statusLabel}</span>
-                        </p>
-                        <div className="flex items-center gap-2 mt-0.5">
-                          <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium ${
-                            act.newStatus === "done" ? "bg-green/10 text-green" : act.newStatus === "in_progress" ? "bg-gold/20 text-amber-800" : "bg-cream text-amber-800/50"
-                          }`}>
-                            {statusLabel}
-                          </span>
-                          <span className="text-[11px] text-amber-800/40">{act.necessityName}</span>
-                          <span className="text-[11px] text-amber-800/30">{ago}</span>
-                        </div>
-                      </div>
-                    </Link>
-                  );
-                })
-              )}
-            </div>
+                );
+              })
+            )}
           </div>
         </div>
       </div>
 
-      {/* Overdue warning */}
-      {overdueTodos.length > 0 && (
-        <div className="rounded-2xl overflow-hidden shadow-lg border-2 border-pink/50 bg-white">
-          {/* Header banner */}
-          <div className="bg-gradient-to-r from-pink to-pink/80 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-xl bg-white/20 flex items-center justify-center shadow-inner">
-                <Icon name="warning" size={24} className="text-white" filled />
+      {/* Overdue warning — collapsible */}
+      {overdueTodos.length > 0 && showOverdue && (
+        <div className="rounded-2xl bg-white border-l-4 border-red shadow-sm">
+          <div className="px-5 py-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Icon name="warning" size={16} className="text-red" filled />
+                <span className="text-sm font-bold text-red-700">Todo Terlewat</span>
+                <span className="bg-red/10 text-red text-[10px] px-2 py-0.5 rounded-full font-bold">{overdueTodos.length}</span>
               </div>
-              <div>
-                <h2 className="text-lg font-bold text-white drop-shadow-sm">Todo Terlewat</h2>
-                <p className="text-xs text-white/80">
-                  {overdueTodos.length} item perlu segera ditindaklanjuti
-                </p>
-              </div>
-            </div>
-            <div className="bg-white/20 rounded-xl px-4 py-2 text-center">
-              <p className="text-2xl font-bold text-white">{overdueTodos.length}</p>
-              <p className="text-[10px] text-white/70">item</p>
+              <button onClick={() => setShowOverdue(false)}
+                className="text-amber-800/30 hover:text-amber-800 transition-colors p-0.5">
+                <Icon name="close" size={16} />
+              </button>
             </div>
           </div>
-
-          {/* Items */}
-          <div className="divide-y divide-pink/10">
-            {overdueTodos.map((todo, idx) => {
+          <div className="px-5 pb-3 space-y-1.5">
+            {overdueTodos.map((todo) => {
               const daysOverdue = getDaysOverdue(todo.dueDate);
-              const urgency = daysOverdue >= 7 ? "high" : daysOverdue >= 3 ? "medium" : "low";
               return (
                 <div key={todo.id}
-                  className={`flex items-center gap-3 sm:gap-4 px-4 sm:px-6 py-3 sm:py-4 transition-colors ${
-                    urgency === "high" ? "bg-pink/[0.03]" : "hover:bg-pink/[0.02]"
-                  }`}>
-                  {/* Check button */}
-                  <Tooltip content="Klik untuk tandai selesai">
-                    <button onClick={() => cycleStatus(todo.id)}
-                      className="flex items-center justify-center w-11 h-11 rounded-xl border-2 border-pink/40 shrink-0 hover:bg-pink hover:border-pink hover:text-white transition-all active:scale-90 group">
-                      <Icon name="check" size={16} className="text-pink/50 group-hover:text-white transition-colors" />
-                    </button>
-                  </Tooltip>
-
-                  {/* Content */}
+                  className="flex items-center gap-2.5 py-1.5 px-2.5 rounded-lg hover:bg-red/[0.02] transition-colors -mx-2.5">
+                  <button onClick={() => cycleStatus(todo.id)}
+                    className="flex items-center justify-center w-6 h-6 rounded-md border border-red/30 shrink-0 hover:bg-red hover:border-red hover:text-white transition-all active:scale-90">
+                    <Icon name="check" size={11} className="text-red/40 hover:text-white transition-colors" />
+                  </button>
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <p className="text-sm font-semibold text-amber-900">{todo.title}</p>
-                      {urgency === "high" && (
-                        <span className="text-[9px] bg-pink/15 text-pink px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wider">Urgent</span>
-                      )}
-                    </div>
-                    <div className="flex items-center gap-2 mt-0.5">
-                      <span className="text-xs text-amber-800/50">{(todo as Todo & { necessityName: string }).necessityName}</span>
-                      <span className="text-[10px] text-amber-800/30">•</span>
-                      <span className="text-xs text-amber-800/50">PIC: {todo.pic}</span>
-                    </div>
+                    <p className="text-sm text-amber-900 truncate">{todo.title}</p>
+                    <span className="text-[10px] text-amber-800/40 truncate flex items-center gap-1">
+                      <Icon name="calendar_today" size={10} />
+                      {new Date(todo.dueDate).toLocaleDateString("id-ID")}
+                      <span className="hidden sm:inline">· {(todo as Todo & { necessityName: string }).necessityName}</span>
+                    </span>
                   </div>
-
-                  {/* Overdue badge */}
-                  <div className={`shrink-0 text-right ${
-                    urgency === "high" ? "bg-pink/10 px-3 py-2 rounded-xl" : ""
-                  }`}>
-                    <div className="flex items-center gap-1.5 justify-end">
-                      <Icon name="schedule" size={14}
-                        className={urgency === "high" ? "text-pink" : urgency === "medium" ? "text-gold" : "text-amber-800/40"} />
-                      <span className={`text-xs font-bold ${
-                        urgency === "high" ? "text-pink" : urgency === "medium" ? "text-gold" : "text-amber-800/50"
-                      }`}>
-                        {daysOverdue === 0 ? "Hari ini" : `${daysOverdue}h`}
-                      </span>
-                    </div>
-                    <p className="text-[10px] text-amber-800/35 mt-0.5">
-                      {new Date(todo.dueDate).toLocaleDateString("id-ID", { day: "numeric", month: "short" })}
-                    </p>
-                  </div>
+                  <span className="shrink-0 text-[11px] font-bold text-red">{daysOverdue === 0 ? "Hari ini" : `${daysOverdue}h`}</span>
                 </div>
               );
             })}
           </div>
-
-          {/* Footer */}
-          <div className="bg-pink/[0.02] px-6 py-3 border-t border-pink/10">
-            <Link href="/necessity" className="text-xs text-pink font-medium hover:underline flex items-center gap-1">
-              <Icon name="arrow_forward" size={12} />
-              Lihat semua kebutuhan
+          <div className="px-5 py-2 border-t border-amber-800/5">
+            <Link href="/necessity" className="text-[11px] text-red font-medium hover:underline inline-flex items-center gap-1">
+              <span>Lihat semua kebutuhan</span>
+              <Icon name="chevron_right" size={12} />
             </Link>
           </div>
         </div>
       )}
+      {overdueTodos.length > 0 && !showOverdue && (
+        <button onClick={() => setShowOverdue(true)}
+          className="relative overflow-hidden w-full rounded-2xl bg-red/5 border-2 border-dashed border-red/40 p-4 hover:border-red/60 hover:bg-red/10 hover:shadow-md transition-all group">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red to-red/80 flex items-center justify-center shadow-sm">
+              <Icon name="warning" size={20} className="text-white" filled />
+            </div>
+            <div className="flex-1 text-left">
+              <p className="text-sm font-semibold text-red-700">Todo Terlewat</p>
+              <p className="text-xs text-amber-800/50">{overdueTodos.length} item perlu segera ditindaklanjuti — klik untuk buka</p>
+            </div>
+            <Icon name="add_circle" size={20} className="text-red/50 group-hover:text-red transition-colors" />
+          </div>
+        </button>
+      )}
 
-      {/* Vendor Recommendations */}
-      {necessities.some((n) => n.vendors.length > 0) && (
+      {/* Vendor Recommendations - collapsible */}
+      {necessities.some((n) => n.vendors.length > 0) && showVendorRecs && (
         <div className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm">
-          <div className="flex items-center gap-2 mb-4">
-            <Icon name="auto_awesome" size={20} className="text-orange" filled />
-            <h2 className="text-lg font-semibold text-amber-900">Rekomendasi Vendor Terbaik</h2>
-            <span className="text-xs bg-orange/10 text-orange px-2 py-0.5 rounded-full font-medium">
-              {weddingInfo.guestCount} tamu
-            </span>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <Icon name="auto_awesome" size={20} className="text-orange" filled />
+              <h2 className="text-lg font-semibold text-amber-900">Rekomendasi Vendor Terbaik</h2>
+              <span className="text-xs bg-orange/10 text-orange px-2 py-0.5 rounded-full font-medium">
+                {weddingInfo.guestCount} tamu
+              </span>
+            </div>
+            <button onClick={() => setShowVendorRecs(false)}
+              className="text-xs text-amber-800/40 hover:text-orange transition-colors">
+              Tutup
+            </button>
           </div>
           <p className="text-xs text-amber-800/50 mb-4">
             Berdasarkan jumlah tamu ({weddingInfo.guestCount} orang) dan total budget (Rp {weddingInfo.budget.toLocaleString()})
@@ -500,37 +493,64 @@ export default function DashboardPage() {
               weddingInfo.guestCount,
               weddingInfo.budget,
               6
-            ).map(({ vendor, estimatedTotal, fitScore, necessityName }) => (
-              <div key={vendor.id}
-                className="bg-cream/50 rounded-xl p-4 border border-gold/20 hover:shadow-md transition-shadow">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-medium text-amber-800/50 uppercase tracking-wide">{necessityName}</span>
-                  {fitScore >= 80 && (
-                    <span className="text-[10px] bg-green/10 text-green px-2 py-0.5 rounded-full font-bold">Best Match</span>
-                  )}
-                </div>
-                <p className="text-sm font-semibold text-amber-900 truncate">{vendor.name}</p>
-                <div className="flex items-center gap-3 mt-2 text-xs text-amber-800/60">
-                  <span>Budget: Rp {(vendor.budget / 1000000).toFixed(0)}jt</span>
-                  {vendor.perPerson && (
-                    <span>Rp {vendor.perPerson.toLocaleString()}/org</span>
-                  )}
-                </div>
-                <div className="mt-2 flex items-center gap-2">
-                  <div className="flex-1 h-1.5 rounded-full bg-cream overflow-hidden">
-                    <div className={`h-full rounded-full ${
-                      fitScore >= 80 ? "bg-green" : fitScore >= 50 ? "bg-gold" : "bg-pink/50"
-                    }`} style={{ width: `${fitScore}%` }} />
+            ).map(({ vendor, estimatedTotal, fitScore, necessityName }) => {
+              const nec = necessities.find(
+                (n) => n.name === necessityName
+              );
+              const necId = nec?.id ?? "";
+              return (
+                <button key={vendor.id} onClick={() =>
+                  setQuickAddVendor({ vendor, necessityId: necId, necessityName })
+                }
+                  className="bg-cream rounded-xl p-4 border border-gold/20 hover:shadow-md hover:border-orange/40 hover:bg-cream/80 transition-all text-left cursor-pointer group">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-medium text-amber-800/50 uppercase tracking-wide">{necessityName}</span>
+                    {fitScore >= 80 && (
+                      <span className="text-[10px] bg-green/10 text-green px-2 py-0.5 rounded-full font-bold">Best Match</span>
+                    )}
                   </div>
-                  <span className="text-[10px] font-medium text-amber-800/50">{fitScore}%</span>
-                </div>
-                <p className="text-[10px] text-amber-800/40 mt-1.5">
-                  Estimasi: Rp {estimatedTotal.toLocaleString()}
-                </p>
-              </div>
-            ))}
+                  <p className="text-sm font-semibold text-amber-900 truncate">{vendor.name}</p>
+                  <div className="flex items-center gap-3 mt-2 text-xs text-amber-800/60">
+                    <span>Budget: Rp {(vendor.budget / 1000000).toFixed(0)}jt</span>
+                    {vendor.perPerson && (
+                      <span>Rp {vendor.perPerson.toLocaleString()}/org</span>
+                    )}
+                  </div>
+                  <div className="mt-2 flex items-center gap-2">
+                    <div className="flex-1 h-1.5 rounded-full bg-cream overflow-hidden">
+                      <div className={`h-full rounded-full ${
+                        fitScore >= 80 ? "bg-green" : fitScore >= 50 ? "bg-gold" : "bg-pink/50"
+                      }`} style={{ width: `${fitScore}%` }} />
+                    </div>
+                    <span className="text-[10px] font-medium text-amber-800/50">{fitScore}%</span>
+                  </div>
+                  <p className="text-[10px] text-amber-800/40 mt-1.5">
+                    Estimasi: Rp {estimatedTotal.toLocaleString()}
+                  </p>
+                  <div className="mt-3 pt-2 border-t border-gold/10 text-[10px] text-orange font-medium flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Icon name="add_circle" size={12} />
+                    Tambah ke {necessityName}
+                  </div>
+                </button>
+              );
+            })}
           </div>
         </div>
+      )}
+      {necessities.some((n) => n.vendors.length > 0) && !showVendorRecs && (
+        <button onClick={() => setShowVendorRecs(true)}
+          className="relative overflow-hidden w-full rounded-2xl bg-amber-50 border-2 border-dashed border-orange/40 p-4 hover:border-orange/60 hover:bg-amber-50/80 hover:shadow-md transition-all group">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange to-gold flex items-center justify-center shadow-sm">
+              <Icon name="auto_awesome" size={20} className="text-white" filled />
+            </div>
+            <div className="flex-1 text-left">
+              <p className="text-sm font-semibold text-amber-900">Rekomendasi Vendor Terbaik</p>
+              <p className="text-xs text-amber-800/50">Berdasarkan budget dan jumlah tamu — klik untuk buka</p>
+            </div>
+            <Icon name="add_circle" size={20} className="text-orange/50 group-hover:text-orange transition-colors" />
+          </div>
+        </button>
       )}
 
       {/* Before You Marry Widget */}
@@ -547,7 +567,7 @@ export default function DashboardPage() {
           <div className="relative px-5 sm:px-6 py-4 sm:py-5">
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-pink to-orange flex items-center justify-center shadow-md shrink-0 animate-bounce">
-                <span className="text-2xl">💍</span>
+                <Icon name="diamond" size={24} className="text-white" filled />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
@@ -563,39 +583,39 @@ export default function DashboardPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
               {[
                 {
-                  icon: "📋",
+                  icon: "description",
                   title: "Persyaratan Administrasi",
                   desc: "KTP, KK, Akta Kelahiran, Surat Nikah dari KUA, dan surat pengantar dari kelurahan/desa",
                 },
                 {
-                  icon: "🏛️",
+                  icon: "account_balance",
                   title: "Pendaftaran KUA",
                   desc: "Daftar minimal 10 hari kerja sebelum akad. Bawa dokumen asli + fotokopi ke KUA kecamatan setempat",
                 },
                 {
-                  icon: "💰",
+                  icon: "payments",
                   title: "Biaya Nikah",
                   desc: "Pencatatan nikah di KUA gratis (Rp 0). Untuk akad di luar KUA ada biaya hingga Rp 600rb tergantung kebijakan",
                 },
                 {
-                  icon: "📖",
+                  icon: "menu_book",
                   title: "Kursus Pranikah",
                   desc: "Sertifikat kursus pranikah (BP4) kini wajib sebagai syarat pendaftaran pernikahan di KUA",
                 },
                 {
-                  icon: "🕌",
+                  icon: "church",
                   title: "Rukun Nikah",
                   desc: "Calon suami, calon istri, wali nikah, dua saksi laki-laki, dan ijab kabul (sighat)",
                 },
                 {
-                  icon: "📝",
+                  icon: "note_add",
                   title: "Dokumen Tambahan",
                   desc: "Pas foto 2x3 & 3x4 (masing-masing 6 lembar), NPWP (jika ada), akta cerai/akta kematian bila perlu",
                 },
               ].map((item, i) => (
                 <div key={i}
                   className="flex gap-3 p-3 rounded-xl bg-white/60 border border-gold/20 hover:bg-white/90 transition-colors">
-                  <span className="text-xl shrink-0 mt-0.5">{item.icon}</span>
+                  <Icon name={item.icon} size={22} className="text-amber-800/60 shrink-0 mt-0.5" />
                   <div>
                     <p className="text-sm font-semibold text-amber-900">{item.title}</p>
                     <p className="text-xs text-amber-800/60 mt-0.5 leading-relaxed">{item.desc}</p>
@@ -617,10 +637,10 @@ export default function DashboardPage() {
       )}
       {!showBeforeMarry && (
         <button onClick={() => setShowBeforeMarry(true)}
-          className="relative overflow-hidden w-full rounded-2xl bg-gradient-to-r from-pink/10 via-gold/10 to-orange/5 border-2 border-dashed border-pink/30 p-4 hover:border-pink/60 hover:shadow-md transition-all group">
+          className="relative overflow-hidden w-full rounded-2xl bg-pink/15 border-2 border-dashed border-pink/40 p-4 hover:border-pink/60 hover:bg-pink/20 hover:shadow-md transition-all group">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-pink to-orange flex items-center justify-center shadow-sm">
-              <span className="text-xl">💍</span>
+                <Icon name="diamond" size={20} className="text-white" filled />
             </div>
             <div className="flex-1 text-left">
               <p className="text-sm font-semibold text-amber-900">Before You Marry</p>
@@ -629,6 +649,39 @@ export default function DashboardPage() {
             <Icon name="add_circle" size={20} className="text-pink/50 group-hover:text-pink transition-colors" />
           </div>
         </button>
+      )}
+
+      {/* Quick-add vendor modal */}
+      {quickAddVendor && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
+          <div className="bg-white rounded-2xl shadow-xl max-w-md w-full mx-4 p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-xl bg-green/10 flex items-center justify-center">
+                <Icon name="business" size={20} className="text-green" filled />
+              </div>
+              <div>
+                <h3 className="text-base font-bold text-amber-900">Tambah Vendor</h3>
+                <p className="text-xs text-amber-800/50">Rekomendasi sistem</p>
+              </div>
+            </div>
+            <p className="text-sm text-amber-900 mb-1">
+              Tambah <span className="font-semibold">{quickAddVendor.vendor.name}</span>
+            </p>
+            <p className="text-xs text-amber-800/50 mb-5">
+              ke <span className="font-medium">{quickAddVendor.necessityName}</span> sebagai draft vendor?
+            </p>
+            <div className="flex items-center gap-3">
+              <button onClick={() => setQuickAddVendor(null)}
+                className="flex-1 px-4 py-2.5 rounded-xl border border-gold/30 text-sm text-amber-800/60 font-medium hover:bg-cream transition-colors">
+                Batal
+              </button>
+              <button onClick={handleQuickAddVendor}
+                className="flex-1 px-4 py-2.5 rounded-xl bg-orange text-white text-sm font-medium hover:bg-orange/90 transition-colors">
+                Tambahkan
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       {showInfoForm && (

@@ -82,7 +82,7 @@ export default function InvoicesPage() {
         </div>
         <div className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm">
           <p className="text-xs text-amber-800/60">Sisa Budget</p>
-          <p className={`text-2xl font-bold mt-1 ${remaining >= 0 ? "text-green" : "text-pink"}`}>
+          <p className={`text-2xl font-bold mt-1 ${remaining >= 0 ? "text-green" : "text-red"}`}>
             Rp {remaining.toLocaleString()}
           </p>
         </div>
@@ -161,7 +161,7 @@ export default function InvoicesPage() {
                   <button onClick={() => { setEditingInvoice(inv); setShowForm(true); }}
                     className="text-amber-800/30 hover:text-orange transition-colors"><Icon name="edit" size={16} /></button>
                   <button onClick={() => setDeleteId(inv.id)}
-                    className="text-amber-800/30 hover:text-pink transition-colors"><Icon name="delete" size={16} /></button>
+                    className="text-amber-800/30 hover:text-red transition-colors"><Icon name="delete" size={16} /></button>
                 </div>
               </div>
             ))}

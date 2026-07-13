@@ -127,8 +127,8 @@ export default function NecessityListPage() {
                 statusBg = "bg-green/10";
               } else if (hasOverdue) {
                 statusLabel = "Terlewat";
-                statusColor = "text-pink";
-                statusBg = "bg-pink/10";
+                statusColor = "text-red";
+                statusBg = "bg-red/10";
               } else if (todoTotal > 0) {
                 statusLabel = "Diproses";
                 statusColor = "text-gold";
@@ -144,17 +144,17 @@ export default function NecessityListPage() {
                   <Link href={`/necessity/${nec.id}`}
                     className={`block rounded-2xl p-5 shadow-sm hover:shadow-lg transition-all duration-300 ${
                       hasOverdue
-                        ? "bg-white ring-2 ring-pink/40"
+                        ? "bg-white ring-2 ring-red/40"
                         : allDone
                         ? "bg-white border border-green/30"
                         : "bg-white border border-gold/30"
                     }`}>
                     <div className="flex items-start gap-3 mb-4">
                       <div className={`relative w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${
-                        allDone ? "bg-green/10" : hasOverdue ? "bg-pink/10" : c.bg
+                        allDone ? "bg-green/10" : hasOverdue ? "bg-red/10" : c.bg
                       }`}>
                         <Icon name={getNecessityIcon(nec.id, nec.icon)} size={24}
-                          className={allDone ? "text-green" : hasOverdue ? "text-pink" : c.text} />
+                          className={allDone ? "text-green" : hasOverdue ? "text-red" : c.text} />
                         {allDone && (
                           <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-green flex items-center justify-center">
                             <Icon name="check" size={10} className="text-white" />
@@ -163,7 +163,7 @@ export default function NecessityListPage() {
                         {hasOverdue && (
                           <div className="absolute -top-1 -right-1">
                             <Tooltip content="Ada to-do yang terlewat deadline">
-                              <div className="w-4 h-4 rounded-full bg-pink shadow-sm flex items-center justify-center cursor-help">
+                              <div className="w-4 h-4 rounded-full bg-red shadow-sm flex items-center justify-center cursor-help">
                                 <Icon name="warning" size={9} className="text-white" filled />
                               </div>
                             </Tooltip>
@@ -173,7 +173,7 @@ export default function NecessityListPage() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
                           <h3 className={`text-sm font-bold ${
-                            hasOverdue ? "text-pink" : allDone ? "text-green" : "text-amber-900"
+                            hasOverdue ? "text-red" : allDone ? "text-green" : "text-amber-900"
                           }`}>{nec.name}</h3>
                           {nec.isDefault && (
                             <span className="text-[9px] bg-amber-800/10 text-amber-800/50 px-1.5 py-0.5 rounded-full shrink-0">default</span>
@@ -201,11 +201,11 @@ export default function NecessityListPage() {
                         <div className="flex items-center gap-3 mb-1.5">
                           <div className="flex-1 h-2 bg-cream rounded-full overflow-hidden">
                             <div className={`h-full rounded-full transition-all duration-500 ${
-                              allDone ? "bg-green" : hasOverdue ? "bg-pink" : "bg-orange"
+                              allDone ? "bg-green" : hasOverdue ? "bg-red" : "bg-orange"
                             }`} style={{ width: `${pct}%` }} />
                           </div>
                           <span className={`text-xs font-semibold ${
-                            allDone ? "text-green" : hasOverdue ? "text-pink" : "text-orange"
+                            allDone ? "text-green" : hasOverdue ? "text-red" : "text-orange"
                           }`}>{pct}%</span>
                         </div>
                       </div>
@@ -249,7 +249,7 @@ export default function NecessityListPage() {
                   </Link>
 
               <button onClick={() => setDeleteId(nec.id)}
-                className="absolute top-3 right-3 flex items-center justify-center w-11 h-11 rounded-xl text-amber-800/30 hover:text-pink hover:bg-pink/10 transition-colors active:scale-90">
+                className="absolute top-3 right-3 flex items-center justify-center w-11 h-11 rounded-xl text-amber-800/30 hover:text-red hover:bg-red/10 transition-colors active:scale-90">
                 <Icon name="close" size={16} />
               </button>
                 </div>
@@ -277,14 +277,14 @@ export default function NecessityListPage() {
                 return (
                   <Link key={todo.id} href={`/necessity/${todo.necessityId}`}
                     className={`flex items-center gap-4 px-5 py-4 hover:bg-cream/50 transition-colors group ${
-                      isOverdue ? "bg-pink/[0.02]" : ""
+                      isOverdue ? "bg-red/[0.02]" : ""
                     }`}>
                     <button onClick={(e) => { e.preventDefault(); cycleStatus(todo.id); }}
                       className={`flex items-center justify-center w-11 h-11 shrink-0 rounded-full border-2 transition-all active:scale-90 ${
                         isDone
                           ? "bg-green border-green"
                           : isOverdue
-                          ? "border-pink/50 hover:bg-pink/10"
+                          ? "border-red/50 hover:bg-red/10"
                           : "border-gold/50 hover:bg-gold/10"
                       }`}>
                       {isDone ? <Icon name="check" size={14} className="text-white" /> : <span className="w-0" />}
@@ -309,7 +309,7 @@ export default function NecessityListPage() {
 
                     <div className="text-right shrink-0">
                       <div className={`flex items-center gap-1 text-xs font-medium ${
-                        isOverdue ? "text-pink" : isDone ? "text-green" : "text-amber-800/50"
+                        isOverdue ? "text-red" : isDone ? "text-green" : "text-amber-800/50"
                       }`}>
                         <Icon name="schedule" size={12} />
                         {isDone ? "Selesai" : isOverdue ? `${Math.abs(daysLeft)} hari terlewat` : daysLeft === 0 ? "Hari ini" : `${daysLeft} hari lagi`}

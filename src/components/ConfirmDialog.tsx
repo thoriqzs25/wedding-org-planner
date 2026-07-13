@@ -21,10 +21,10 @@ export default function ConfirmDialog({
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onCancel} />
       <div className="relative bg-white rounded-2xl shadow-xl max-w-sm w-full mx-4 p-6 text-center space-y-4">
         <div className={`w-12 h-12 mx-auto rounded-full flex items-center justify-center ${
-          variant === "danger" ? "bg-pink/10" : "bg-orange/10"
+          variant === "danger" ? "bg-red/10" : "bg-orange/10"
         }`}>
           <Icon name={variant === "danger" ? "warning" : "info"} size={28}
-            className={variant === "danger" ? "text-pink" : "text-orange"} />
+            className={variant === "danger" ? "text-red" : "text-orange"} />
         </div>
         <div>
           <h3 className="text-lg font-semibold text-amber-900">{title}</h3>
@@ -38,7 +38,7 @@ export default function ConfirmDialog({
           <button onClick={onConfirm}
             className={`flex-1 min-h-[44px] rounded-xl text-white font-medium transition-colors active:scale-[0.98] ${
               variant === "danger"
-                ? "bg-pink hover:bg-pink/90"
+                ? "bg-red hover:bg-red/90"
                 : "bg-orange hover:bg-orange/90"
             }`}>
             {confirmLabel}

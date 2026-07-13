@@ -41,14 +41,14 @@ export default function TodoFormModal({ todo, necessityId, onSave, onDelete, onC
 
         {confirmDelete ? (
           <div className="p-6 text-center space-y-4">
-            <Icon name="warning" size={40} className="text-pink" />
+            <Icon name="warning" size={40} className="text-red" />
             <p className="text-amber-900 font-medium">Hapus to-do ini?</p>
             <p className="text-sm text-amber-800/50">Tindakan ini tidak bisa dibatalkan.</p>
             <div className="flex gap-3 justify-center">
               <button onClick={() => setConfirmDelete(false)} className="px-5 py-2.5 rounded-xl border border-gold/40 text-amber-900 font-medium hover:bg-cream">
                 Batal
               </button>
-              <button onClick={() => onDelete?.(todo!.id)} className="px-5 py-2.5 bg-pink text-white rounded-xl font-medium hover:bg-pink/90">
+              <button onClick={() => onDelete?.(todo!.id)} className="px-5 py-2.5 bg-red text-white rounded-xl font-medium hover:bg-red/90">
                 Hapus
               </button>
             </div>
@@ -99,7 +99,7 @@ export default function TodoFormModal({ todo, necessityId, onSave, onDelete, onC
             <div className="flex gap-3">
               {todo && onDelete && (
                 <button type="button" onClick={() => setConfirmDelete(true)}
-                  className="px-5 py-3 border border-pink/30 text-pink rounded-xl font-medium hover:bg-pink/5 transition-colors">
+                  className="px-5 py-3 border border-red/30 text-red rounded-xl font-medium hover:bg-red/5 transition-colors">
                   Hapus
                 </button>
               )}

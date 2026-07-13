@@ -74,7 +74,7 @@ export default function MoodBoardPage() {
             const remaining = groupItems.length - 3;
 
             return (
-              <Link key={necessity.id} href={`/necessity/${necessity.id}`}
+              <Link key={necessity.id} href={`/mood-board/${necessity.id}`}
                 className={`grid grid-rows-[1fr_auto] rounded-2xl border overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group ${c.border}`}>
 
                 {/* Preview grid */}

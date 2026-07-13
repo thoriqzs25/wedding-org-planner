@@ -37,7 +37,7 @@ export default function ProgressBar({
       </div>
       {showWarning && (
         <Tooltip content="Persentase ini membutuhkan perhatian Anda">
-          <p className="text-xs text-pink mt-1 font-medium flex items-center gap-1 cursor-help">
+          <p className="text-xs text-red mt-1 font-medium flex items-center gap-1 cursor-help">
             <Icon name="warning" size={14} />
             Perlu perhatian!
           </p>

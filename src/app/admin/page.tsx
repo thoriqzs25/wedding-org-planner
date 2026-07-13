@@ -183,7 +183,7 @@ export default function AdminPage() {
                         </button>
                         <button
                           onClick={() => setDeleteTarget(account)}
-                          className="flex items-center justify-center w-11 h-11 rounded-lg hover:bg-pink/10 text-pink transition-colors active:scale-90"
+                          className="flex items-center justify-center w-11 h-11 rounded-lg hover:bg-red/10 text-red transition-colors active:scale-90"
                           title="Delete"
                         >
                           <Icon name="delete" size={18} />
@@ -218,7 +218,7 @@ export default function AdminPage() {
                       <Icon name="edit" size={18} />
                     </button>
                     <button onClick={() => setDeleteTarget(account)}
-                      className="flex items-center justify-center w-11 h-11 rounded-xl hover:bg-pink/10 text-pink transition-colors active:scale-90">
+                      className="flex items-center justify-center w-11 h-11 rounded-xl hover:bg-red/10 text-red transition-colors active:scale-90">
                       <Icon name="delete" size={18} />
                     </button>
                   </div>

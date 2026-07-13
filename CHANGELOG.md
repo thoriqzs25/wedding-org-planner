@@ -4,6 +4,13 @@ All notable changes will be documented in this file.
 
 ## [Unreleased]
 
+### Changed
+- "Todo Terlewat" section: changed accent color from pink to red, added due date detail below each todo item
+- Mood Board detail page item description label increased from text-[10px] to text-xs with semibold weight
+- Guest count moved from progress card grid to dashboard header, inline with wedding date and location
+- Added `.env.local` with `NEXT_DEVTOOLS_ENABLED=false` to prevent RSC manifest errors during HMR
+- Added `cursor-pointer` to edit buttons (tanggal, budget) and modal backdrop overlay
+
 ### Added
 - Initial project requirements (requirements.md)
 - Milestone plans (milestone-plans.md)
@@ -60,6 +67,29 @@ All notable changes will be documented in this file.
 - Guest count (guestCount) and per-person pricing (perPerson) added to TypeScript types
 - Mock data updated with guestCount and perPerson values on venue/catering vendors
 - Form state converted from uncontrolled to controlled in questionnaire page
+
+### Added (schema & data)
+- DB schema plan (PostgreSQL + sqlx) — 12 tables covering accounts, necessities, todos, vendors, invoices, gallery, calendar, activities, gift registry
+- `todoId` field on `CalendarEvent` type — links calendar events back to source todos
+- `actionType` enum on `RecentActivity` type — 9 action categories (todo_created, vendor_added, vendor_selected, invoice_added, etc.)
+
+### Changed (dashboard)
+- "Aktivitas Terakhir" section: replaced todo-derived activity list with full action-type activity log using `mockRecentActivities`
+- "Todo Terlewat" section: completely redesigned — compact card with red left-border accent, inline items with minimal padding
+- "Rekomendasi Vendor Terbaik": made collapsible with hide/show toggle; cards now clickable to open quick-add modal
+- Quick-add vendor modal: clicking a recommendation card opens a confirmation modal to add the vendor as a draft to the necessity
+- "Before You Marry" section: replaced emoji icons with Material Symbols (diamond, description, account_balance, payments, menu_book, church, note_add)
+
+### Fixed
+- "Masih perlu dicari" and "Aktivitas Terakhir" now share matching `max-h-[420px]` with scrollable content (flex-1 overflow-y-auto)
+- Added `--color-red: #DC2626` to custom theme so `bg-red`/`text-red`/`border-red` render properly
+- Collapsed section buttons (Before You Marry, Todo Terlewat, Vendor Recommendations) now use solid subtle backgrounds instead of near-transparent gradients
+- Vendor recommendation cards: fixed `bg-cream/50` (nearly white) → `bg-cream`; added missing `group` class so hover-reveal text works
+- Timeline connector: per-item inline connectors instead of absolute positioning — no more z-index conflict
+
+### Changed
+- Warning/overdue/danger colors unified across the app: all warning indicators now use `red` (#DC2626) instead of `pink` (#FC95B4) for consistency
+- Affected files: dashboard page, necessity list page, CascadeWarning modal, ConfirmDialog, TodoFormModal, ProgressBar, invoices page, admin page, login error, calendar page, vendors page
 
 ### Added (mobile)
 - Mobile-responsive sidebar drawer with hamburger toggle, overlay backdrop, and close button

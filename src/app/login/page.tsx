@@ -75,7 +75,7 @@ export default function LoginPage() {
                 />
               </div>
               {adminError && (
-                <p className="text-pink text-sm text-center">{adminError}</p>
+                <p className="text-red text-sm text-center">{adminError}</p>
               )}
               <button
                 type="submit"

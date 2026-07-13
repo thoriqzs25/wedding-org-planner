@@ -132,7 +132,7 @@ export default function CalendarPage() {
                   {event.description && <p className="text-xs text-amber-800/60 mt-1">{event.description}</p>}
                 </div>
                 <button onClick={(e) => { e.stopPropagation(); setDeleteId(event.id); }}
-                  className="flex items-center justify-center w-11 h-11 rounded-xl text-amber-800/30 hover:text-pink hover:bg-pink/10 transition-colors shrink-0 active:scale-90">
+                  className="flex items-center justify-center w-11 h-11 rounded-xl text-amber-800/30 hover:text-red hover:bg-red/10 transition-colors shrink-0 active:scale-90">
                   <Icon name="delete" size={16} />
                 </button>
               </div>
