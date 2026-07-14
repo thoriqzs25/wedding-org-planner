@@ -214,12 +214,12 @@ export default function DashboardPage() {
                 })}
               </p>
               <span id="countdown-meta-dot" className="text-amber-800/20">•</span>
-              <p id="countdown-journey-pct" className="text-sm text-amber-800/50">{timeProgress}% journey</p>
+              <p id="countdown-journey-pct" className="text-sm text-amber-800/50 border-b border-dotted border-amber-800/20 cursor-help">{timeProgress}% journey</p>
             </div>
             <div id="countdown-progress" className="mt-3 max-w-md">
-              <div id="countdown-progress-bg" className="h-2 rounded-full bg-cream overflow-hidden">
+              <div id="countdown-progress-bg" className="h-3 rounded-full bg-amber-200/50 overflow-hidden shadow-inner">
                 <div id="countdown-progress-fill" className={`h-full rounded-full transition-all duration-700 ${
-                  warnThreshold.time ? "bg-pink" : "bg-orange/60"
+                  warnThreshold.time ? "bg-pink" : "bg-orange"
                 }`} style={{ width: `${timeProgress}%` }} />
               </div>
             </div>
@@ -256,7 +256,7 @@ export default function DashboardPage() {
         <div id="progress-header" className="flex items-center gap-3 mb-4">
           <div id="progress-ring-wrap" className="relative w-14 h-14">
             <svg id="progress-ring-svg" className="w-14 h-14 -rotate-90" viewBox="0 0 36 36">
-              <circle id="progress-ring-bg" cx="18" cy="18" r="15.5" fill="none" stroke="#FFFAE5" strokeWidth="2.5" />
+              <circle id="progress-ring-bg" cx="18" cy="18" r="15.5" fill="none" stroke="#E8D5B5" strokeWidth="2.5" />
               <circle id="progress-ring-fill" cx="18" cy="18" r="15.5" fill="none" stroke="#EB7B26" strokeWidth="2.5"
                 strokeDasharray={`${overallPct} ${100 - overallPct}`}
                 strokeLinecap="round" className="transition-all duration-700" />
@@ -414,8 +414,9 @@ export default function DashboardPage() {
                 <span id="todo-terlewat-count" className="bg-red/10 text-red text-[10px] px-2 py-0.5 rounded-full font-bold">{overdueTodos.length}</span>
               </div>
               <button id="todo-terlewat-close-btn" onClick={() => setShowOverdue(false)}
-                className="text-amber-800/30 hover:text-amber-800 transition-colors p-0.5">
-                <Icon name="close" size={16} />
+                className="flex items-center gap-1 text-xs text-amber-800/40 hover:text-amber-800 transition-colors cursor-pointer">
+                Tutup
+                <Icon name="close" size={14} />
               </button>
             </div>
           </div>
@@ -437,7 +438,7 @@ export default function DashboardPage() {
                       <span id={`todo-terlewat-necessity-${todo.id}`} className="hidden sm:inline">· {(todo as Todo & { necessityName: string }).necessityName}</span>
                     </span>
                   </div>
-                  <span id={`todo-terlewat-overdue-${todo.id}`} className="shrink-0 text-[11px] font-bold text-red">{daysOverdue === 0 ? "Hari ini" : `${daysOverdue}h`}</span>
+                  <span id={`todo-terlewat-overdue-${todo.id}`} className="shrink-0 text-[11px] font-bold text-red">{daysOverdue === 0 ? "Hari ini" : `Terlambat ${daysOverdue}h`}</span>
                 </div>
               );
             })}
@@ -478,8 +479,9 @@ export default function DashboardPage() {
               </span>
             </div>
             <button id="vendor-recs-close-btn" onClick={() => setShowVendorRecs(false)}
-              className="text-xs text-amber-800/40 hover:text-orange transition-colors">
+              className="flex items-center gap-1 text-xs text-amber-800/40 hover:text-orange transition-colors cursor-pointer">
               Tutup
+              <Icon name="close" size={14} />
             </button>
           </div>
           <p id="vendor-recs-subtitle" className="text-xs text-amber-800/50 mb-4">
