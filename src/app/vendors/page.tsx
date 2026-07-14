@@ -121,7 +121,7 @@ export default function VendorsPage() {
                     </div>
                     <div id={`vendor-tracker-card-info-${necessity.id}`} className="flex-1 min-w-0">
                       <div id={`vendor-tracker-card-name-row-${necessity.id}`} className="flex items-center gap-2">
-                        <h3 id={`vendor-tracker-card-name-${necessity.id}`} className={`text-base font-bold ${c.text}`}>{vendor!.name}</h3>
+                        <h3 id={`vendor-tracker-card-name-${necessity.id}`} className={`text-base font-bold ${c.text} truncate`}>{vendor!.name}</h3>
                         <span id={`vendor-tracker-card-badge-${necessity.id}`} className="text-[9px] bg-white/80 text-green px-1.5 py-0.5 rounded-full">Final</span>
                       </div>
                       <p id={`vendor-tracker-card-category-${necessity.id}`} className="text-xs text-amber-800/50">{necessity.name} • Prioritas #{vendor!.priority}</p>
@@ -131,7 +131,7 @@ export default function VendorsPage() {
                       <Icon name="visibility" size={16} />
                     </button>
                   </div>
-                  <div id={`vendor-tracker-card-stats-${necessity.id}`} className="flex items-center gap-3 mt-3 text-xs">
+                  <div id={`vendor-tracker-card-stats-${necessity.id}`} className="flex items-center flex-wrap gap-x-3 gap-y-1 mt-3 text-xs">
                     <span id={`vendor-tracker-card-budget-${necessity.id}`} className="flex items-center gap-1 text-amber-800/50">
                       <Icon name="account_balance_wallet" size={12} /> Rp {vendor!.budget.toLocaleString()}
                     </span>
@@ -183,7 +183,7 @@ export default function VendorsPage() {
                               </span>
                             </button>
                             <button id={`vendor-tracker-card-task-delete-btn-${necessity.id}-${task.id}`} onClick={() => deleteVendorTask(necessity.id, task.id)}
-                              className="opacity-0 group-hover:opacity-100 text-amber-800/30 hover:text-red transition-all shrink-0">
+                              className="sm:opacity-0 sm:group-hover:opacity-100 text-amber-800/30 hover:text-red transition-all shrink-0">
                               <Icon name="close" size={14} />
                             </button>
                           </div>

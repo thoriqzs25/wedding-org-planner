@@ -207,7 +207,7 @@ export default function DashboardPage() {
                 warnThreshold.time ? "text-pink/60" : "text-amber-800/50"
               }`}>days to go</span>
             </p>
-            <div id="countdown-meta" className="flex items-center gap-3 mt-2">
+            <div id="countdown-meta" className="flex items-center flex-wrap gap-x-3 gap-y-1 mt-2">
               <p id="countdown-wedding-date" className="text-sm text-amber-800/60">
                 {weddingDate.toLocaleDateString("id-ID", {
                   day: "numeric", month: "long", year: "numeric",
@@ -391,7 +391,7 @@ export default function DashboardPage() {
                       <p id={`activity-action-${act.id}`} className="text-sm text-amber-900 leading-snug">
                         <span id={`activity-action-text-${act.id}`} className="group-hover:text-orange transition-colors">{act.action}</span>
                       </p>
-                      <div id={`activity-meta-${act.id}`} className="flex items-center gap-2 mt-1">
+                      <div id={`activity-meta-${act.id}`} className="flex items-center flex-wrap gap-x-2 gap-y-0.5 mt-1">
                         <span id={`activity-badge-${act.id}`} className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium ${actionMeta.badge}`}>
                           {actionMeta.label}
                         </span>
@@ -533,7 +533,7 @@ export default function DashboardPage() {
                   <p id={`vendor-recs-estimate-${vendor.id}`} className="text-[10px] text-amber-800/40 mt-1.5">
                     Estimasi: Rp {estimatedTotal.toLocaleString()}
                   </p>
-                  <div id={`vendor-recs-add-${vendor.id}`} className="mt-3 pt-2 border-t border-gold/10 text-[10px] text-orange font-medium flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div id={`vendor-recs-add-${vendor.id}`} className="mt-3 pt-2 border-t border-gold/10 text-[10px] text-orange font-medium flex items-center gap-1 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
                     <Icon name="add_circle" size={12} />
                     Tambah ke {necessityName}
                   </div>

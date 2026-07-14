@@ -152,13 +152,13 @@ export default function InvoicesPage() {
                 </div>
                 <div id={`invoices-item-info-${inv.id}`} className="flex-1 min-w-0">
                   <div id={`invoices-item-name-row-${inv.id}`} className="flex items-center gap-2">
-                    <p id={`invoices-item-vendor-${inv.id}`} className="text-sm font-medium text-amber-900">{inv.vendorName}</p>
+                    <p id={`invoices-item-vendor-${inv.id}`} className="text-sm font-medium text-amber-900 truncate">{inv.vendorName}</p>
                     <span id={`invoices-item-category-${inv.id}`} className="text-[10px] bg-orange/10 text-orange px-1.5 py-0.5 rounded-full shrink-0">{inv.necessityName}</span>
                   </div>
-                  <p id={`invoices-item-notes-${inv.id}`} className="text-xs text-amber-800/50 mt-0.5">{inv.notes} • {new Date(inv.date).toLocaleDateString("id-ID")}</p>
+                  <p id={`invoices-item-notes-${inv.id}`} className="text-xs text-amber-800/50 mt-0.5 truncate">{inv.notes} • {new Date(inv.date).toLocaleDateString("id-ID")}</p>
                 </div>
-                <p id={`invoices-item-amount-${inv.id}`} className="text-sm font-semibold text-orange">Rp {inv.amount.toLocaleString()}</p>
-                <div id={`invoices-item-actions-${inv.id}`} className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <p id={`invoices-item-amount-${inv.id}`} className="text-sm font-semibold text-orange shrink-0 whitespace-nowrap">Rp {inv.amount.toLocaleString()}</p>
+                <div id={`invoices-item-actions-${inv.id}`} className="flex gap-1 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
                   <button id={`invoices-item-edit-btn-${inv.id}`} onClick={() => { setEditingInvoice(inv); setShowForm(true); }}
                     className="text-amber-800/30 hover:text-orange transition-colors"><Icon name="edit" size={16} /></button>
                   <button id={`invoices-item-delete-btn-${inv.id}`} onClick={() => setDeleteId(inv.id)}

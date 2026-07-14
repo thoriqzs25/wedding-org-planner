@@ -5,6 +5,13 @@ All notable changes will be documented in this file.
 ## [Unreleased]
 
 ### Changed
+- Mobile responsiveness: fixed hover-only buttons now visible on mobile (Tambah vendor CTA, edit/delete invoice actions, task delete buttons); added flex-wrap to prevent overflow on small screens; added truncate to long vendor/necessity names
+- Tooltip component: rewritten to use `createPortal` with `position: fixed` to prevent overflow clipping by parent containers
+- Added tooltips to all section/card titles across all pages explaining what each section is about
+- Close/collapse buttons standardized to "Tutup" text with X icon across all collapsible sections
+- Countdown progress bar: increased height (h-3), added shadow-inner, made fill fully opaque, changed unfilled bg to amber-200/50
+- Progress ring unfilled stroke changed from cream (#FFFAE5) to beige (#E8D5B5) for visibility
+- Overdue todo badge changed from "103h" to "Terlambat 103h"
 - Added `id` attributes to every HTML element across all pages for easy identification and targeting
 - "Todo Terlewat" section: changed accent color from pink to red, added due date detail below each todo item
 - Mood Board detail page item description label increased from text-[10px] to text-xs with semibold weight

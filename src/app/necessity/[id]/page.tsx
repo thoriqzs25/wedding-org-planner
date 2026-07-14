@@ -225,7 +225,7 @@ export default function NecessityDetailPage() {
   return (
     <div id="necessity-detail-page" className="max-w-5xl space-y-6">
       {/* Header */}
-      <div id="detail-header" className="flex items-center justify-between">
+      <div id="detail-header" className="flex items-center justify-between flex-wrap gap-2">
         <div id="detail-header-left" className="flex items-center gap-3">
           <Link id="detail-back-link" href="/necessity" className="text-amber-800/40 hover:text-orange transition-colors flex items-center gap-1">
             <Icon name="arrow_back" size={16} /> Kembali
@@ -234,7 +234,7 @@ export default function NecessityDetailPage() {
         </div>
         <button id="detail-add-vendor-button" onClick={() => { setEditingVendor(undefined); setShowVendorForm(true); }}
           className="flex items-center gap-2 px-5 py-2.5 bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm">
-          <Icon name="add" size={18} /> Tambah Vendor
+          <Icon name="add" size={18} /> <span className="hidden sm:inline">Tambah Vendor</span>
         </button>
       </div>
 
@@ -259,7 +259,7 @@ export default function NecessityDetailPage() {
               <Icon name={getNecessityIcon(id, necessity.icon)} size={28} className="text-green" />
             </div>
             <div id="selected-vendor-text" className="flex-1 min-w-0">
-              <Tooltip content="Vendor yang sudah dipilih sebagai final"><h3 id="selected-vendor-name" className="text-lg font-bold text-amber-900">{selected.name}</h3></Tooltip>
+              <Tooltip content="Vendor yang sudah dipilih sebagai final"><h3 id="selected-vendor-name" className="text-lg font-bold text-amber-900 truncate">{selected.name}</h3></Tooltip>
               <div id="selected-vendor-meta" className="flex flex-wrap gap-3 mt-1 text-sm text-amber-800/60">
                 <span id="selected-vendor-priority">Prioritas #{selected.priority}</span>
                 <span id="selected-vendor-budget">Rp {selected.budget.toLocaleString()}</span>
@@ -313,7 +313,7 @@ export default function NecessityDetailPage() {
                       </span>
                     </button>
                     <button id={`task-${task.id}-delete`} onClick={() => deleteVendorTask(task.id)}
-                      className="opacity-0 group-hover:opacity-100 text-amber-800/30 hover:text-pink transition-all shrink-0">
+                      className="sm:opacity-0 sm:group-hover:opacity-100 text-amber-800/30 hover:text-pink transition-all shrink-0">
                       <Icon name="close" size={14} />
                     </button>
                   </div>
@@ -426,7 +426,7 @@ export default function NecessityDetailPage() {
                       </div>
                       <div id={`vendor-draft-${vendor.id}-content`} className="flex-1 min-w-0">
                         <div id={`vendor-draft-${vendor.id}-name-row`} className="flex items-center gap-2">
-                          <p id={`vendor-draft-${vendor.id}-name`} className={`text-sm font-semibold ${isSelected ? "text-green" : "text-amber-900"}`}>{vendor.name}</p>
+                          <p id={`vendor-draft-${vendor.id}-name`} className={`text-sm font-semibold ${isSelected ? "text-green" : "text-amber-900"} truncate`}>{vendor.name}</p>
                           {isSelected && <span id={`vendor-draft-${vendor.id}-final-badge`} className="text-[9px] bg-green/10 text-green px-1.5 py-0.5 rounded-full shrink-0">Final</span>}
                         </div>
                         <p id={`vendor-draft-${vendor.id}-details`} className="text-xs text-amber-800/50">Prioritas #{vendor.priority} • Rp {vendor.budget.toLocaleString()}</p>
@@ -481,7 +481,7 @@ export default function NecessityDetailPage() {
                       </div>
                       <div id={`vendor-rec-${vendor.id}-content`} className="flex-1 min-w-0">
                         <div id={`vendor-rec-${vendor.id}-name-row`} className="flex items-center gap-2">
-                          <p id={`vendor-rec-${vendor.id}-name`} className={`text-sm font-semibold ${c.text}`}>{vendor.name}</p>
+                          <p id={`vendor-rec-${vendor.id}-name`} className={`text-sm font-semibold ${c.text} truncate`}>{vendor.name}</p>
                           <span id={`vendor-rec-${vendor.id}-badge`} className="text-[10px] bg-white/80 text-orange px-1.5 py-0.5 rounded-full">Rek.</span>
                         </div>
                         <p id={`vendor-rec-${vendor.id}-details`} className="text-xs text-amber-800/50">Prioritas #{vendor.priority} • Rp{vendor.budget.toLocaleString()}</p>
