@@ -6,6 +6,7 @@ All notable changes will be documented in this file.
 
 ### Added
 - Gift registry implementation plan (`plans/gift-registry-plan.md`)
+- Commit hash displayed below sidebar title (`NEXT_PUBLIC_COMMIT_HASH` injected at build time via `next.config.ts`)
 
 ### Changed
 - Renamed "Kebutuhan" (Necessity) to "Wedding Elements" (Elemen Pernikahan) — route `/necessity` → `/wedding-elements`, components, types, mock data, and icons updated across 21 files
