@@ -69,7 +69,7 @@ export default function NecessityListPage() {
     <div id="necessity-page" className="max-w-5xl space-y-6">
       <div id="necessity-header" className="flex items-center justify-between">
         <div id="necessity-header-text">
-          <h1 id="necessity-page-title" className="text-2xl font-bold text-amber-900">Kebutuhan</h1>
+          <Tooltip content="Daftar semua kebutuhan pernikahan"><h1 id="necessity-page-title" className="text-2xl font-bold text-amber-900">Kebutuhan</h1></Tooltip>
           <p id="necessity-page-subtitle" className="text-amber-800/60">Kelola setiap kebutuhan pernikahanmu</p>
         </div>
         {tab === "kebutuhan" && (

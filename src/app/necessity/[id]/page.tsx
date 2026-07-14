@@ -230,7 +230,7 @@ export default function NecessityDetailPage() {
           <Link id="detail-back-link" href="/necessity" className="text-amber-800/40 hover:text-orange transition-colors flex items-center gap-1">
             <Icon name="arrow_back" size={16} /> Kembali
           </Link>
-          <h1 id="detail-title" className="text-2xl font-bold text-amber-900">{necessity.name}</h1>
+          <Tooltip content="Detail kebutuhan dan vendor terkait"><h1 id="detail-title" className="text-2xl font-bold text-amber-900">{necessity.name}</h1></Tooltip>
         </div>
         <button id="detail-add-vendor-button" onClick={() => { setEditingVendor(undefined); setShowVendorForm(true); }}
           className="flex items-center gap-2 px-5 py-2.5 bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm">
@@ -259,7 +259,7 @@ export default function NecessityDetailPage() {
               <Icon name={getNecessityIcon(id, necessity.icon)} size={28} className="text-green" />
             </div>
             <div id="selected-vendor-text" className="flex-1 min-w-0">
-              <h3 id="selected-vendor-name" className="text-lg font-bold text-amber-900">{selected.name}</h3>
+              <Tooltip content="Vendor yang sudah dipilih sebagai final"><h3 id="selected-vendor-name" className="text-lg font-bold text-amber-900">{selected.name}</h3></Tooltip>
               <div id="selected-vendor-meta" className="flex flex-wrap gap-3 mt-1 text-sm text-amber-800/60">
                 <span id="selected-vendor-priority">Prioritas #{selected.priority}</span>
                 <span id="selected-vendor-budget">Rp {selected.budget.toLocaleString()}</span>
@@ -278,7 +278,7 @@ export default function NecessityDetailPage() {
           {/* Vendor Tasks */}
           <div id="vendor-tasks-section" className="mt-4 pt-4 border-t border-green/20">
             <div id="vendor-tasks-header" className="flex items-center justify-between mb-2">
-              <p id="vendor-tasks-title" className="text-xs font-medium text-amber-900/70">Task Vendor</p>
+              <Tooltip content="Tugas yang perlu dilakukan vendor"><p id="vendor-tasks-title" className="text-xs font-medium text-amber-900/70">Task Vendor</p></Tooltip>
               <span id="vendor-tasks-count" className="text-[10px] text-amber-800/40">
                 {(necessity.vendorTasks ?? []).filter((t) => t.done).length}/{(necessity.vendorTasks ?? []).length}
               </span>
@@ -331,7 +331,7 @@ export default function NecessityDetailPage() {
       {/* To-do list */}
       <div id="todo-section" className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm">
         <div id="todo-header" className="flex items-center justify-between mb-4">
-          <h2 id="todo-title" className="text-lg font-semibold text-amber-900">To-Do List</h2>
+          <Tooltip content="Daftar to-do untuk kebutuhan ini"><h2 id="todo-title" className="text-lg font-semibold text-amber-900">To-Do List</h2></Tooltip>
           <div id="todo-header-right" className="flex items-center gap-3">
             <span id="todo-count" className="text-xs text-amber-800/50">{necessity.todos.filter((t) => t.status === "done").length}/{necessity.todos.length} selesai</span>
             <button id="todo-add-button" onClick={() => { setEditingTodo(undefined); setShowTodoForm(true); }}
@@ -393,7 +393,7 @@ export default function NecessityDetailPage() {
         {/* Vendor Draft */}
         <div id="vendor-draft-section" className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm">
           <div id="vendor-draft-header" className="flex items-center justify-between mb-4">
-            <h2 id="vendor-draft-title" className="text-lg font-semibold text-amber-900">Vendor Draft</h2>
+            <Tooltip content="Vendor yang masih dalam tahap pertimbangan"><h2 id="vendor-draft-title" className="text-lg font-semibold text-amber-900">Vendor Draft</h2></Tooltip>
             {necessity.selectedVendorId ? (
               <span id="vendor-draft-final-badge" className="text-[10px] bg-green/10 text-green px-2 py-0.5 rounded-full font-medium">Final sudah dipilih</span>
             ) : (
@@ -460,9 +460,9 @@ export default function NecessityDetailPage() {
 
         {/* Recommended vendors */}
         <div id="vendor-rec-section" className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm">
-          <h2 id="vendor-rec-title" className="text-lg font-semibold text-amber-900 mb-4 flex items-center gap-2">
+          <Tooltip content="Vendor rekomendasi berdasarkan kebutuhan ini"><h2 id="vendor-rec-title" className="text-lg font-semibold text-amber-900 mb-4 flex items-center gap-2">
             <Icon name="auto_awesome" size={20} /> Rekomendasi Vendor
-          </h2>
+          </h2></Tooltip>
           {recommendedVendors.length === 0 ? (
             <div id="vendor-rec-empty" className="text-center py-8 text-amber-800/40">
               <Icon name="auto_awesome" size={36} className="mb-2 text-amber-800/30" />

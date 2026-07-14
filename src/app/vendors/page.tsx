@@ -5,6 +5,7 @@ import { mockNecessities } from "@/data/mock";
 import { getNecessityIcon, getNecessityColor } from "@/data/necessityIcons";
 import VendorModal from "@/components/VendorModal";
 import Icon from "@/components/Icon";
+import Tooltip from "@/components/Tooltip";
 
 export default function VendorsPage() {
   const [necessities, setNecessities] = useState(mockNecessities);
@@ -88,7 +89,7 @@ export default function VendorsPage() {
   return (
     <div id="vendor-tracker-container" className="max-w-6xl space-y-6">
       <div id="vendor-tracker-header">
-        <h1 id="vendor-tracker-title" className="text-2xl font-bold text-amber-900">Vendor Tracker</h1>
+        <Tooltip content="Pantau vendor final dan tugas-tugasnya"><h1 id="vendor-tracker-title" className="text-2xl font-bold text-amber-900">Vendor Tracker</h1></Tooltip>
         <p id="vendor-tracker-subtitle" className="text-amber-800/60">{selectedItems.length} vendor final terpilih</p>
       </div>
 

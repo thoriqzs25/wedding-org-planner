@@ -270,7 +270,7 @@ export default function DashboardPage() {
             </div>
           </Tooltip>
           <div id="progress-title-wrap">
-            <h2 id="progress-title" className="text-lg font-semibold text-amber-900">Progress Pernikahan</h2>
+            <Tooltip content="Ringkasan progres to-do dan budget pernikahan"><h2 id="progress-title" className="text-lg font-semibold text-amber-900">Progress Pernikahan</h2></Tooltip>
             <p id="progress-subtitle" className="text-xs text-amber-800/50">
               {doneTodos} dari {totalTodos} to-do selesai
             </p>
@@ -314,10 +314,10 @@ export default function DashboardPage() {
         {/* Masih perlu dicari — scrollable grid */}
         <div id="needs-vendor" className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm flex flex-col max-h-[420px]">
           <div id="needs-vendor-header" className="flex items-center justify-between mb-4 shrink-0">
-            <h2 id="needs-vendor-title" className="text-lg font-semibold text-amber-900 flex items-center gap-2">
+            <Tooltip content="Kebutuhan yang belum memiliki vendor"><h2 id="needs-vendor-title" className="text-lg font-semibold text-amber-900 flex items-center gap-2">
               <Icon name="storefront" size={20} />
               Masih perlu dicari
-            </h2>
+            </h2></Tooltip>
             {needsVendor.length > 0 && (
               <span id="needs-vendor-badge" className="text-xs bg-pink/10 text-pink px-2.5 py-1 rounded-full font-medium">
                 {needsVendor.length} perlu vendor
@@ -355,10 +355,10 @@ export default function DashboardPage() {
         {/* Recent activity — scrollable log */}
         <div id="recent-activity" className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm flex flex-col max-h-[420px]">
           <div id="recent-activity-header" className="flex items-center justify-between mb-4 shrink-0">
-            <h2 id="recent-activity-title" className="text-lg font-semibold text-amber-900 flex items-center gap-2">
+            <Tooltip content="Riwayat perubahan dan aktivitas terbaru"><h2 id="recent-activity-title" className="text-lg font-semibold text-amber-900 flex items-center gap-2">
               <Icon name="edit_note" size={20} />
               Aktivitas Terakhir
-            </h2>
+            </h2></Tooltip>
             {activities.length > 0 && (
               <span id="recent-activity-count" className="text-xs text-amber-800/40">{activities.length} aktivitas</span>
             )}
@@ -477,7 +477,7 @@ export default function DashboardPage() {
           <div id="vendor-recs-header" className="flex items-center justify-between mb-4">
             <div id="vendor-recs-title-wrap" className="flex items-center gap-2">
               <Icon name="auto_awesome" size={20} className="text-orange" filled />
-              <h2 id="vendor-recs-title" className="text-lg font-semibold text-amber-900">Rekomendasi Vendor Terbaik</h2>
+              <Tooltip content="Vendor yang paling cocok dengan budget dan jumlah tamu"><h2 id="vendor-recs-title" className="text-lg font-semibold text-amber-900">Rekomendasi Vendor Terbaik</h2></Tooltip>
               <span id="vendor-recs-guest-badge" className="text-xs bg-orange/10 text-orange px-2 py-0.5 rounded-full font-medium">
                 {weddingInfo.guestCount} tamu
               </span>
@@ -577,7 +577,7 @@ export default function DashboardPage() {
               </div>
               <div id="before-you-marry-text" className="flex-1 min-w-0">
                 <div id="before-you-marry-title-wrap" className="flex items-center gap-2">
-                  <h2 id="before-you-marry-title" className="text-lg font-bold text-amber-900">Before You Marry</h2>
+                  <Tooltip content="Informasi penting yang wajib diketahui sebelum menikah"><h2 id="before-you-marry-title" className="text-lg font-bold text-amber-900">Before You Marry</h2></Tooltip>
                   <span id="before-you-marry-badge" className="text-xs bg-gradient-to-r from-pink/20 to-orange/20 text-pink px-2.5 py-0.5 rounded-full font-medium">Wajib Tahu!</span>
                 </div>
                 <p id="before-you-marry-subtitle" className="text-sm text-amber-800/60 mt-1">
@@ -666,7 +666,7 @@ export default function DashboardPage() {
                 <Icon name="business" size={20} className="text-green" filled />
               </div>
               <div id="quick-add-vendor-title-wrap">
-                <h3 id="quick-add-vendor-title" className="text-base font-bold text-amber-900">Tambah Vendor</h3>
+                <Tooltip content="Tambahkan vendor rekomendasi ke daftar draft"><h3 id="quick-add-vendor-title" className="text-base font-bold text-amber-900">Tambah Vendor</h3></Tooltip>
                 <p id="quick-add-vendor-subtitle" className="text-xs text-amber-800/50">Rekomendasi sistem</p>
               </div>
             </div>

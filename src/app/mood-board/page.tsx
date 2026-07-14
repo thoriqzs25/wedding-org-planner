@@ -7,6 +7,7 @@ import { GalleryItem } from "@/types";
 import { getNecessityIcon, getNecessityColor } from "@/data/necessityIcons";
 import Icon from "@/components/Icon";
 import GalleryFormModal from "@/components/GalleryFormModal";
+import Tooltip from "@/components/Tooltip";
 
 function getYouTubeThumbnail(url: string): string | null {
   const match = url.match(/(?:embed\/|v=|\/)([a-zA-Z0-9_-]{11})/);
@@ -49,9 +50,11 @@ export default function MoodBoardPage() {
     <div id="mood-board-page" className="max-w-6xl space-y-6">
       <div id="mood-board-header" className="flex items-center justify-between">
         <div id="mood-board-title-section">
-          <h1 id="mood-board-title" className="text-2xl font-bold text-amber-900 flex items-center gap-2">
-            Mood Board <Icon name="collections" size={24} className="text-gold" />
-          </h1>
+          <Tooltip content="Kumpulan inspirasi dan referensi visual pernikahan">
+            <h1 id="mood-board-title" className="text-2xl font-bold text-amber-900 flex items-center gap-2">
+              Mood Board <Icon name="collections" size={24} className="text-gold" />
+            </h1>
+          </Tooltip>
           <p id="mood-board-subtitle" className="text-amber-800/60">Kumpulan inspirasi pernikahanmu</p>
         </div>
         <button id="mood-board-add-btn" onClick={() => { setEditingItem(undefined); setShowForm(true); }}
@@ -111,7 +114,9 @@ export default function MoodBoardPage() {
                       <Icon name={getNecessityIcon(necessity.id, necessity.icon)} size={20} className={c.text} />
                     </div>
                     <div id={`mood-board-group-${necessity.id}-text`} className="flex-1 min-w-0">
-                      <h3 id={`mood-board-group-${necessity.id}-name`} className={`text-sm font-bold ${c.text}`}>{necessity.name}</h3>
+                      <Tooltip content="Kategori kebutuhan pernikahan dengan koleksi inspirasi visual">
+                        <h3 id={`mood-board-group-${necessity.id}-name`} className={`text-sm font-bold ${c.text}`}>{necessity.name}</h3>
+                      </Tooltip>
                       <p id={`mood-board-group-${necessity.id}-count`} className="text-xs text-amber-800/50">{groupItems.length} inspirasi</p>
                     </div>
                     <Icon name="chevron_right" size={16} className="text-amber-800/30 transition-transform group-hover:translate-x-0.5" />

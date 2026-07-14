@@ -6,6 +6,7 @@ import Link from "next/link";
 import { mockGalleryItems, mockNecessities } from "@/data/mock";
 import { GalleryItem } from "@/types";
 import { getNecessityIcon, getNecessityColor } from "@/data/necessityIcons";
+import Tooltip from "@/components/Tooltip";
 import Icon from "@/components/Icon";
 
 function getYouTubeThumbnail(url: string): string | null {
@@ -47,7 +48,9 @@ export default function MoodBoardDetailPage() {
           <Link id="detail-back-button" href="/mood-board" className="text-amber-800/40 hover:text-orange transition-colors flex items-center gap-1">
             <Icon name="arrow_back" size={16} /> Kembali
           </Link>
-          <h1 id="detail-title" className="text-3xl font-bold text-amber-900">{necessity.name}</h1>
+          <Tooltip content="Inspirasi visual untuk kebutuhan ini">
+            <h1 id="detail-title" className="text-3xl font-bold text-amber-900">{necessity.name}</h1>
+          </Tooltip>
         </div>
       </div>
 

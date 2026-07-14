@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Tooltip from "@/components/Tooltip";
 import Icon from "@/components/Icon";
 
 const faqCategories = [
@@ -112,10 +113,12 @@ export default function FAQPage() {
   return (
     <div id="faq-page" className="max-w-4xl space-y-6">
       <div id="faq-header">
-        <h1 id="faq-title" className="text-2xl font-bold text-amber-900 flex items-center gap-2">
-          <Icon name="help" size={24} className="text-orange" />
-          FAQ Seputar Pernikahan
-        </h1>
+        <Tooltip content="Pertanyaan yang sering diajukan tentang pernikahan">
+          <h1 id="faq-title" className="text-2xl font-bold text-amber-900 flex items-center gap-2">
+            <Icon name="help" size={24} className="text-orange" />
+            FAQ Seputar Pernikahan
+          </h1>
+        </Tooltip>
         <p id="faq-subtitle" className="text-amber-800/60 mt-1">
           Pertanyaan dan pengetahuan umum tentang pernikahan di Indonesia
         </p>
@@ -125,7 +128,9 @@ export default function FAQPage() {
         <div key={ci} id={`faq-category-${ci}`} className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm">
           <div id={`faq-category-header-${ci}`} className="flex items-center gap-2 mb-3">
             <Icon name={cat.icon as any} size={20} className="text-orange" />
-            <h2 id={`faq-category-title-${ci}`} className="text-lg font-semibold text-amber-900">{cat.title}</h2>
+            <Tooltip content="Kategori pertanyaan seputar pernikahan">
+              <h2 id={`faq-category-title-${ci}`} className="text-lg font-semibold text-amber-900">{cat.title}</h2>
+            </Tooltip>
           </div>
           <div id={`faq-category-items-${ci}`} className="space-y-1">
             {cat.items.map((item) => {

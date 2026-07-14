@@ -4,6 +4,7 @@ import { useState } from "react";
 import { mockCalendarEvents } from "@/data/mock";
 import { CalendarEvent } from "@/types";
 import Icon from "@/components/Icon";
+import Tooltip from "@/components/Tooltip";
 import CalendarFormModal from "@/components/CalendarFormModal";
 import ConfirmDialog from "@/components/ConfirmDialog";
 
@@ -54,7 +55,7 @@ export default function CalendarPage() {
     <div id="calendar-page" className="max-w-5xl space-y-6">
       <div id="calendar-header" className="flex items-center justify-between">
         <div id="calendar-title">
-          <h1 id="calendar-title-heading" className="text-2xl font-bold text-amber-900">Kalender</h1>
+          <Tooltip content="Jadwalkan meeting dan deadline persiapan pernikahan"><h1 id="calendar-title-heading" className="text-2xl font-bold text-amber-900">Kalender</h1></Tooltip>
           <p id="calendar-title-subtitle" className="text-amber-800/60">Jadwalkan meeting dan deadline persiapan</p>
         </div>
         <button id="calendar-add-button" onClick={() => { setEditingEvent(undefined); setShowForm(true); }}
@@ -109,7 +110,7 @@ export default function CalendarPage() {
 
       {/* Event list */}
       <div id="calendar-event-list" className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm">
-        <h2 id="calendar-event-list-title" className="text-lg font-semibold text-amber-900 mb-4">Semua Jadwal</h2>
+        <Tooltip content="Daftar lengkap semua jadwal yang telah dibuat"><h2 id="calendar-event-list-title" className="text-lg font-semibold text-amber-900 mb-4">Semua Jadwal</h2></Tooltip>
 
         {events.length === 0 ? (
           <div id="calendar-event-list-empty" className="text-center py-10 text-amber-800/40">

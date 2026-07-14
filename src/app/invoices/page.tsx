@@ -4,6 +4,7 @@ import { useState } from "react";
 import { mockInvoices, mockNecessities, mockQuestionnaire } from "@/data/mock";
 import { Invoice } from "@/types";
 import Icon from "@/components/Icon";
+import Tooltip from "@/components/Tooltip";
 import InvoiceFormModal from "@/components/InvoiceFormModal";
 import ConfirmDialog from "@/components/ConfirmDialog";
 
@@ -49,7 +50,7 @@ export default function InvoicesPage() {
     <div id="invoices-container" className="max-w-5xl space-y-6">
       <div id="invoices-header" className="flex items-center justify-between">
         <div id="invoices-title-wrapper">
-          <h1 id="invoices-title" className="text-2xl font-bold text-amber-900">Invoice & Pembayaran</h1>
+          <Tooltip content="Catat dan pantau semua pengeluaran pernikahan"><h1 id="invoices-title" className="text-2xl font-bold text-amber-900">Invoice & Pembayaran</h1></Tooltip>
           <p id="invoices-subtitle" className="text-amber-800/60">Pantau pengeluaran pernikahanmu</p>
         </div>
         <button id="invoices-add-btn" onClick={() => { setEditingInvoice(undefined); setShowForm(true); }}
@@ -90,7 +91,7 @@ export default function InvoicesPage() {
 
       {/* Invoice list */}
       <div id="invoices-list" className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm">
-        <h2 id="invoices-list-title" className="text-lg font-semibold text-amber-900 mb-4">Riwayat Pembayaran</h2>
+        <Tooltip content="Daftar invoice yang sudah dicatat"><h2 id="invoices-list-title" className="text-lg font-semibold text-amber-900 mb-4">Riwayat Pembayaran</h2></Tooltip>
 
         {/* Filters */}
         <div id="invoices-filters" className="flex flex-wrap items-end gap-3 mb-5 p-4 rounded-xl bg-cream/50 border border-gold/20">
