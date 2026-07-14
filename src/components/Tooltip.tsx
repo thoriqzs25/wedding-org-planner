@@ -1,6 +1,7 @@
 "use client";
 
-import { ReactNode, useState } from "react";
+import { ReactNode, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 interface TooltipProps {
   children: ReactNode;
@@ -10,34 +11,80 @@ interface TooltipProps {
 
 export default function Tooltip({ children, content, position = "top" }: TooltipProps) {
   const [show, setShow] = useState(false);
+  const triggerRef = useRef<HTMLDivElement>(null);
 
-  const positionClasses: Record<string, string> = {
-    top: "bottom-full left-1/2 -translate-x-1/2 mb-2",
-    bottom: "top-full left-1/2 -translate-x-1/2 mt-2",
-    left: "right-full top-1/2 -translate-y-1/2 mr-2",
-    right: "left-full top-1/2 -translate-y-1/2 ml-2",
+  const getTooltipStyle = (): React.CSSProperties => {
+    if (!triggerRef.current) return {};
+    const rect = triggerRef.current.getBoundingClientRect();
+    const styles: React.CSSProperties = {
+      position: "fixed",
+      zIndex: 9999,
+      pointerEvents: "none",
+    };
+    if (position === "top") {
+      styles.top = rect.top - 8;
+      styles.left = rect.left + rect.width / 2;
+      styles.transform = "translate(-50%, -100%)";
+    } else if (position === "bottom") {
+      styles.top = rect.bottom + 8;
+      styles.left = rect.left + rect.width / 2;
+      styles.transform = "translateX(-50%)";
+    } else if (position === "left") {
+      styles.top = rect.top + rect.height / 2;
+      styles.left = rect.left - 8;
+      styles.transform = "translate(-100%, -50%)";
+    } else {
+      styles.top = rect.top + rect.height / 2;
+      styles.left = rect.right + 8;
+      styles.transform = "translateY(-50%)";
+    }
+    return styles;
+  };
+
+  const getArrowStyle = (): React.CSSProperties => {
+    const base: React.CSSProperties = {
+      position: "absolute",
+      width: 8,
+      height: 8,
+      backgroundColor: "#6B4C2A",
+    };
+    if (position === "top") {
+      base.top = "100%";
+      base.left = "50%";
+      base.transform = "translateX(-50%) translateY(-50%) rotate(45deg)";
+    } else if (position === "bottom") {
+      base.bottom = "100%";
+      base.left = "50%";
+      base.transform = "translateX(-50%) translateY(50%) rotate(45deg)";
+    } else if (position === "left") {
+      base.left = "100%";
+      base.top = "50%";
+      base.transform = "translateY(-50%) translateX(-50%) rotate(45deg)";
+    } else {
+      base.right = "100%";
+      base.top = "50%";
+      base.transform = "translateY(-50%) translateX(50%) rotate(45deg)";
+    }
+    return base;
   };
 
   return (
     <div
+      ref={triggerRef}
       className="relative inline-flex"
       onMouseEnter={() => setShow(true)}
       onMouseLeave={() => setShow(false)}
       onClick={() => setShow(!show)}
     >
       {children}
-      {show && (
-        <div className={`absolute z-[100] ${positionClasses[position]} pointer-events-none`}>
-          <div className="bg-amber-900 text-white text-[11px] px-2.5 py-1.5 rounded-lg shadow-lg whitespace-nowrap max-w-[200px] text-center">
+      {show && typeof document !== "undefined" && createPortal(
+        <div style={{ ...getTooltipStyle() }}>
+          <div className="bg-amber-900 text-white text-[11px] px-2.5 py-1.5 rounded-lg shadow-lg w-56 text-center">
             {content}
-            <div className={`absolute w-2 h-2 bg-amber-900 rotate-45 ${
-              position === "top" ? "top-full left-1/2 -translate-x-1/2 -mt-1" :
-              position === "bottom" ? "bottom-full left-1/2 -translate-x-1/2 -mb-1" :
-              position === "left" ? "left-full top-1/2 -translate-y-1/2 -ml-1" :
-              "right-full top-1/2 -translate-y-1/2 -mr-1"
-            }`} />
+            <div style={getArrowStyle()} />
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

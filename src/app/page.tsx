@@ -214,7 +214,9 @@ export default function DashboardPage() {
                 })}
               </p>
               <span id="countdown-meta-dot" className="text-amber-800/20">•</span>
-              <p id="countdown-journey-pct" className="text-sm text-amber-800/50 border-b border-dotted border-amber-800/20 cursor-help">{timeProgress}% journey</p>
+              <Tooltip content="Persentase waktu yang sudah terlewati sejak persiapan pernikahan dimulai">
+                <p id="countdown-journey-pct" className="text-sm text-amber-800/50 border-b border-dotted border-amber-800/20 cursor-help">{timeProgress}% journey</p>
+              </Tooltip>
             </div>
             <div id="countdown-progress" className="mt-3 max-w-md">
               <div id="countdown-progress-bg" className="h-3 rounded-full bg-amber-200/50 overflow-hidden shadow-inner">
@@ -254,17 +256,19 @@ export default function DashboardPage() {
       {/* Progress card */}
       <div id="progress-card" className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm">
         <div id="progress-header" className="flex items-center gap-3 mb-4">
-          <div id="progress-ring-wrap" className="relative w-14 h-14">
-            <svg id="progress-ring-svg" className="w-14 h-14 -rotate-90" viewBox="0 0 36 36">
-              <circle id="progress-ring-bg" cx="18" cy="18" r="15.5" fill="none" stroke="#E8D5B5" strokeWidth="2.5" />
-              <circle id="progress-ring-fill" cx="18" cy="18" r="15.5" fill="none" stroke="#EB7B26" strokeWidth="2.5"
-                strokeDasharray={`${overallPct} ${100 - overallPct}`}
-                strokeLinecap="round" className="transition-all duration-700" />
-            </svg>
-            <span id="progress-pct" className="absolute inset-0 flex items-center justify-center text-xs font-bold text-orange">
-              {overallPct}%
-            </span>
-          </div>
+          <Tooltip content="Persentase to-do yang sudah selesai dari total keseluruhan">
+            <div id="progress-ring-wrap" className="relative w-14 h-14">
+              <svg id="progress-ring-svg" className="w-14 h-14 -rotate-90" viewBox="0 0 36 36">
+                <circle id="progress-ring-bg" cx="18" cy="18" r="15.5" fill="none" stroke="#E8D5B5" strokeWidth="2.5" />
+                <circle id="progress-ring-fill" cx="18" cy="18" r="15.5" fill="none" stroke="#EB7B26" strokeWidth="2.5"
+                  strokeDasharray={`${overallPct} ${100 - overallPct}`}
+                  strokeLinecap="round" className="transition-all duration-700" />
+              </svg>
+              <span id="progress-pct" className="absolute inset-0 flex items-center justify-center text-xs font-bold text-orange">
+                {overallPct}%
+              </span>
+            </div>
+          </Tooltip>
           <div id="progress-title-wrap">
             <h2 id="progress-title" className="text-lg font-semibold text-amber-900">Progress Pernikahan</h2>
             <p id="progress-subtitle" className="text-xs text-amber-800/50">
