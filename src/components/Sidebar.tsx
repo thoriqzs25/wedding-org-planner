@@ -23,6 +23,8 @@ interface SidebarProps {
 export default function Sidebar({ open, onClose }: SidebarProps) {
   const pathname = usePathname();
   const [showGuide, setShowGuide] = useState(false);
+  const [hashClicks, setHashClicks] = useState(0);
+  const [showCommitTime, setShowCommitTime] = useState(false);
 
   return (
     <>
@@ -41,7 +43,11 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
                 Wedding<span className="text-pink">Kit</span>
               </h1>
               <p className="text-sm text-amber-800/60 mt-1">Organizer</p>
-              <p className="text-[10px] text-amber-800/30 mt-0.5 font-mono">{process.env.NEXT_PUBLIC_COMMIT_HASH}</p>
+              <p className="text-[10px] text-amber-800/30 mt-0.5 font-mono cursor-pointer select-none" onClick={() => {
+                const next = hashClicks + 1;
+                setHashClicks(next);
+                if (next >= 5) setShowCommitTime(true);
+              }}>{showCommitTime ? process.env.NEXT_PUBLIC_COMMIT_TIME : process.env.NEXT_PUBLIC_COMMIT_HASH}</p>
             </div>
             <button onClick={onClose}
               className="cursor-pointer flex items-center justify-center w-11 h-11 rounded-xl hover:bg-gold/20 text-amber-600 transition-colors lg:hidden active:scale-90">
