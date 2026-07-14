@@ -2,24 +2,24 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { mockNecessities } from "@/data/mock";
-import { Necessity, Todo, NecessityColor } from "@/types";
+import { mockWeddingElements } from "@/data/mock";
+import { WeddingElement, Todo, WeddingElementColor } from "@/types";
 import Icon from "@/components/Icon";
-import NecessityFormModal from "@/components/NecessityFormModal";
+import WeddingElementFormModal from "@/components/WeddingElementFormModal";
 import ConfirmDialog from "@/components/ConfirmDialog";
 import Tooltip from "@/components/Tooltip";
-import NecessityCard from "@/components/NecessityCard";
+import WeddingElementCard from "@/components/WeddingElementCard";
 
-type Tab = "kebutuhan" | "todos";
+type Tab = "wedding-elements" | "todos";
 
-export default function NecessityListPage() {
-  const [necessities, setNecessities] = useState(mockNecessities);
+export default function WeddingElementListPage() {
+  const [necessities, setNecessities] = useState(mockWeddingElements);
   const [showForm, setShowForm] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
-  const [tab, setTab] = useState<Tab>("kebutuhan");
+  const [tab, setTab] = useState<Tab>("wedding-elements");
 
-  const handleAdd = (name: string, icon: string, color: NecessityColor) => {
-    const newNec: Necessity = {
+  const handleAdd = (name: string, icon: string, color: WeddingElementColor) => {
+    const newNec: WeddingElement = {
       id: `n${Date.now()}`,
       name,
       icon,
@@ -35,7 +35,7 @@ export default function NecessityListPage() {
   const today = new Date();
 
   const allTodos = necessities.flatMap((n) =>
-    n.todos.map((t) => ({ ...t, necessityId: n.id, necessityName: n.name }))
+    n.todos.map((t) => ({ ...t, weddingElementId: n.id, weddingElementName: n.name }))
   );
 
   const statusOrder: Record<string, number> = { pending: 0, in_progress: 1, done: 2 };
@@ -61,7 +61,7 @@ export default function NecessityListPage() {
   }
 
   const tabs: { key: Tab; label: string; mobile: string; icon: string }[] = [
-    { key: "kebutuhan", label: "Kebutuhan", mobile: "Kebutuhan", icon: "checklist" },
+    { key: "wedding-elements", label: "Elemen Pernikahan", mobile: "Elemen", icon: "checklist" },
     { key: "todos", label: `Semua To-Do (${allTodos.length})`, mobile: `To-Do (${allTodos.length})`, icon: "format_list_bulleted" },
   ];
 
@@ -69,13 +69,13 @@ export default function NecessityListPage() {
     <div id="necessity-page" className="max-w-5xl space-y-6">
       <div id="necessity-header" className="flex items-center justify-between">
         <div id="necessity-header-text">
-          <Tooltip content="Daftar semua kebutuhan pernikahan" position="bottom"><h1 id="necessity-page-title" className="text-2xl font-bold text-amber-900">Kebutuhan</h1></Tooltip>
-          <p id="necessity-page-subtitle" className="text-amber-800/60">Kelola setiap kebutuhan pernikahanmu</p>
+          <Tooltip content="Daftar semua elemen pernikahan" position="bottom"><h1 id="necessity-page-title" className="text-2xl font-bold text-amber-900">Elemen Pernikahan</h1></Tooltip>
+          <p id="necessity-page-subtitle" className="text-amber-800/60">Kelola setiap elemen pernikahanmu</p>
         </div>
-        {tab === "kebutuhan" && (
+        {tab === "wedding-elements" && (
         <button id="necessity-add-button" onClick={() => setShowForm(true)}
           className="flex items-center gap-2 px-5 min-h-[44px] bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm active:scale-90 cursor-pointer">
-          <Icon name="add" size={18} /> Tambah Kebutuhan
+          <Icon name="add" size={18} /> Tambah Elemen Pernikahan
         </button>
         )}
       </div>
@@ -96,10 +96,10 @@ export default function NecessityListPage() {
         ))}
       </div>
 
-      {tab === "kebutuhan" ? (
+      {tab === "wedding-elements" ? (
         <div id="necessity-grid" className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {necessities.map((nec) => (
-            <NecessityCard key={nec.id} nec={nec} onDelete={setDeleteId} />
+            <WeddingElementCard key={nec.id} nec={nec} onDelete={setDeleteId} />
           ))}
         </div>
       ) : (
@@ -109,7 +109,7 @@ export default function NecessityListPage() {
             <div id="todos-empty" className="text-center py-12 text-amber-800/40">
               <Icon name="format_list_bulleted" size={40} className="mb-3 text-amber-800/20" />
               <p id="todos-empty-title" className="text-sm">Belum ada to-do list</p>
-              <p id="todos-empty-subtitle" className="text-xs mt-1">Tambahkan to-do dari halaman kebutuhan</p>
+              <p id="todos-empty-subtitle" className="text-xs mt-1">Tambahkan to-do dari halaman elemen pernikahan</p>
             </div>
           ) : (
             <div id="todos-list" className="divide-y divide-gold/10">
@@ -120,7 +120,7 @@ export default function NecessityListPage() {
                   (new Date(todo.dueDate).getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
                 );
                 return (
-                  <Link key={todo.id} id={`todo-${todo.id}`} href={`/necessity/${todo.necessityId}`}
+                  <Link key={todo.id} id={`todo-${todo.id}`} href={`/wedding-elements/${todo.weddingElementId}`}
                     className={`flex items-center gap-4 px-5 py-4 hover:bg-cream/50 transition-colors group ${
                       isOverdue ? "bg-red/[0.02]" : ""
                     }`}>
@@ -145,7 +145,7 @@ export default function NecessityListPage() {
                         }`}>
                           {isDone ? "Selesai" : todo.status === "in_progress" ? "Diproses" : "Pending"}
                         </span>
-                        <span id={`todo-${todo.id}-necessity`} className="text-[11px] text-amber-800/50">{todo.necessityName}</span>
+                        <span id={`todo-${todo.id}-necessity`} className="text-[11px] text-amber-800/50">{todo.weddingElementName}</span>
                         {todo.pic && (
                           <span id={`todo-${todo.id}-pic`} className="text-[11px] text-amber-800/40">• PIC: {todo.pic}</span>
                         )}
@@ -171,11 +171,11 @@ export default function NecessityListPage() {
         </div>
       )}
 
-      {showForm && <NecessityFormModal existingNames={necessities.map((n) => n.name)} onSave={handleAdd} onClose={() => setShowForm(false)} />}
+      {showForm && <WeddingElementFormModal existingNames={necessities.map((n) => n.name)} onSave={handleAdd} onClose={() => setShowForm(false)} />}
       {deleteId && (
         <ConfirmDialog
-          title="Hapus Kebutuhan"
-          message="Yakin ingin menghapus kebutuhan ini? Semua data terkait akan ikut terhapus."
+          title="Hapus Elemen Pernikahan"
+          message="Yakin ingin menghapus elemen pernikahan ini? Semua data terkait akan ikut terhapus."
           onConfirm={() => { setNecessities(necessities.filter((n) => n.id !== deleteId)); setDeleteId(null); }}
           onCancel={() => setDeleteId(null)}
         />

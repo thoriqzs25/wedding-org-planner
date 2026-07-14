@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { mockInvoices, mockNecessities, mockQuestionnaire } from "@/data/mock";
+import { mockInvoices, mockWeddingElements, mockQuestionnaire } from "@/data/mock";
 import { Invoice } from "@/types";
 import Icon from "@/components/Icon";
 import Tooltip from "@/components/Tooltip";
@@ -10,7 +10,7 @@ import ConfirmDialog from "@/components/ConfirmDialog";
 
 export default function InvoicesPage() {
   const [invoices, setInvoices] = useState(mockInvoices);
-  const [necessities, setNecessities] = useState(mockNecessities);
+  const [necessities, setNecessities] = useState(mockWeddingElements);
   const [editingInvoice, setEditingInvoice] = useState<Invoice | undefined>(undefined);
   const [showForm, setShowForm] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
@@ -25,10 +25,10 @@ export default function InvoicesPage() {
   const remaining = totalBudget - totalSpent;
   const selectedCount = necessities.filter((n) => n.selectedVendorId).length;
 
-  const categoryNames = [...new Set(invoices.map((i) => i.necessityName))];
+  const categoryNames = [...new Set(invoices.map((i) => i.weddingElementName))];
 
   const filteredInvoices = invoices.filter((inv) => {
-    if (filterNec !== "all" && inv.necessityName !== filterNec) return false;
+    if (filterNec !== "all" && inv.weddingElementName !== filterNec) return false;
     if (filterAmountMin && inv.amount < Number(filterAmountMin)) return false;
     if (filterAmountMax && inv.amount > Number(filterAmountMax)) return false;
     if (filterDateFrom && inv.date < filterDateFrom) return false;
@@ -62,12 +62,12 @@ export default function InvoicesPage() {
       {/* Explanation */}
       {selectedCount === 0 ? (
         <div id="invoices-explanation-empty" className="bg-gold/10 border border-gold/30 rounded-2xl p-5 text-sm text-amber-800/60">
-          <p id="invoices-explanation-text">Belum ada vendor final yang dipilih. Invoice akan tercatat per kategori (kebutuhan) dan otomatis terhubung ke vendor final yang sudah dipilih di halaman <strong id="invoices-explanation-highlight">Kebutuhan</strong>.</p>
+          <p id="invoices-explanation-text">Belum ada vendor final yang dipilih. Invoice akan tercatat per kategori (elemen pernikahan) dan otomatis terhubung ke vendor final yang sudah dipilih di halaman <strong id="invoices-explanation-highlight">Elemen Pernikahan</strong>.</p>
         </div>
       ) : (
         <div id="invoices-explanation-active" className="bg-orange/5 border border-orange/20 rounded-2xl p-5 text-sm text-amber-800/60 flex items-center gap-3">
           <Icon name="info" size={20} className="text-orange shrink-0" />
-          <p id="invoices-explanation-info">Invoice tercatat per kategori kebutuhan dan terhubung ke <strong id="invoices-explanation-emphasis">vendor final</strong> yang sudah dipilih. Pilih kategori saat menambah invoice.</p>
+          <p id="invoices-explanation-info">Invoice tercatat per kategori elemen pernikahan dan terhubung ke <strong id="invoices-explanation-emphasis">vendor final</strong> yang sudah dipilih. Pilih kategori saat menambah invoice.</p>
         </div>
       )}
 
@@ -153,7 +153,7 @@ export default function InvoicesPage() {
                 <div id={`invoices-item-info-${inv.id}`} className="flex-1 min-w-0">
                   <div id={`invoices-item-name-row-${inv.id}`} className="flex items-center gap-2">
                     <p id={`invoices-item-vendor-${inv.id}`} className="text-sm font-medium text-amber-900 truncate">{inv.vendorName}</p>
-                    <span id={`invoices-item-category-${inv.id}`} className="text-[10px] bg-orange/10 text-orange px-1.5 py-0.5 rounded-full shrink-0">{inv.necessityName}</span>
+                    <span id={`invoices-item-category-${inv.id}`} className="text-[10px] bg-orange/10 text-orange px-1.5 py-0.5 rounded-full shrink-0">{inv.weddingElementName}</span>
                   </div>
                   <p id={`invoices-item-notes-${inv.id}`} className="text-xs text-amber-800/50 mt-0.5 truncate">{inv.notes} • {new Date(inv.date).toLocaleDateString("id-ID")}</p>
                 </div>

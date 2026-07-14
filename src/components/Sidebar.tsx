@@ -7,7 +7,7 @@ import Icon from "./Icon";
 
 const navItems = [
   { label: "Dashboard", href: "/", icon: "dashboard" },
-  { label: "Kebutuhan", href: "/necessity", icon: "checklist" },
+  { label: "Elemen Pernikahan", href: "/wedding-elements", icon: "checklist" },
   { label: "Vendor Tracker", href: "/vendors", icon: "storefront" },
   { label: "Mood Board", href: "/mood-board", icon: "collections" },
   { label: "Invoice", href: "/invoices", icon: "receipt_long" },
@@ -54,8 +54,8 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
           </button>
           {showGuide && (
             <div className="mt-3 space-y-2 text-xs text-amber-800/70 leading-relaxed bg-cream/50 rounded-xl p-3 border border-gold/20">
-              <p>1. Add vendor drafts & to-dos in <span className="font-medium text-amber-900">Kebutuhan</span></p>
-              <p>2. Select a final vendor for each necessity</p>
+              <p>1. Add vendor drafts & to-dos in <span className="font-medium text-amber-900">Elemen Pernikahan</span></p>
+              <p>2. Select a final vendor for each wedding element</p>
               <p>3. Track vendor tasks in <span className="font-medium text-amber-900">Vendor Tracker</span></p>
               <p>4. Record payments in <span className="font-medium text-amber-900">Invoice</span></p>
               <p>5. Save references in <span className="font-medium text-amber-900">Mood Board</span></p>

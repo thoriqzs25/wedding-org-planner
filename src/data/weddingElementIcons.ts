@@ -1,6 +1,6 @@
-import type { NecessityColor } from "@/types";
+import type { WeddingElementColor } from "@/types";
 
-export const necessityIconMap: Record<string, string> = {
+export const weddingElementIconMap: Record<string, string> = {
   "n1": "location_on",
   "n2": "restaurant",
   "n3": "photo_camera",
@@ -19,14 +19,14 @@ export const necessityIconMap: Record<string, string> = {
   "n16": "live_tv",
 };
 
-export const necessityColorPalette: { name: NecessityColor; bg: string; text: string; border: string; hex: string }[] = [
+export const weddingElementColorPalette: { name: WeddingElementColor; bg: string; text: string; border: string; hex: string }[] = [
   { name: "orange", bg: "bg-orange/10", text: "text-orange", border: "border-orange/20", hex: "#EB7B26" },
   { name: "pink", bg: "bg-pink/10", text: "text-pink", border: "border-pink/20", hex: "#FC95B4" },
   { name: "green", bg: "bg-green/10", text: "text-green", border: "border-green/20", hex: "#0BC56D" },
   { name: "gold", bg: "bg-gold/20", text: "text-amber-800", border: "border-gold/30", hex: "#FFCE62" },
 ];
 
-export const necessityColors: Record<string, { bg: string; text: string; border: string }> = {
+export const weddingElementColors: Record<string, { bg: string; text: string; border: string }> = {
   "n1": { bg: "bg-orange/10", text: "text-orange", border: "border-orange/20" },
   "n2": { bg: "bg-pink/10", text: "text-pink", border: "border-pink/20" },
   "n3": { bg: "bg-green/10", text: "text-green", border: "border-green/20" },
@@ -45,15 +45,15 @@ export const necessityColors: Record<string, { bg: string; text: string; border:
   "n16": { bg: "bg-gold/20", text: "text-amber-800", border: "border-gold/30" },
 };
 
-export function getNecessityIcon(necessityId: string, customIcon?: string): string {
+export function getWeddingElementIcon(weddingElementId: string, customIcon?: string): string {
   if (customIcon) return customIcon;
-  return necessityIconMap[necessityId] || "checklist";
+  return weddingElementIconMap[weddingElementId] || "checklist";
 }
 
-export function getNecessityColor(necessityId: string, customColor?: NecessityColor) {
+export function getWeddingElementColor(weddingElementId: string, customColor?: WeddingElementColor) {
   if (customColor) {
-    const found = necessityColorPalette.find((c) => c.name === customColor);
+    const found = weddingElementColorPalette.find((c) => c.name === customColor);
     if (found) return found;
   }
-  return necessityColors[necessityId] || { bg: "bg-cream", text: "text-amber-800", border: "border-gold/20" };
+  return weddingElementColors[weddingElementId] || { bg: "bg-cream", text: "text-amber-800", border: "border-gold/20" };
 }

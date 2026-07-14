@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { mockNecessities } from "@/data/mock";
-import { getNecessityIcon, getNecessityColor } from "@/data/necessityIcons";
+import { mockWeddingElements } from "@/data/mock";
+import { getWeddingElementIcon, getWeddingElementColor } from "@/data/weddingElementIcons";
 import VendorModal from "@/components/VendorModal";
 import Icon from "@/components/Icon";
 import Tooltip from "@/components/Tooltip";
 
 export default function VendorsPage() {
-  const [necessities, setNecessities] = useState(mockNecessities);
+  const [necessities, setNecessities] = useState(mockWeddingElements);
   const [selectedVendor, setSelectedVendor] = useState<any>(null);
   const [newTaskInput, setNewTaskInput] = useState<Record<string, string>>({});
 
@@ -97,12 +97,12 @@ export default function VendorsPage() {
         <div id="vendor-tracker-empty-state" className="text-center py-20 text-amber-800/40">
           <Icon name="storefront" size={48} className="mb-3 text-amber-800/20" />
           <p id="vendor-tracker-empty-text" className="text-sm mb-2">Belum ada vendor final</p>
-          <p id="vendor-tracker-empty-hint" className="text-xs text-amber-800/30">Pilih vendor final di halaman <strong id="vendor-tracker-empty-highlight">Kebutuhan</strong> untuk mulai tracking</p>
+          <p id="vendor-tracker-empty-hint" className="text-xs text-amber-800/30">Pilih vendor final di halaman <strong id="vendor-tracker-empty-highlight">Elemen Pernikahan</strong> untuk mulai tracking</p>
         </div>
       ) : (
         <div id="vendor-tracker-grid" className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           {selectedItems.map(({ necessity, vendor }) => {
-            const c = getNecessityColor(necessity.id, necessity.color);
+            const c = getWeddingElementColor(necessity.id, necessity.color);
             const tasks = necessity.vendorTasks ?? [];
             const activity = necessity.vendorActivity ?? [];
             const doneTasks = tasks.filter((t) => t.done).length;
@@ -117,7 +117,7 @@ export default function VendorsPage() {
                 <div id={`vendor-tracker-card-header-${necessity.id}`} className={`${c.bg} ${c.border} border-b px-5 py-4`}>
                   <div id={`vendor-tracker-card-header-row-${necessity.id}`} className="flex items-center gap-3">
                     <div id={`vendor-tracker-card-icon-${necessity.id}`} className={`w-12 h-12 rounded-xl ${c.bg} flex items-center justify-center bg-white/60`}>
-                      <Icon name={getNecessityIcon(necessity.id, necessity.icon)} size={24} className={c.text} />
+                      <Icon name={getWeddingElementIcon(necessity.id, necessity.icon)} size={24} className={c.text} />
                     </div>
                     <div id={`vendor-tracker-card-info-${necessity.id}`} className="flex-1 min-w-0">
                       <div id={`vendor-tracker-card-name-row-${necessity.id}`} className="flex items-center gap-2">

@@ -1,4 +1,4 @@
-import { Questionnaire, Necessity, GalleryItem, Invoice, CalendarEvent, RecentActivity, Account } from "@/types";
+import { Questionnaire, WeddingElement, GalleryItem, Invoice, CalendarEvent, RecentActivity, Account } from "@/types";
 
 export const mockQuestionnaire: Questionnaire = {
   brideName: "Aisyah",
@@ -8,7 +8,7 @@ export const mockQuestionnaire: Questionnaire = {
   guestCount: 300,
   budget: 350000000,
   budgetTier: "menengah-bawah",
-  selectedNecessities: [
+  selectedWeddingElements: [
     "venue",
     "catering",
     "dokumentasi",
@@ -31,7 +31,7 @@ export const mockAccounts: Account[] = [
     budget: 350000000,
     budgetTier: "menengah-bawah",
     guestCount: 300,
-    selectedNecessities: ["venue", "catering", "dokumentasi", "musik", "dekorasi", "wo", "prewedding"],
+    selectedWeddingElements: ["venue", "catering", "dokumentasi", "musik", "dekorasi", "wo", "prewedding"],
     status: "active",
   },
   {
@@ -45,7 +45,7 @@ export const mockAccounts: Account[] = [
     guestCount: 200,
     budget: 200000000,
     budgetTier: "murah",
-    selectedNecessities: ["venue", "catering", "dokumentasi", "musik", "dekorasi"],
+    selectedWeddingElements: ["venue", "catering", "dokumentasi", "musik", "dekorasi"],
     status: "active",
   },
   {
@@ -59,7 +59,7 @@ export const mockAccounts: Account[] = [
     guestCount: 500,
     budget: 500000000,
     budgetTier: "mewah",
-    selectedNecessities: ["venue", "catering", "dokumentasi", "musik", "dekorasi", "wo", "prewedding", "mc", "hiburan"],
+    selectedWeddingElements: ["venue", "catering", "dokumentasi", "musik", "dekorasi", "wo", "prewedding", "mc", "hiburan"],
     status: "active",
   },
   {
@@ -73,7 +73,7 @@ export const mockAccounts: Account[] = [
     guestCount: 250,
     budget: 275000000,
     budgetTier: "menengah-atas",
-    selectedNecessities: ["venue", "catering", "dokumentasi", "musik", "dekorasi", "wo", "prewedding", "undangan-fisik"],
+    selectedWeddingElements: ["venue", "catering", "dokumentasi", "musik", "dekorasi", "wo", "prewedding", "undangan-fisik"],
     status: "inactive",
   },
   {
@@ -87,12 +87,12 @@ export const mockAccounts: Account[] = [
     guestCount: 150,
     budget: 125000000,
     budgetTier: "murah",
-    selectedNecessities: ["venue", "catering", "dokumentasi", "dekorasi"],
+    selectedWeddingElements: ["venue", "catering", "dokumentasi", "dekorasi"],
     status: "active",
   },
 ];
 
-export const mockNecessities: Necessity[] = [
+export const mockWeddingElements: WeddingElement[] = [
   {
     id: "n1",
     name: "Venue",
@@ -101,7 +101,7 @@ export const mockNecessities: Necessity[] = [
         todos: [
       {
         id: "t1",
-        necessityId: "n1",
+        weddingElementId: "n1",
         title: "Survey 3 lokasi venue",
         pic: "Aisyah",
         dueDate: "2026-03-15",
@@ -111,7 +111,7 @@ export const mockNecessities: Necessity[] = [
       },
       {
         id: "t2",
-        necessityId: "n1",
+        weddingElementId: "n1",
         title: "Booking venue",
         pic: "Rizky",
         dueDate: "2026-04-01",
@@ -121,7 +121,7 @@ export const mockNecessities: Necessity[] = [
       },
       {
         id: "t3",
-        necessityId: "n1",
+        weddingElementId: "n1",
         title: "DP venue 50%",
         pic: "Rizky",
         dueDate: "2026-04-15",
@@ -133,7 +133,7 @@ export const mockNecessities: Necessity[] = [
     vendors: [
       {
         id: "v1",
-        necessityId: "n1",
+        weddingElementId: "n1",
         name: "Jakarta Convention Center",
         socialLinks: [
           { platform: "Instagram", url: "https://instagram.com/jcc" },
@@ -149,7 +149,7 @@ export const mockNecessities: Necessity[] = [
       },
       {
         id: "v2",
-        necessityId: "n1",
+        weddingElementId: "n1",
         name: "Balai Sidang Jakarta",
         socialLinks: [
           { platform: "Instagram", url: "https://instagram.com/bsj" },
@@ -183,7 +183,7 @@ export const mockNecessities: Necessity[] = [
         todos: [
       {
         id: "t4",
-        necessityId: "n2",
+        weddingElementId: "n2",
         title: "Food tasting",
         pic: "Aisyah",
         dueDate: "2026-05-01",
@@ -195,7 +195,7 @@ export const mockNecessities: Necessity[] = [
     vendors: [
       {
         id: "v3",
-        necessityId: "n2",
+        weddingElementId: "n2",
         name: "Dapur Bahari Catering",
         socialLinks: [
           { platform: "Instagram", url: "https://instagram.com/dapurbahari" },
@@ -210,7 +210,7 @@ export const mockNecessities: Necessity[] = [
       },
       {
         id: "v8",
-        necessityId: "n2",
+        weddingElementId: "n2",
         name: "Mawar Catering",
         socialLinks: [
           { platform: "Instagram", url: "https://instagram.com/mawarcatering" },
@@ -233,7 +233,7 @@ export const mockNecessities: Necessity[] = [
         todos: [
       {
         id: "t5",
-        necessityId: "n3",
+        weddingElementId: "n3",
         title: "Cek portfolio fotografer",
         pic: "Aisyah",
         dueDate: "2026-04-20",
@@ -245,7 +245,7 @@ export const mockNecessities: Necessity[] = [
     vendors: [
       {
         id: "v4",
-        necessityId: "n3",
+        weddingElementId: "n3",
         name: "Lens & Love Photography",
         socialLinks: [
           { platform: "Instagram", url: "https://instagram.com/lenslove" },
@@ -275,7 +275,7 @@ export const mockNecessities: Necessity[] = [
         todos: [
       {
         id: "t6",
-        necessityId: "n5",
+        weddingElementId: "n5",
         title: "Konsultasi tema dekorasi",
         pic: "Aisyah & Rizky",
         dueDate: "2026-05-10",
@@ -287,7 +287,7 @@ export const mockNecessities: Necessity[] = [
     vendors: [
       {
         id: "v5",
-        necessityId: "n5",
+        weddingElementId: "n5",
         name: "Ratu Decoration",
         socialLinks: [
           { platform: "Instagram", url: "https://instagram.com/ratudeco" },
@@ -301,7 +301,7 @@ export const mockNecessities: Necessity[] = [
       },
       {
         id: "v9",
-        necessityId: "n5",
+        weddingElementId: "n5",
         name: "Indah Decoration",
         socialLinks: [
           { platform: "Instagram", url: "https://instagram.com/indahdeco" },
@@ -332,7 +332,7 @@ export const mockNecessities: Necessity[] = [
         todos: [
       {
         id: "t7",
-        necessityId: "n6",
+        weddingElementId: "n6",
         title: "Meeting dengan WO",
         pic: "Aisyah & Rizky",
         dueDate: "2026-03-10",
@@ -344,7 +344,7 @@ export const mockNecessities: Necessity[] = [
     vendors: [
       {
         id: "v6",
-        necessityId: "n6",
+        weddingElementId: "n6",
         name: "Dream Wedding Planner",
         socialLinks: [
           { platform: "Instagram", url: "https://instagram.com/dreamwedding" },
@@ -376,7 +376,7 @@ export const mockNecessities: Necessity[] = [
         todos: [
       {
         id: "t8",
-        necessityId: "n7",
+        weddingElementId: "n7",
         title: "Cari lokasi prewedding",
         pic: "Aisyah",
         dueDate: "2026-04-30",
@@ -388,7 +388,7 @@ export const mockNecessities: Necessity[] = [
     vendors: [
       {
         id: "v7",
-        necessityId: "n7",
+        weddingElementId: "n7",
         name: "Golden Hour Photography",
         socialLinks: [
           { platform: "Instagram", url: "https://instagram.com/goldenhour" },
@@ -479,91 +479,91 @@ export const mockNecessities: Necessity[] = [
 export const mockGalleryItems: GalleryItem[] = [
   {
     id: "g1",
-    necessityId: "n5",
+    weddingElementId: "n5",
     link: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     description: "Inspirasi dekorasi rustic outdoor",
     type: "youtube",
   },
   {
     id: "g2",
-    necessityId: "n5",
+    weddingElementId: "n5",
     link: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     description: "Dekorasi pelaminan modern minimalis",
     type: "youtube",
   },
   {
     id: "g3",
-    necessityId: "n2",
+    weddingElementId: "n2",
     link: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     description: "Inspirasi prasmanan prasmanan",
     type: "youtube",
   },
   {
     id: "g4",
-    necessityId: "n1",
+    weddingElementId: "n1",
     link: "https://image.com/venue.jpg",
     description: "Venue JCC ballroom",
     type: "image",
   },
   {
     id: "g5",
-    necessityId: "n3",
+    weddingElementId: "n3",
     link: "https://image.com/photo.jpg",
     description: "Gaya foto candid natural lighting",
     type: "image",
   },
   {
     id: "g6",
-    necessityId: "n5",
+    weddingElementId: "n5",
     link: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     description: "Dekorasi panggung pernikahan",
     type: "youtube",
   },
   {
     id: "g7",
-    necessityId: "n5",
+    weddingElementId: "n5",
     link: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     description: "Bunga & dekorasi meja resepsi",
     type: "youtube",
   },
   {
     id: "g8",
-    necessityId: "n1",
+    weddingElementId: "n1",
     link: "https://image.com/venue2.jpg",
     description: "Ballroom hotel mewah",
     type: "image",
   },
   {
     id: "g9",
-    necessityId: "n1",
+    weddingElementId: "n1",
     link: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     description: "Tour venue outdoor garden",
     type: "youtube",
   },
   {
     id: "g10",
-    necessityId: "n3",
+    weddingElementId: "n3",
     link: "https://image.com/photo2.jpg",
     description: "Foto prewedding candid",
     type: "image",
   },
   {
     id: "g11",
-    necessityId: "n6",
+    weddingElementId: "n6",
     link: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     description: "Tips memilih wedding organizer",
     type: "youtube",
   },
   {
     id: "g12",
-    necessityId: "n6",
+    weddingElementId: "n6",
     link: "https://image.com/wo.jpg",
     description: "Contoh timeline acara pernikahan",
     type: "image",
   },
   {
     id: "g13",
-    necessityId: "n7",
+    weddingElementId: "n7",
     link: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     description: "Ide lokasi prewedding outdoor",
     type: "youtube",
@@ -573,8 +573,8 @@ export const mockGalleryItems: GalleryItem[] = [
 export const mockInvoices: Invoice[] = [
   {
     id: "i1",
-    necessityId: "n6",
-    necessityName: "Wedding Organizer",
+    weddingElementId: "n6",
+    weddingElementName: "Wedding Organizer",
     vendorName: "Dream Wedding Planner",
     photoUrl: "",
     amount: 25000000,
@@ -583,8 +583,8 @@ export const mockInvoices: Invoice[] = [
   },
   {
     id: "i2",
-    necessityId: "n1",
-    necessityName: "Venue",
+    weddingElementId: "n1",
+    weddingElementName: "Venue",
     vendorName: "Balai Sidang Jakarta",
     photoUrl: "",
     amount: 10000000,
@@ -598,8 +598,8 @@ export const mockCalendarEvents: CalendarEvent[] = [
     id: "e1",
     title: "Meeting WO",
     date: "2026-07-15",
-    necessityId: "n6",
-    necessityName: "Wedding Organizer",
+    weddingElementId: "n6",
+    weddingElementName: "Wedding Organizer",
     description: "Diskusi detail acara",
     todoId: "t7",
   },
@@ -607,8 +607,8 @@ export const mockCalendarEvents: CalendarEvent[] = [
     id: "e2",
     title: "Food Testing",
     date: "2026-07-20",
-    necessityId: "n2",
-    necessityName: "Catering",
+    weddingElementId: "n2",
+    weddingElementName: "Catering",
     description: "Cicipi menu di Dapur Bahari",
     todoId: "t4",
   },
@@ -616,8 +616,8 @@ export const mockCalendarEvents: CalendarEvent[] = [
     id: "e3",
     title: "Survey Dekorasi",
     date: "2026-07-25",
-    necessityId: "n5",
-    necessityName: "Dekorasi",
+    weddingElementId: "n5",
+    weddingElementName: "Dekorasi",
     description: "Lihat langsung konsep di workshop",
     todoId: "t6",
   },
@@ -625,8 +625,8 @@ export const mockCalendarEvents: CalendarEvent[] = [
     id: "e4",
     title: "Pre-wedding Shoot",
     date: "2026-08-10",
-    necessityId: "n7",
-    necessityName: "Prewedding",
+    weddingElementId: "n7",
+    weddingElementName: "Prewedding",
     description: "Lokasi: Taman Safari",
     todoId: "t8",
   },
@@ -634,8 +634,8 @@ export const mockCalendarEvents: CalendarEvent[] = [
     id: "e5",
     title: "Survey 3 lokasi venue",
     date: "2026-03-15",
-    necessityId: "n1",
-    necessityName: "Venue",
+    weddingElementId: "n1",
+    weddingElementName: "Venue",
     description: "Survey JCC, Balai Sidang, dan Hotel Indonesia",
     todoId: "t1",
   },
@@ -643,8 +643,8 @@ export const mockCalendarEvents: CalendarEvent[] = [
     id: "e6",
     title: "Booking venue",
     date: "2026-04-01",
-    necessityId: "n1",
-    necessityName: "Venue",
+    weddingElementId: "n1",
+    weddingElementName: "Venue",
     description: "Negosiasi harga dan tanda tangan kontrak",
     todoId: "t2",
   },
@@ -653,112 +653,112 @@ export const mockCalendarEvents: CalendarEvent[] = [
 export const mockRecentActivities: RecentActivity[] = [
   {
     id: "r1",
-    necessityId: "n1",
-    necessityName: "Venue",
+    weddingElementId: "n1",
+    weddingElementName: "Venue",
     action: "Survey 3 lokasi venue selesai",
     actionType: "todo_completed",
     createdAt: "2026-07-09T10:30:00",
   },
   {
     id: "r2",
-    necessityId: "n6",
-    necessityName: "Wedding Organizer",
+    weddingElementId: "n6",
+    weddingElementName: "Wedding Organizer",
     action: "Meeting dengan WO selesai",
     actionType: "todo_completed",
     createdAt: "2026-07-08T14:00:00",
   },
   {
     id: "r3",
-    necessityId: "n1",
-    necessityName: "Venue",
+    weddingElementId: "n1",
+    weddingElementName: "Venue",
     action: "Menambahkan vendor 'Balai Sidang Jakarta'",
     actionType: "vendor_added",
     createdAt: "2026-07-07T09:15:00",
   },
   {
     id: "r4",
-    necessityId: "n7",
-    necessityName: "Prewedding",
+    weddingElementId: "n7",
+    weddingElementName: "Prewedding",
     action: "Menambahkan to-do 'Cari lokasi prewedding'",
     actionType: "todo_created",
     createdAt: "2026-07-06T16:45:00",
   },
   {
     id: "r5",
-    necessityId: "n2",
-    necessityName: "Catering",
+    weddingElementId: "n2",
+    weddingElementName: "Catering",
     action: "Memilih 'Dapur Bahari Catering' sebagai vendor final",
     actionType: "vendor_selected",
     createdAt: "2026-07-05T11:00:00",
   },
   {
     id: "r6",
-    necessityId: "n5",
-    necessityName: "Dekorasi",
+    weddingElementId: "n5",
+    weddingElementName: "Dekorasi",
     action: "Menambahkan invoice DP Rp10.000.000 untuk 'Indah Decoration'",
     actionType: "invoice_added",
     createdAt: "2026-07-04T14:20:00",
   },
   {
     id: "r7",
-    necessityId: "n5",
-    necessityName: "Dekorasi",
+    weddingElementId: "n5",
+    weddingElementName: "Dekorasi",
     action: "Task 'Finalisasi konsep warna' untuk Indah Decoration selesai",
     actionType: "vendor_task_completed",
     createdAt: "2026-07-03T08:00:00",
   },
   {
     id: "r8",
-    necessityId: "n1",
-    necessityName: "Venue",
+    weddingElementId: "n1",
+    weddingElementName: "Venue",
     action: "Booking venue sedang diproses",
     actionType: "todo_created",
     createdAt: "2026-07-02T09:15:00",
   },
   {
     id: "r9",
-    necessityId: "n3",
-    necessityName: "Dokumentasi",
+    weddingElementId: "n3",
+    weddingElementName: "Dokumentasi",
     action: "Menambahkan inspirasi foto candid natural lighting",
     actionType: "gallery_item_added",
     createdAt: "2026-07-01T16:30:00",
   },
   {
     id: "r10",
-    necessityId: "n6",
-    necessityName: "Wedding Organizer",
+    weddingElementId: "n6",
+    weddingElementName: "Wedding Organizer",
     action: "Membatalkan pilihan vendor 'Dream Wedding Planner'",
     actionType: "vendor_deselected",
     createdAt: "2026-06-30T12:00:00",
   },
   {
     id: "r11",
-    necessityId: "n2",
-    necessityName: "Catering",
+    weddingElementId: "n2",
+    weddingElementName: "Catering",
     action: "Jadwal food tasting ditambahkan ke kalender",
     actionType: "calendar_event_added",
     createdAt: "2026-06-29T10:00:00",
   },
   {
     id: "r12",
-    necessityId: "n5",
-    necessityName: "Dekorasi",
+    weddingElementId: "n5",
+    weddingElementName: "Dekorasi",
     action: "Menambahkan vendor 'Indah Decoration' ke daftar",
     actionType: "vendor_added",
     createdAt: "2026-06-28T15:45:00",
   },
 ];
 
-export function getNecessityById(id: string) {
-  return mockNecessities.find((n) => n.id === id);
+export function getWeddingElementById(id: string) {
+  return mockWeddingElements.find((n) => n.id === id);
 }
 
 export function getVendorById(id: string) {
-  return mockNecessities.flatMap((n) => n.vendors).find((v) => v.id === id);
+  return mockWeddingElements.flatMap((n) => n.vendors).find((v) => v.id === id);
 }
 
 export function getTotalBudget() {
-  return mockNecessities.reduce((sum, n) => {
+  return mockWeddingElements.reduce((sum, n) => {
     return sum + n.vendors.reduce((vs, v) => vs + v.budget, 0);
   }, 0);
 }
@@ -768,14 +768,14 @@ export function getTotalSpent() {
 }
 
 export function getTodoProgress() {
-  const allTodos = mockNecessities.flatMap((n) => n.todos);
+  const allTodos = mockWeddingElements.flatMap((n) => n.todos);
   const done = allTodos.filter((t) => t.status === "done").length;
   return { done, total: allTodos.length };
 }
 
 export function getOverdueTodos() {
   const today = new Date().toISOString().split("T")[0];
-  return mockNecessities
+  return mockWeddingElements
     .flatMap((n) => n.todos)
     .filter((t) => t.dueDate < today && t.status !== "done");
 }

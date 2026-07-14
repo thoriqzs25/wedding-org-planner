@@ -10,7 +10,7 @@ export interface Account {
   location: string;
   budget: number;
   budgetTier: BudgetTier;
-  selectedNecessities: string[];
+  selectedWeddingElements: string[];
   guestCount: number;
   status: AccountStatus;
 }
@@ -30,12 +30,12 @@ export interface Questionnaire {
   guestCount: number;
   budget: number;
   budgetTier: BudgetTier;
-  selectedNecessities: string[];
+  selectedWeddingElements: string[];
 }
 
 export interface Todo {
   id: string;
-  necessityId: string;
+  weddingElementId: string;
   title: string;
   pic: string;
   dueDate: string;
@@ -58,7 +58,7 @@ export interface VendorActivity {
 
 export interface Vendor {
   id: string;
-  necessityId: string;
+  weddingElementId: string;
   name: string;
   socialLinks: { platform: string; url: string }[];
   priority: number;
@@ -70,13 +70,13 @@ export interface Vendor {
   isRecommended: boolean;
 }
 
-export type NecessityColor = "orange" | "pink" | "green" | "gold";
+export type WeddingElementColor = "orange" | "pink" | "green" | "gold";
 
-export interface Necessity {
+export interface WeddingElement {
   id: string;
   name: string;
   icon?: string;
-  color?: NecessityColor;
+  color?: WeddingElementColor;
   isDefault: boolean;
   todos: Todo[];
   vendors: Vendor[];
@@ -87,7 +87,7 @@ export interface Necessity {
 
 export interface GalleryItem {
   id: string;
-  necessityId: string;
+  weddingElementId: string;
   link: string;
   description: string;
   type: "youtube" | "tiktok" | "image" | "other";
@@ -95,8 +95,8 @@ export interface GalleryItem {
 
 export interface Invoice {
   id: string;
-  necessityId: string;
-  necessityName: string;
+  weddingElementId: string;
+  weddingElementName: string;
   vendorName: string;
   photoUrl: string;
   amount: number;
@@ -108,8 +108,8 @@ export interface CalendarEvent {
   id: string;
   title: string;
   date: string;
-  necessityId: string;
-  necessityName: string;
+  weddingElementId: string;
+  weddingElementName: string;
   description: string;
   todoId?: string;
 }
@@ -127,8 +127,8 @@ export type ActionType =
 
 export interface RecentActivity {
   id: string;
-  necessityId: string;
-  necessityName: string;
+  weddingElementId: string;
+  weddingElementName: string;
   action: string;
   actionType: ActionType;
   createdAt: string;

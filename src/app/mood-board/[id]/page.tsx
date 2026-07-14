@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { mockGalleryItems, mockNecessities } from "@/data/mock";
+import { mockGalleryItems, mockWeddingElements } from "@/data/mock";
 import { GalleryItem } from "@/types";
-import { getNecessityIcon, getNecessityColor } from "@/data/necessityIcons";
+import { getWeddingElementIcon, getWeddingElementColor } from "@/data/weddingElementIcons";
 import Tooltip from "@/components/Tooltip";
 import Icon from "@/components/Icon";
 
@@ -27,8 +27,8 @@ function getTypeIcon(type: string): string {
 export default function MoodBoardDetailPage() {
   const params = useParams();
   const id = params.id as string;
-  const necessity = mockNecessities.find((n) => n.id === id);
-  const items = mockGalleryItems.filter((item) => item.necessityId === id);
+  const necessity = mockWeddingElements.find((n) => n.id === id);
+  const items = mockGalleryItems.filter((item) => item.weddingElementId === id);
 
   if (!necessity) {
     return (
@@ -39,7 +39,7 @@ export default function MoodBoardDetailPage() {
     );
   }
 
-  const c = getNecessityColor(necessity.id, necessity.color);
+  const c = getWeddingElementColor(necessity.id, necessity.color);
 
   return (
     <div id="detail-container" className="max-w-6xl space-y-6">
@@ -48,7 +48,7 @@ export default function MoodBoardDetailPage() {
           <Link id="detail-back-button" href="/mood-board" className="text-amber-800/40 hover:text-orange transition-colors flex items-center gap-1">
             <Icon name="arrow_back" size={16} /> Kembali
           </Link>
-          <Tooltip content="Inspirasi visual untuk kebutuhan ini">
+          <Tooltip content="Inspirasi visual untuk elemen pernikahan ini">
             <h1 id="detail-title" className="text-3xl font-bold text-amber-900">{necessity.name}</h1>
           </Tooltip>
         </div>

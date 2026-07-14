@@ -1,17 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { Necessity } from "@/types";
-import { getNecessityIcon, getNecessityColor } from "@/data/necessityIcons";
+import { WeddingElement } from "@/types";
+import { getWeddingElementIcon, getWeddingElementColor } from "@/data/weddingElementIcons";
 import Icon from "@/components/Icon";
 import Tooltip from "@/components/Tooltip";
 
-interface NecessityCardProps {
-  nec: Necessity;
+interface WeddingElementCardProps {
+  nec: WeddingElement;
   onDelete: (id: string) => void;
 }
 
-export default function NecessityCard({ nec, onDelete }: NecessityCardProps) {
+export default function WeddingElementCard({ nec, onDelete }: WeddingElementCardProps) {
   const today = new Date();
 
   const todoDone = nec.todos.filter((t) => t.status === "done").length;
@@ -21,7 +21,7 @@ export default function NecessityCard({ nec, onDelete }: NecessityCardProps) {
     (t) => t.status !== "done" && new Date(t.dueDate) < today
   );
   const allDone = todoTotal > 0 && todoDone === todoTotal;
-  const c = getNecessityColor(nec.id, nec.color);
+  const c = getWeddingElementColor(nec.id, nec.color);
 
   const upcomingTodo = nec.todos
     .filter((t) => t.status !== "done" && new Date(t.dueDate) >= today)
@@ -55,7 +55,7 @@ export default function NecessityCard({ nec, onDelete }: NecessityCardProps) {
 
   return (
     <div id={`card-${nec.id}`} className="relative group h-full">
-      <Link id={`card-${nec.id}-link`} href={`/necessity/${nec.id}`}
+      <Link id={`card-${nec.id}-link`} href={`/wedding-elements/${nec.id}`}
         className={`flex flex-col rounded-2xl p-5 shadow-sm hover:shadow-lg transition-all duration-300 h-full ${
           hasOverdue
             ? "bg-white ring-2 ring-red/40"
@@ -67,7 +67,7 @@ export default function NecessityCard({ nec, onDelete }: NecessityCardProps) {
           <div id={`card-${nec.id}-icon`} className={`relative w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${
             allDone ? "bg-green/10" : hasOverdue ? "bg-red/10" : c.bg
           }`}>
-            <Icon name={getNecessityIcon(nec.id, nec.icon)} size={24}
+            <Icon name={getWeddingElementIcon(nec.id, nec.icon)} size={24}
               className={allDone ? "text-green" : hasOverdue ? "text-red" : c.text} />
             {allDone && (
               <div id={`card-${nec.id}-check-badge`} className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-green flex items-center justify-center">

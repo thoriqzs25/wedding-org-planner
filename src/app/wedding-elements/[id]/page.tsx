@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { mockNecessities, mockInvoices } from "@/data/mock";
-import { Todo, Vendor, Necessity } from "@/types";
-import { getNecessityIcon, getNecessityColor } from "@/data/necessityIcons";
+import { mockWeddingElements, mockInvoices } from "@/data/mock";
+import { Todo, Vendor, WeddingElement } from "@/types";
+import { getWeddingElementIcon, getWeddingElementColor } from "@/data/weddingElementIcons";
 import VendorModal from "@/components/VendorModal";
 import VendorFormModal from "@/components/VendorFormModal";
 import TodoFormModal from "@/components/TodoFormModal";
@@ -25,9 +25,9 @@ const nextStatus: Record<Todo["status"], Todo["status"]> = {
   done: "pending",
 };
 
-export default function NecessityDetailPage() {
+export default function WeddingElementDetailPage() {
   const params = useParams();
-  const [necessities, setNecessities] = useState(mockNecessities);
+  const [necessities, setNecessities] = useState(mockWeddingElements);
   const id = params.id as string;
   const necessity = necessities.find((n) => n.id === id);
   const [selectedVendor, setSelectedVendor] = useState<Vendor | null>(null);
@@ -46,8 +46,8 @@ export default function NecessityDetailPage() {
   if (!necessity) {
     return (
       <div id="not-found-container" className="text-center py-20">
-        <p id="not-found-text" className="text-amber-800/60">Kebutuhan tidak ditemukan</p>
-        <Link id="not-found-back-link" href="/necessity" className="text-orange hover:underline text-sm">Kembali</Link>
+        <p id="not-found-text" className="text-amber-800/60">Elemen pernikahan tidak ditemukan</p>
+        <Link id="not-found-back-link" href="/wedding-elements" className="text-orange hover:underline text-sm">Kembali</Link>
       </div>
     );
   }
@@ -56,7 +56,7 @@ export default function NecessityDetailPage() {
     ? necessity.vendors.find((v) => v.id === necessity.selectedVendorId)
     : null;
 
-  const necessityInvoices = mockInvoices.filter((inv) => inv.necessityId === id);
+  const necessityInvoices = mockInvoices.filter((inv) => inv.weddingElementId === id);
   const necessityBudget = necessity.vendors.reduce((s, v) => s + v.budget, 0);
   const necessitySpent = necessityInvoices.reduce((s, inv) => s + inv.amount, 0);
 
@@ -228,10 +228,10 @@ export default function NecessityDetailPage() {
       {/* Header */}
       <div id="detail-header" className="flex items-center justify-between flex-wrap gap-2">
         <div id="detail-header-left" className="flex items-center gap-3">
-          <Link id="detail-back-link" href="/necessity" className="text-amber-800/40 hover:text-orange transition-colors flex items-center gap-1">
+          <Link id="detail-back-link" href="/wedding-elements" className="text-amber-800/40 hover:text-orange transition-colors flex items-center gap-1">
             <Icon name="arrow_back" size={16} /> Kembali
           </Link>
-          <Tooltip content="Detail kebutuhan dan vendor terkait" position="bottom"><h1 id="detail-title" className="text-2xl font-bold text-amber-900">{necessity.name}</h1></Tooltip>
+          <Tooltip content="Detail elemen pernikahan dan vendor terkait" position="bottom"><h1 id="detail-title" className="text-2xl font-bold text-amber-900">{necessity.name}</h1></Tooltip>
         </div>
         <button id="detail-add-vendor-button" onClick={() => { setEditingVendor(undefined); setShowVendorForm(true); }}
           className="flex items-center gap-2 px-5 py-2.5 bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm cursor-pointer">
@@ -257,7 +257,7 @@ export default function NecessityDetailPage() {
 
           <div id="selected-vendor-info" className="flex items-start gap-4">
             <div id="selected-vendor-icon" className="w-14 h-14 rounded-2xl bg-green/10 flex items-center justify-center shrink-0">
-              <Icon name={getNecessityIcon(id, necessity.icon)} size={28} className="text-green" />
+              <Icon name={getWeddingElementIcon(id, necessity.icon)} size={28} className="text-green" />
             </div>
             <div id="selected-vendor-text" className="flex-1 min-w-0">
               <Tooltip content="Vendor yang sudah dipilih sebagai final"><h3 id="selected-vendor-name" className="text-lg font-bold text-amber-900 truncate">{selected.name}</h3></Tooltip>
@@ -332,7 +332,7 @@ export default function NecessityDetailPage() {
       {/* To-do list */}
       <div id="todo-section" className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm">
         <div id="todo-header" className="flex items-center justify-between mb-4">
-          <Tooltip content="Daftar to-do untuk kebutuhan ini"><h2 id="todo-title" className="text-lg font-semibold text-amber-900">To-Do List</h2></Tooltip>
+          <Tooltip content="Daftar to-do untuk elemen pernikahan ini"><h2 id="todo-title" className="text-lg font-semibold text-amber-900">To-Do List</h2></Tooltip>
           <div id="todo-header-right" className="flex items-center gap-3">
             <span id="todo-count" className="text-xs text-amber-800/50">{necessity.todos.filter((t) => t.status === "done").length}/{necessity.todos.length} selesai</span>
             <button id="todo-add-button" onClick={() => { setEditingTodo(undefined); setShowTodoForm(true); }}
@@ -423,7 +423,7 @@ export default function NecessityDetailPage() {
                     }`}>
                     <div id={`vendor-draft-${vendor.id}-row`} className="flex items-center gap-3">
                       <div id={`vendor-draft-${vendor.id}-icon`} className={`w-9 h-9 rounded-lg bg-cream flex items-center justify-center shrink-0`}>
-                        <Icon name={getNecessityIcon(id, necessity.icon)} size={18} className={isSelected ? "text-green" : "text-amber-800/50"} />
+                        <Icon name={getWeddingElementIcon(id, necessity.icon)} size={18} className={isSelected ? "text-green" : "text-amber-800/50"} />
                       </div>
                       <div id={`vendor-draft-${vendor.id}-content`} className="flex-1 min-w-0">
                         <div id={`vendor-draft-${vendor.id}-name-row`} className="flex items-center gap-2">
@@ -461,7 +461,7 @@ export default function NecessityDetailPage() {
 
         {/* Recommended vendors */}
         <div id="vendor-rec-section" className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm">
-          <Tooltip content="Vendor rekomendasi berdasarkan kebutuhan ini"><h2 id="vendor-rec-title" className="text-lg font-semibold text-amber-900 mb-4 flex items-center gap-2">
+          <Tooltip content="Vendor rekomendasi berdasarkan elemen pernikahan ini"><h2 id="vendor-rec-title" className="text-lg font-semibold text-amber-900 mb-4 flex items-center gap-2">
             <Icon name="auto_awesome" size={20} /> Rekomendasi Vendor
           </h2></Tooltip>
           {recommendedVendors.length === 0 ? (
@@ -472,13 +472,13 @@ export default function NecessityDetailPage() {
           ) : (
             <div id="vendor-rec-list" className="space-y-3">
               {recommendedVendors.map((vendor) => {
-                const c = getNecessityColor(id, necessity.color);
+                const c = getWeddingElementColor(id, necessity.color);
                 return (
                   <button key={vendor.id} id={`vendor-rec-${vendor.id}`} onClick={() => setSelectedVendor(vendor)}
                     className="w-full text-left p-4 rounded-xl border border-orange/20 bg-orange/[0.02] hover:bg-orange/5 transition-all cursor-pointer">
                     <div id={`vendor-rec-${vendor.id}-row`} className="flex items-center gap-3">
                       <div id={`vendor-rec-${vendor.id}-icon`} className={`w-9 h-9 rounded-lg ${c.bg} flex items-center justify-center shrink-0 bg-white/60`}>
-                        <Icon name={getNecessityIcon(id, necessity.icon)} size={18} className={c.text} />
+                        <Icon name={getWeddingElementIcon(id, necessity.icon)} size={18} className={c.text} />
                       </div>
                       <div id={`vendor-rec-${vendor.id}-content`} className="flex-1 min-w-0">
                         <div id={`vendor-rec-${vendor.id}-name-row`} className="flex items-center gap-2">
@@ -503,11 +503,11 @@ export default function NecessityDetailPage() {
           onDelete={selectedVendor.isRecommended ? undefined : handleDeleteVendor} />
       )}
       {showVendorForm && (
-        <VendorFormModal vendor={editingVendor} necessityId={id}
+        <VendorFormModal vendor={editingVendor} weddingElementId={id}
           onSave={handleSaveVendor} onClose={() => { setShowVendorForm(false); setEditingVendor(undefined); }} />
       )}
       {showTodoForm && (
-        <TodoFormModal todo={editingTodo} necessityId={id}
+        <TodoFormModal todo={editingTodo} weddingElementId={id}
           onSave={handleSaveTodo} onDelete={editingTodo ? handleDeleteTodo : undefined}
           onClose={() => { setShowTodoForm(false); setEditingTodo(undefined); }} />
       )}

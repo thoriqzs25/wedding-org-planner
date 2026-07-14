@@ -4,7 +4,7 @@ export interface VendorFit {
   vendor: Vendor;
   estimatedTotal: number;
   fitScore: number;
-  necessityName: string;
+  weddingElementName: string;
 }
 
 export function calculateVendorFit(
@@ -29,19 +29,19 @@ export function calculateVendorFit(
 }
 
 export function getTopRecommendations(
-  vendors: { vendor: Vendor; necessityName: string }[],
+  vendors: { vendor: Vendor; weddingElementName: string }[],
   guestCount: number,
   totalBudget: number,
   limit = 3
 ): VendorFit[] {
   return vendors
-    .map(({ vendor, necessityName }) => {
+    .map(({ vendor, weddingElementName }) => {
       const { estimatedTotal, fitScore } = calculateVendorFit(
         vendor,
         guestCount,
         totalBudget
       );
-      return { vendor, estimatedTotal, fitScore, necessityName };
+      return { vendor, estimatedTotal, fitScore, weddingElementName };
     })
     .sort((a, b) => b.fitScore - a.fitScore)
     .slice(0, limit);

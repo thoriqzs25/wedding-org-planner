@@ -6,11 +6,11 @@ import ProgressBar from "@/components/ProgressBar";
 import Icon from "@/components/Icon";
 import {
   mockQuestionnaire,
-  mockNecessities,
+  mockWeddingElements,
   mockRecentActivities,
   getTotalSpent,
 } from "@/data/mock";
-import { getNecessityIcon, getNecessityColor } from "@/data/necessityIcons";
+import { getWeddingElementIcon, getWeddingElementColor } from "@/data/weddingElementIcons";
 import { Todo, RecentActivity, Vendor } from "@/types";
 import Tooltip from "@/components/Tooltip";
 import WeddingInfoModal from "@/components/WeddingInfoModal";
@@ -18,7 +18,7 @@ import { getTopRecommendations } from "@/utils/recommendations";
 import { fireConfetti } from "@/lib/confetti";
 
 export default function DashboardPage() {
-  const [necessities, setNecessities] = useState(mockNecessities);
+  const [necessities, setNecessities] = useState(mockWeddingElements);
   const [weddingInfo, setWeddingInfo] = useState(mockQuestionnaire);
   const [showInfoForm, setShowInfoForm] = useState(false);
   const [infoTab, setInfoTab] = useState<"acara" | "budget">("acara");
@@ -27,13 +27,13 @@ export default function DashboardPage() {
   const [showOverdue, setShowOverdue] = useState(true);
   const [quickAddVendor, setQuickAddVendor] = useState<{
     vendor: Vendor;
-    necessityId: string;
-    necessityName: string;
+    weddingElementId: string;
+    weddingElementName: string;
   } | null>(null);
   const activities = mockRecentActivities;
 
   const allTodos = necessities.flatMap((n) =>
-    n.todos.map((t) => ({ ...t, necessityName: n.name }))
+    n.todos.map((t) => ({ ...t, weddingElementName: n.name }))
   );
   const totalTodos = allTodos.length;
   const doneTodos = allTodos.filter((t) => t.status === "done").length;
@@ -88,15 +88,15 @@ export default function DashboardPage() {
 
   const handleQuickAddVendor = () => {
     if (!quickAddVendor) return;
-    const { vendor, necessityId } = quickAddVendor;
+    const { vendor, weddingElementId } = quickAddVendor;
     const newVendor: Vendor = {
       ...vendor,
       id: `v-quick-${Date.now()}`,
-      necessityId,
+      weddingElementId,
     };
     setNecessities((prev) =>
       prev.map((n) =>
-        n.id === necessityId
+        n.id === weddingElementId
           ? { ...n, vendors: [...n.vendors, newVendor] }
           : n
       )
@@ -298,11 +298,11 @@ export default function DashboardPage() {
           <div id="progress-checklist-card" className="bg-cream/60 rounded-xl p-4">
             <div id="progress-checklist-header" className="flex items-center gap-2 mb-2">
               <Icon name="checklist" size={16} className="text-green" />
-              <span id="progress-checklist-label" className="text-xs font-medium text-amber-900/70">Ceklis Kebutuhan</span>
+              <span id="progress-checklist-label" className="text-xs font-medium text-amber-900/70">Ceklis Elemen Pernikahan</span>
             </div>
             <ProgressBar value={checklistedNec} max={necessities.length} label="" color="bg-green" showWarning={false} />
             <div id="progress-checklist-values" className="flex justify-between text-[11px] text-amber-800/50 mt-1.5">
-              <span id="progress-checklist-done">{checklistedNec} kebutuhan</span>
+              <span id="progress-checklist-done">{checklistedNec} elemen</span>
               <span id="progress-checklist-total">{necessities.length} total</span>
             </div>
           </div>
@@ -314,7 +314,7 @@ export default function DashboardPage() {
         {/* Masih perlu dicari — scrollable grid */}
         <div id="needs-vendor" className="bg-white rounded-2xl border border-gold/30 p-5 shadow-sm flex flex-col max-h-[420px]">
           <div id="needs-vendor-header" className="flex items-center justify-between mb-4 shrink-0">
-            <Tooltip content="Kebutuhan yang belum memiliki vendor"><h2 id="needs-vendor-title" className="text-lg font-semibold text-amber-900 flex items-center gap-2">
+            <Tooltip content="Elemen pernikahan yang belum memiliki vendor"><h2 id="needs-vendor-title" className="text-lg font-semibold text-amber-900 flex items-center gap-2">
               <Icon name="storefront" size={20} />
               Masih perlu dicari
             </h2></Tooltip>
@@ -328,17 +328,17 @@ export default function DashboardPage() {
             {needsVendor.length === 0 ? (
               <div id="needs-vendor-empty" className="text-center py-8 text-amber-800/40">
                 <Icon name="celebration" size={36} className="mb-2" />
-                <p id="needs-vendor-empty-text" className="text-sm">Semua kebutuhan sudah punya vendor!</p>
+                <p id="needs-vendor-empty-text" className="text-sm">Semua elemen pernikahan sudah punya vendor!</p>
               </div>
             ) : (
               <div id="needs-vendor-grid" className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {needsVendor.map((n) => {
-                  const c = getNecessityColor(n.id, n.color);
+                  const c = getWeddingElementColor(n.id, n.color);
                   return (
-                    <Link key={n.id} id={`needs-vendor-item-${n.id}`} href={`/necessity/${n.id}`}
+                    <Link key={n.id} id={`needs-vendor-item-${n.id}`} href={`/wedding-elements/${n.id}`}
                       className={`${c.bg} ${c.border} border rounded-xl p-4 hover:shadow-md transition-all group`}>
                       <div id={`needs-vendor-icon-${n.id}`} className={`w-9 h-9 rounded-lg ${c.bg} flex items-center justify-center mb-3`}>
-                        <Icon name={getNecessityIcon(n.id, n.icon)} size={20} className={c.text} />
+                        <Icon name={getWeddingElementIcon(n.id, n.icon)} size={20} className={c.text} />
                       </div>
                       <p id={`needs-vendor-name-${n.id}`} className={`text-sm font-semibold ${c.text} mb-1 truncate`}>{n.name}</p>
                       <span id={`needs-vendor-cta-${n.id}`} className={`text-[10px] ${c.text}/60 flex items-center gap-0.5 group-hover:underline`}>
@@ -368,8 +368,8 @@ export default function DashboardPage() {
               <div id="recent-activity-empty" className="text-center py-8 text-amber-800/40">
                 <Icon name="edit_note" size={32} className="mb-2 text-amber-800/20" />
                 <p id="recent-activity-empty-text" className="text-sm">Belum ada aktivitas</p>
-                <Link id="recent-activity-empty-link" href="/necessity" className="text-xs text-orange font-medium hover:underline mt-1 inline-block">
-                  Mulai atur kebutuhan pernikahan
+                <Link id="recent-activity-empty-link" href="/wedding-elements" className="text-xs text-orange font-medium hover:underline mt-1 inline-block">
+                  Mulai atur elemen pernikahan
                 </Link>
               </div>
             ) : (
@@ -379,7 +379,7 @@ export default function DashboardPage() {
                 const ago = getRelativeTime(act.createdAt);
 
                 return (
-                  <Link key={act.id} id={`activity-${act.id}`} href={`/necessity/${act.necessityId}`}
+                  <Link key={act.id} id={`activity-${act.id}`} href={`/wedding-elements/${act.weddingElementId}`}
                     className={`flex gap-4 group`}>
                     <div id={`activity-icon-col-${act.id}`} className="flex flex-col items-center shrink-0">
                       <div id={`activity-icon-${act.id}`} className={`w-8 h-8 rounded-lg ${actionMeta.bg} flex items-center justify-center shadow-sm`}>
@@ -395,7 +395,7 @@ export default function DashboardPage() {
                         <span id={`activity-badge-${act.id}`} className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium ${actionMeta.badge}`}>
                           {actionMeta.label}
                         </span>
-                        <span id={`activity-necessity-${act.id}`} className="text-[11px] text-amber-800/40">{act.necessityName}</span>
+                        <span id={`activity-necessity-${act.id}`} className="text-[11px] text-amber-800/40">{act.weddingElementName}</span>
                         <span id={`activity-time-${act.id}`} className="text-[11px] text-amber-800/30">{ago}</span>
                       </div>
                     </div>
@@ -439,7 +439,7 @@ export default function DashboardPage() {
                     <span id={`todo-terlewat-date-${todo.id}`} className="text-[10px] text-amber-800/40 truncate flex items-center gap-1">
                       <Icon name="calendar_today" size={10} />
                       {new Date(todo.dueDate).toLocaleDateString("id-ID")}
-                      <span id={`todo-terlewat-necessity-${todo.id}`} className="hidden sm:inline">· {(todo as Todo & { necessityName: string }).necessityName}</span>
+                      <span id={`todo-terlewat-necessity-${todo.id}`} className="hidden sm:inline">· {(todo as Todo & { weddingElementName: string }).weddingElementName}</span>
                     </span>
                   </div>
                   <span id={`todo-terlewat-overdue-${todo.id}`} className="shrink-0 text-[11px] font-bold text-red">{daysOverdue === 0 ? "Hari ini" : `Terlambat ${daysOverdue}h`}</span>
@@ -448,8 +448,8 @@ export default function DashboardPage() {
             })}
           </div>
           <div id="todo-terlewat-footer" className="px-5 py-2 border-t border-amber-800/5">
-            <Link id="todo-terlewat-view-all" href="/necessity" className="text-[11px] text-red font-medium hover:underline inline-flex items-center gap-1">
-              <span>Lihat semua kebutuhan</span>
+            <Link id="todo-terlewat-view-all" href="/wedding-elements" className="text-[11px] text-red font-medium hover:underline inline-flex items-center gap-1">
+              <span>Lihat semua elemen</span>
               <Icon name="chevron_right" size={12} />
             </Link>
           </div>
@@ -494,23 +494,24 @@ export default function DashboardPage() {
           <div id="vendor-recs-grid" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {getTopRecommendations(
               necessities.flatMap((n) =>
-                n.vendors.map((v) => ({ vendor: v, necessityName: n.name }))
+                n.vendors.map((v) => ({ vendor: v, weddingElementName: n.name }))
               ),
               weddingInfo.guestCount,
               weddingInfo.budget,
               6
-            ).map(({ vendor, estimatedTotal, fitScore, necessityName }) => {
+            ).map(({ vendor, estimatedTotal, fitScore, weddingElementName }) => {
               const nec = necessities.find(
-                (n) => n.name === necessityName
+                (n) => n.name === weddingElementName
               );
               const necId = nec?.id ?? "";
+              const necessityName = weddingElementName;
               return (
                 <button key={vendor.id} id={`vendor-recs-card-${vendor.id}`} onClick={() =>
-                  setQuickAddVendor({ vendor, necessityId: necId, necessityName })
+                  setQuickAddVendor({ vendor, weddingElementId: necId, weddingElementName })
                 }
                   className="bg-cream rounded-xl p-4 border border-gold/20 hover:shadow-md hover:border-orange/40 hover:bg-cream/80 transition-all text-left cursor-pointer group">
                   <div id={`vendor-recs-card-header-${vendor.id}`} className="flex items-center justify-between mb-2">
-                    <span id={`vendor-recs-necessity-${vendor.id}`} className="text-xs font-medium text-amber-800/50 uppercase tracking-wide">{necessityName}</span>
+                    <span id={`vendor-recs-necessity-${vendor.id}`} className="text-xs font-medium text-amber-800/50 uppercase tracking-wide">{weddingElementName}</span>
                     {fitScore >= 80 && (
                       <span id={`vendor-recs-badge-${vendor.id}`} className="text-[10px] bg-green/10 text-green px-2 py-0.5 rounded-full font-bold">Best Match</span>
                     )}
@@ -535,7 +536,7 @@ export default function DashboardPage() {
                   </p>
                   <div id={`vendor-recs-add-${vendor.id}`} className="mt-3 pt-2 border-t border-gold/10 text-[10px] text-orange font-medium flex items-center gap-1 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
                     <Icon name="add_circle" size={12} />
-                    Tambah ke {necessityName}
+                    Tambah ke {weddingElementName}
                   </div>
                 </button>
               );
@@ -674,7 +675,7 @@ export default function DashboardPage() {
               Tambah <span id="quick-add-vendor-name" className="font-semibold">{quickAddVendor.vendor.name}</span>
             </p>
             <p id="quick-add-vendor-desc" className="text-xs text-amber-800/50 mb-5">
-              ke <span id="quick-add-vendor-necessity" className="font-medium">{quickAddVendor.necessityName}</span> sebagai draft vendor?
+              ke <span id="quick-add-vendor-necessity" className="font-medium">{quickAddVendor.weddingElementName}</span> sebagai draft vendor?
             </p>
             <div id="quick-add-vendor-actions" className="flex items-center gap-3">
               <button id="quick-add-vendor-cancel-btn" onClick={() => setQuickAddVendor(null)}

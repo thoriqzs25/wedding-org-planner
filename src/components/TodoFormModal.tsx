@@ -6,13 +6,13 @@ import Icon from "./Icon";
 
 interface TodoFormModalProps {
   todo?: Todo;
-  necessityId: string;
+  weddingElementId: string;
   onSave: (todo: Omit<Todo, "id"> & { id?: string }) => void;
   onDelete?: (id: string) => void;
   onClose: () => void;
 }
 
-export default function TodoFormModal({ todo, necessityId, onSave, onDelete, onClose }: TodoFormModalProps) {
+export default function TodoFormModal({ todo, weddingElementId, onSave, onDelete, onClose }: TodoFormModalProps) {
   const [title, setTitle] = useState(todo?.title ?? "");
   const [pic, setPic] = useState(todo?.pic ?? "");
   const [dueDate, setDueDate] = useState(todo?.dueDate ?? "");
@@ -23,7 +23,7 @@ export default function TodoFormModal({ todo, necessityId, onSave, onDelete, onC
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSave({ id: todo?.id, necessityId, title, pic, dueDate, status, description, link });
+    onSave({ id: todo?.id, weddingElementId, title, pic, dueDate, status, description, link });
   };
 
   return (

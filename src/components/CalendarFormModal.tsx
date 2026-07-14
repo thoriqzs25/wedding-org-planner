@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { CalendarEvent } from "@/types";
-import { mockNecessities } from "@/data/mock";
+import { mockWeddingElements } from "@/data/mock";
 import Icon from "./Icon";
 
 interface CalendarFormModalProps {
@@ -14,14 +14,14 @@ interface CalendarFormModalProps {
 export default function CalendarFormModal({ event, onSave, onClose }: CalendarFormModalProps) {
   const [title, setTitle] = useState(event?.title ?? "");
   const [date, setDate] = useState(event?.date ?? new Date().toISOString().split("T")[0]);
-  const [necessityId, setNecessityId] = useState(event?.necessityId ?? mockNecessities[0]?.id ?? "");
+  const [necessityId, setNecessityId] = useState(event?.weddingElementId ?? mockWeddingElements[0]?.id ?? "");
   const [description, setDescription] = useState(event?.description ?? "");
 
-  const necessityName = mockNecessities.find((n) => n.id === necessityId)?.name ?? "";
+  const necessityName = mockWeddingElements.find((n) => n.id === necessityId)?.name ?? "";
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSave({ id: event?.id, title, date, necessityId, necessityName, description });
+    onSave({ id: event?.id, title, date, weddingElementId: necessityId, weddingElementName: necessityName, description });
   };
 
   return (
@@ -52,10 +52,10 @@ export default function CalendarFormModal({ event, onSave, onClose }: CalendarFo
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-amber-900/70 mb-1">Kebutuhan Terkait</label>
+            <label className="block text-sm font-medium text-amber-900/70 mb-1">Elemen Pernikahan Terkait</label>
             <select value={necessityId} onChange={(e) => setNecessityId(e.target.value)}
               className="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream/50 focus:outline-none focus:border-orange text-amber-900">
-              {mockNecessities.map((n) => (
+              {mockWeddingElements.map((n) => (
                 <option key={n.id} value={n.id}>{n.name}</option>
               ))}
             </select>

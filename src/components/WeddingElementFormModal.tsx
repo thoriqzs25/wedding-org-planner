@@ -3,8 +3,8 @@
 import { useState } from "react";
 import Icon from "./Icon";
 import { availableIcons } from "@/data/availableIcons";
-import { necessityColorPalette } from "@/data/necessityIcons";
-import type { NecessityColor } from "@/types";
+import { weddingElementColorPalette } from "@/data/weddingElementIcons";
+import type { WeddingElementColor } from "@/types";
 
 const recommended = [
   { name: "Venue", icon: "location_on" },
@@ -21,16 +21,16 @@ const recommended = [
   { name: "Prewedding", icon: "favorite" },
 ];
 
-interface NecessityFormModalProps {
+interface WeddingElementFormModalProps {
   existingNames: string[];
-  onSave: (name: string, icon: string, color: NecessityColor) => void;
+  onSave: (name: string, icon: string, color: WeddingElementColor) => void;
   onClose: () => void;
 }
 
-export default function NecessityFormModal({ existingNames, onSave, onClose }: NecessityFormModalProps) {
+export default function WeddingElementFormModal({ existingNames, onSave, onClose }: WeddingElementFormModalProps) {
   const [name, setName] = useState("");
   const [selectedIcon, setSelectedIcon] = useState("celebration");
-  const [selectedColor, setSelectedColor] = useState<NecessityColor>("orange");
+  const [selectedColor, setSelectedColor] = useState<WeddingElementColor>("orange");
 
   const missing = recommended.filter((r) => {
     const lower = r.name.toLowerCase();
@@ -54,7 +54,7 @@ export default function NecessityFormModal({ existingNames, onSave, onClose }: N
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
       <div className="relative bg-white rounded-2xl shadow-xl max-w-lg w-full mx-4 max-h-[85vh] overflow-y-auto">
         <div className="sticky top-0 bg-white rounded-t-2xl border-b border-gold/30 px-6 py-4 flex items-center justify-between">
-          <h2 className="text-lg font-bold text-amber-900">Tambah Kebutuhan</h2>
+          <h2 className="text-lg font-bold text-amber-900">Tambah Elemen Pernikahan</h2>
           <button onClick={onClose} className="cursor-pointer w-8 h-8 rounded-full hover:bg-cream flex items-center justify-center text-amber-900/50 hover:text-amber-900">
             <Icon name="close" size={20} />
           </button>
@@ -66,7 +66,7 @@ export default function NecessityFormModal({ existingNames, onSave, onClose }: N
             <div>
               <p className="text-xs font-medium text-amber-800/60 mb-2 flex items-center gap-1">
                 <Icon name="auto_awesome" size={14} />
-                Rekomendasi kebutuhan penting
+                Rekomendasi elemen pernikahan penting
               </p>
               <div className="flex flex-wrap gap-2">
                 {missing.map((rec) => {
@@ -90,7 +90,7 @@ export default function NecessityFormModal({ existingNames, onSave, onClose }: N
           {/* Custom name */}
           <div>
             <label className="block text-sm font-medium text-amber-900/70 mb-1">
-              {name ? "Atau edit nama kebutuhan" : "Nama kebutuhan custom"}
+              {name ? "Atau edit nama elemen" : "Nama elemen custom"}
             </label>
             <input value={name} onChange={(e) => setName(e.target.value)} autoFocus
               className="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream/50 focus:outline-none focus:border-orange text-amber-900"
@@ -101,7 +101,7 @@ export default function NecessityFormModal({ existingNames, onSave, onClose }: N
           <div>
             <label className="block text-sm font-medium text-amber-900/70 mb-3">Pilih Warna</label>
             <div className="flex gap-3">
-              {necessityColorPalette.map((palette) => (
+              {weddingElementColorPalette.map((palette) => (
                 <button key={palette.name} type="button"
                   onClick={() => setSelectedColor(palette.name)}
                   className={`cursor-pointer flex-1 h-12 rounded-xl flex items-center justify-center transition-all ${
@@ -137,23 +137,23 @@ export default function NecessityFormModal({ existingNames, onSave, onClose }: N
 
           {/* Preview */}
           <div className={`flex items-center gap-3 p-3 rounded-xl ${
-            necessityColorPalette.find((c) => c.name === selectedColor)?.bg || "bg-cream/70"
+            weddingElementColorPalette.find((c) => c.name === selectedColor)?.bg || "bg-cream/70"
           }`}>
             <div className={`w-10 h-10 rounded-xl ${
-              necessityColorPalette.find((c) => c.name === selectedColor)?.bg || "bg-orange/10"
+              weddingElementColorPalette.find((c) => c.name === selectedColor)?.bg || "bg-orange/10"
             } flex items-center justify-center`}>
               <Icon name={selectedIcon} size={20}
-                className={necessityColorPalette.find((c) => c.name === selectedColor)?.text || "text-orange"} />
+                className={weddingElementColorPalette.find((c) => c.name === selectedColor)?.text || "text-orange"} />
             </div>
             <div>
-              <p className="text-sm font-medium text-amber-900">{name || "Nama Kebutuhan"}</p>
+              <p className="text-sm font-medium text-amber-900">{name || "Nama Elemen"}</p>
               <p className="text-xs text-amber-800/50">{selectedIcon}</p>
             </div>
           </div>
 
           <button type="submit"
             className="w-full py-3 bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm">
-            Tambah Kebutuhan
+            Tambah Elemen
           </button>
         </form>
       </div>

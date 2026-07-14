@@ -2,18 +2,18 @@
 
 import { useState } from "react";
 import { Vendor } from "@/types";
-import { mockNecessities } from "@/data/mock";
-import { getNecessityIcon, getNecessityColor } from "@/data/necessityIcons";
+import { mockWeddingElements } from "@/data/mock";
+import { getWeddingElementIcon, getWeddingElementColor } from "@/data/weddingElementIcons";
 import Icon from "./Icon";
 
 interface VendorFormModalProps {
   vendor?: Vendor;
-  necessityId: string;
+  weddingElementId: string;
   onSave: (vendor: Omit<Vendor, "id"> & { id?: string }) => void;
   onClose: () => void;
 }
 
-export default function VendorFormModal({ vendor, necessityId: initialNecId, onSave, onClose }: VendorFormModalProps) {
+export default function VendorFormModal({ vendor, weddingElementId: initialNecId, onSave, onClose }: VendorFormModalProps) {
   const [selectedNecId, setSelectedNecId] = useState(initialNecId);
   const [name, setName] = useState(vendor?.name ?? "");
   const [priority, setPriority] = useState(vendor?.priority ?? 1);
@@ -25,14 +25,14 @@ export default function VendorFormModal({ vendor, necessityId: initialNecId, onS
     vendor?.socialLinks ?? [{ platform: "Instagram", url: "" }]
   );
 
-  const nec = mockNecessities.find((n) => n.id === selectedNecId);
-  const c = getNecessityColor(selectedNecId, nec?.color);
+  const nec = mockWeddingElements.find((n) => n.id === selectedNecId);
+  const c = getWeddingElementColor(selectedNecId, nec?.color);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSave({
       id: vendor?.id,
-      necessityId: selectedNecId,
+      weddingElementId: selectedNecId,
       name,
       socialLinks: socialLinks.filter((s) => s.url),
       priority,
@@ -60,11 +60,11 @@ export default function VendorFormModal({ vendor, necessityId: initialNecId, onS
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           {/* Kebutuhan dropdown */}
           <div>
-            <label className="block text-sm font-medium text-amber-900/70 mb-1">Kebutuhan</label>
+            <label className="block text-sm font-medium text-amber-900/70 mb-1">Elemen Pernikahan</label>
             <div className="relative">
               <select value={selectedNecId} onChange={(e) => setSelectedNecId(e.target.value)} required
                 className={`w-full px-4 py-3 rounded-xl border bg-cream/50 focus:outline-none focus:border-orange text-sm appearance-none ${c.text} ${c.bg}`}>
-                {mockNecessities.map((n) => (
+                {mockWeddingElements.map((n) => (
                   <option key={n.id} value={n.id}>{n.name}</option>
                 ))}
               </select>

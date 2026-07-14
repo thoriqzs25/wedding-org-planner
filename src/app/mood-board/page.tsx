@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { mockGalleryItems, mockNecessities } from "@/data/mock";
+import { mockGalleryItems, mockWeddingElements } from "@/data/mock";
 import { GalleryItem } from "@/types";
-import { getNecessityIcon, getNecessityColor } from "@/data/necessityIcons";
+import { getWeddingElementIcon, getWeddingElementColor } from "@/data/weddingElementIcons";
 import Icon from "@/components/Icon";
 import GalleryFormModal from "@/components/GalleryFormModal";
 import Tooltip from "@/components/Tooltip";
@@ -29,10 +29,10 @@ export default function MoodBoardPage() {
   const [editingItem, setEditingItem] = useState<GalleryItem | undefined>(undefined);
   const [showForm, setShowForm] = useState(false);
 
-  const groups = mockNecessities
+  const groups = mockWeddingElements
     .map((nec) => ({
       necessity: nec,
-      items: items.filter((item) => item.necessityId === nec.id),
+      items: items.filter((item) => item.weddingElementId === nec.id),
     }))
     .filter((g) => g.items.length > 0);
 
@@ -67,12 +67,12 @@ export default function MoodBoardPage() {
         <div id="mood-board-empty" className="text-center py-16 text-amber-800/40">
           <Icon name="collections" size={40} className="mb-3 text-amber-800/30" />
           <p id="mood-board-empty-title" className="text-sm">Belum ada inspirasi</p>
-          <p id="mood-board-empty-hint" className="text-xs mt-1">Tambahkan inspirasi dari halaman kebutuhan</p>
+          <p id="mood-board-empty-hint" className="text-xs mt-1">Tambahkan inspirasi dari halaman elemen pernikahan</p>
         </div>
       ) : (
         <div id="mood-board-groups-grid" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {groups.map(({ necessity, items: groupItems }) => {
-            const c = getNecessityColor(necessity.id, necessity.color);
+            const c = getWeddingElementColor(necessity.id, necessity.color);
             const previews = groupItems.slice(0, 3);
             const remaining = groupItems.length - 3;
 
@@ -111,10 +111,10 @@ export default function MoodBoardPage() {
                 <div id={`mood-board-group-${necessity.id}-info`} className={`p-4 ${c.bg} border-t ${c.border}`}>
                   <div id={`mood-board-group-${necessity.id}-info-row`} className="flex items-center gap-3">
                     <div id={`mood-board-group-${necessity.id}-icon`} className={`w-10 h-10 rounded-xl bg-white/80 flex items-center justify-center shrink-0`}>
-                      <Icon name={getNecessityIcon(necessity.id, necessity.icon)} size={20} className={c.text} />
+                      <Icon name={getWeddingElementIcon(necessity.id, necessity.icon)} size={20} className={c.text} />
                     </div>
                     <div id={`mood-board-group-${necessity.id}-text`} className="flex-1 min-w-0">
-                      <Tooltip content="Kategori kebutuhan pernikahan dengan koleksi inspirasi visual">
+                      <Tooltip content="Kategori elemen pernikahan dengan koleksi inspirasi visual">
                         <h3 id={`mood-board-group-${necessity.id}-name`} className={`text-sm font-bold ${c.text}`}>{necessity.name}</h3>
                       </Tooltip>
                       <p id={`mood-board-group-${necessity.id}-count`} className="text-xs text-amber-800/50">{groupItems.length} inspirasi</p>

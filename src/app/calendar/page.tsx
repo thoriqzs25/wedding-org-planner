@@ -129,7 +129,7 @@ export default function CalendarPage() {
                 </div>
                 <div id={`calendar-event-item-${event.id}-details`} className="flex-1">
                   <p id={`calendar-event-item-${event.id}-title`} className="text-sm font-medium text-amber-900">{event.title}</p>
-                  <p id={`calendar-event-item-${event.id}-necessity`} className="text-xs text-amber-800/50">{event.necessityName}</p>
+                  <p id={`calendar-event-item-${event.id}-necessity`} className="text-xs text-amber-800/50">{event.weddingElementName}</p>
                   {event.description && <p id={`calendar-event-item-${event.id}-description`} className="text-xs text-amber-800/60 mt-1">{event.description}</p>}
                 </div>
                 <button id={`calendar-event-item-${event.id}-delete`} onClick={(e) => { e.stopPropagation(); setDeleteId(event.id); }}

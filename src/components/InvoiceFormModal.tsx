@@ -1,19 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { Invoice, Necessity } from "@/types";
+import { Invoice, WeddingElement } from "@/types";
 import Icon from "./Icon";
 
 interface InvoiceFormModalProps {
   invoice?: Invoice;
-  necessities: Necessity[];
+  necessities: WeddingElement[];
   onSave: (inv: Omit<Invoice, "id"> & { id?: string }) => void;
   onClose: () => void;
 }
 
 export default function InvoiceFormModal({ invoice, necessities, onSave, onClose }: InvoiceFormModalProps) {
   const selectedCategories = necessities.filter((n) => n.selectedVendorId);
-  const [selectedNecId, setSelectedNecId] = useState(invoice?.necessityId ?? selectedCategories[0]?.id ?? "");
+  const [selectedNecId, setSelectedNecId] = useState(invoice?.weddingElementId ?? selectedCategories[0]?.id ?? "");
   const [amount, setAmount] = useState(invoice?.amount ?? 0);
   const [notes, setNotes] = useState(invoice?.notes ?? "");
   const [date, setDate] = useState(invoice?.date ?? new Date().toISOString().split("T")[0]);
@@ -27,8 +27,8 @@ export default function InvoiceFormModal({ invoice, necessities, onSave, onClose
     e.preventDefault();
     onSave({
       id: invoice?.id,
-      necessityId: selectedNecId,
-      necessityName: selectedNec?.name ?? "",
+      weddingElementId: selectedNecId,
+      weddingElementName: selectedNec?.name ?? "",
       vendorName: selectedVendor?.name || "",
       photoUrl: invoice?.photoUrl ?? "",
       amount,
