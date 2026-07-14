@@ -4,8 +4,23 @@ All notable changes will be documented in this file.
 
 ## [Unreleased]
 
+### Added
+- Gift registry implementation plan (`plans/gift-registry-plan.md`)
+
 ### Changed
-- Mobile responsiveness: fixed hover-only buttons now visible on mobile (Tambah vendor CTA, edit/delete invoice actions, task delete buttons); added flex-wrap to prevent overflow on small screens; added truncate to long vendor/necessity names
+- Renamed "Kebutuhan" (Necessity) to "Wedding Elements" (Elemen Pernikahan) — route `/necessity` → `/wedding-elements`, components, types, mock data, and icons updated across 21 files
+- Refactored NecessityCard into standalone component
+- Extracted shared todo status constants to `src/constants/todo.ts` with centralized `statusConfig` object
+- Created `TodoListRow` component with dropdown status selector, fixed height, explicit detail link, and improved contrast
+- Replaced todo status button with dropdown on wedding-elements detail page, applied fixed height (`h-18`) and improved contrast
+- Cleaned up dead `nextStatus` code, derived dropdown options from `statusConfig`, added border-left accent colors to todo items, strengthened contrast across todo UI
+
+### Fixed
+- Fixed countdown date layout on mobile screens
+- Fixed mobile responsive grid on invoices page
+
+### Changed
+- Mobile responsiveness: fixed hover-only buttons now visible on mobile (Tambah vendor CTA, edit/delete invoice actions, task delete buttons); added flex-wrap to prevent overflow on small screens; added truncate to long vendor/wedding-element names
 - Tooltip component: rewritten to use `createPortal` with `position: fixed` to prevent overflow clipping by parent containers
 - Added tooltips to all section/card titles across all pages explaining what each section is about
 - Close/collapse buttons standardized to "Tutup" text with X icon across all collapsible sections
