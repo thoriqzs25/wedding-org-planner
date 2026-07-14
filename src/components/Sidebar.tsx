@@ -89,7 +89,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
           })}
         </nav>
 
-        <div className="p-3 border-t border-gold/30 space-y-1">
+        <div className="p-3 border-t border-gold/30 space-y-1 pb-[max(env(safe-area-inset-bottom),0.75rem)]">
           <div className="flex items-center gap-3 px-4 min-h-[44px]">
             <div className="w-9 h-9 rounded-full bg-pink/30 flex items-center justify-center text-sm font-semibold text-pink shrink-0">
               A
