@@ -71,7 +71,7 @@ export default function Tooltip({ children, content, position = "top" }: Tooltip
   return (
     <div
       ref={triggerRef}
-      className="relative inline-flex"
+      className="relative inline-flex cursor-help"
       onMouseEnter={() => setShow(true)}
       onMouseLeave={() => setShow(false)}
       onClick={() => setShow(!show)}
