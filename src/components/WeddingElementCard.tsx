@@ -56,7 +56,7 @@ export default function WeddingElementCard({ nec, onDelete }: WeddingElementCard
   return (
     <div id={`card-${nec.id}`} className="relative group h-full">
       <Link id={`card-${nec.id}-link`} href={`/wedding-elements/${nec.id}`}
-        className={`flex flex-col rounded-2xl p-5 shadow-sm hover:shadow-lg transition-all duration-300 h-full ${
+        className={`flex flex-col rounded-2xl p-4 sm:p-5 shadow-sm hover:shadow-lg transition-all duration-300 h-full ${
           hasOverdue
             ? "bg-white ring-2 ring-red/40"
             : allDone
