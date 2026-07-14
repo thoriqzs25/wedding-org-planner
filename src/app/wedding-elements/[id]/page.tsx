@@ -6,7 +6,7 @@ import Link from "next/link";
 import { mockWeddingElements, mockInvoices } from "@/data/mock";
 import { Todo, Vendor, WeddingElement } from "@/types";
 import { getWeddingElementIcon, getWeddingElementColor } from "@/data/weddingElementIcons";
-import { statusConfig } from "@/constants/todo";
+import { statusConfig, statusOptions } from "@/constants/todo";
 import VendorModal from "@/components/VendorModal";
 import VendorFormModal from "@/components/VendorFormModal";
 import TodoFormModal from "@/components/TodoFormModal";
@@ -346,11 +346,11 @@ export default function WeddingElementDetailPage() {
               const isDone = todo.status === "done";
               return (
                 <div key={todo.id} id={`todo-item-${todo.id}`}
-                  className={`flex items-center gap-3 px-4 h-18 rounded-lg border transition-all ${
-                    isDone ? "border-green/30 bg-green/[0.02]"
-                    : todo.status === "in_progress" ? "border-gold/40 bg-gold/[0.02]"
-                    : isOverdue ? "border-red/30 bg-red/[0.02]"
-                    : "border-gold/20 hover:bg-cream/50"
+                  className={`flex items-center gap-3 px-4 h-18 rounded-lg border border-l-2 transition-all ${
+                    isDone ? "border-green/40 bg-green/[0.02] border-l-green"
+                    : todo.status === "in_progress" ? "border-gold/40 bg-gold/[0.02] border-l-gold"
+                    : isOverdue ? "border-red/40 bg-red/[0.02] border-l-red"
+                    : "border-gold/20 border-l-transparent hover:bg-cream/50"
                   }`}>
                   <select
                     id={`todo-item-${todo.id}-status-select`}
@@ -370,9 +370,9 @@ export default function WeddingElementDetailPage() {
                       paddingRight: '22px',
                     }}
                   >
-                    <option value="pending">Pending</option>
-                    <option value="in_progress">Diproses</option>
-                    <option value="done">Selesai</option>
+                    {statusOptions.map((opt) => (
+                      <option key={opt.value} value={opt.value}>{opt.label}</option>
+                    ))}
                   </select>
 
                   <div id={`todo-item-${todo.id}-content`} className="flex-1 min-w-0">

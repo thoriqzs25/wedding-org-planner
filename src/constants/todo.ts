@@ -6,10 +6,10 @@ export const statusConfig: Record<Todo["status"], { label: string; icon: string;
   done: { label: "Selesai", icon: "check_circle", color: "text-green", bg: "bg-green/10 text-green" },
 };
 
-export const nextStatus: Record<Todo["status"], Todo["status"]> = {
-  pending: "in_progress",
-  in_progress: "done",
-  done: "pending",
-};
-
 export const statusOrder: Record<string, number> = { pending: 0, in_progress: 1, done: 2 };
+
+export const statusOptions: { value: Todo["status"]; label: string }[] = [
+  { value: "pending", label: "Pending" },
+  { value: "in_progress", label: "Diproses" },
+  { value: "done", label: "Selesai" },
+];

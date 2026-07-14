@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Todo } from "@/types";
-import { statusConfig } from "@/constants/todo";
+import { statusConfig, statusOptions } from "@/constants/todo";
 import Icon from "@/components/Icon";
 
 interface TodoListRowProps {
@@ -22,8 +22,14 @@ export default function TodoListRow({ todo, onStatusChange }: TodoListRowProps) 
   return (
     <div
       id={`todo-${todo.id}`}
-      className={`flex items-center gap-3 px-4 h-18 border-b border-gold/10 transition-colors ${
-        isOverdue ? "bg-red/[0.03]" : ""
+      className={`flex items-center gap-3 px-4 h-18 border-b border-gold/20 border-l-2 transition-colors ${
+        isOverdue
+          ? "bg-red/[0.03] border-l-red"
+          : isDone
+          ? "border-l-green"
+          : todo.status === "in_progress"
+          ? "border-l-gold"
+          : "border-l-transparent"
       } ${isDone ? "opacity-70" : ""}`}
     >
       <select
@@ -44,9 +50,9 @@ export default function TodoListRow({ todo, onStatusChange }: TodoListRowProps) 
           paddingRight: '22px',
         }}
       >
-        <option value="pending">Pending</option>
-        <option value="in_progress">Diproses</option>
-        <option value="done">Selesai</option>
+        {statusOptions.map((opt) => (
+          <option key={opt.value} value={opt.value}>{opt.label}</option>
+        ))}
       </select>
 
       <div className="flex-1 min-w-0">
