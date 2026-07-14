@@ -10,6 +10,7 @@ import VendorModal from "@/components/VendorModal";
 import VendorFormModal from "@/components/VendorFormModal";
 import TodoFormModal from "@/components/TodoFormModal";
 import CascadeWarning from "@/components/CascadeWarning";
+import Tooltip from "@/components/Tooltip";
 import Icon from "@/components/Icon";
 
 const statusConfig: Record<Todo["status"], { label: string; icon: string; color: string; bg: string }> = {
