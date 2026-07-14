@@ -179,7 +179,7 @@ export default function DashboardPage() {
         <div id="countdown-inner" className="relative px-5 sm:px-8 py-5 sm:py-6 flex items-center gap-4 sm:gap-8">
           <div id="countdown-ring-wrap" className="relative shrink-0">
             <div id="countdown-ring" className="relative w-20 h-20 sm:w-24 sm:h-24">
-              <svg id="countdown-svg" className="w-24 h-24 -rotate-90" viewBox="0 0 36 36">
+              <svg id="countdown-svg" className="w-20 h-20 sm:w-24 sm:h-24 -rotate-90" viewBox="0 0 36 36">
                 <circle id="countdown-ring-bg" cx="18" cy="18" r="15.5" fill="none" stroke="#FFFAE5" strokeWidth="2.5" />
                 <circle id="countdown-ring-fill" cx="18" cy="18" r="15.5" fill="none"
                   stroke={warnThreshold.time ? "#FC95B4" : "#EB7B26"}
