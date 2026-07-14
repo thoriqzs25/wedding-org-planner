@@ -6,24 +6,13 @@ import Link from "next/link";
 import { mockWeddingElements, mockInvoices } from "@/data/mock";
 import { Todo, Vendor, WeddingElement } from "@/types";
 import { getWeddingElementIcon, getWeddingElementColor } from "@/data/weddingElementIcons";
+import { statusConfig } from "@/constants/todo";
 import VendorModal from "@/components/VendorModal";
 import VendorFormModal from "@/components/VendorFormModal";
 import TodoFormModal from "@/components/TodoFormModal";
 import CascadeWarning from "@/components/CascadeWarning";
 import Tooltip from "@/components/Tooltip";
 import Icon from "@/components/Icon";
-
-const statusConfig: Record<Todo["status"], { label: string; icon: string; color: string; bg: string }> = {
-  pending: { label: "Pending", icon: "radio_button_unchecked", color: "text-amber-800/30", bg: "bg-cream text-amber-800/50" },
-  in_progress: { label: "Diproses", icon: "progress_activity", color: "text-gold", bg: "bg-gold/20 text-amber-800" },
-  done: { label: "Selesai", icon: "check_circle", color: "text-green", bg: "bg-green/10 text-green" },
-};
-
-const nextStatus: Record<Todo["status"], Todo["status"]> = {
-  pending: "in_progress",
-  in_progress: "done",
-  done: "pending",
-};
 
 export default function WeddingElementDetailPage() {
   const params = useParams();
@@ -146,11 +135,11 @@ export default function WeddingElementDetailPage() {
     setEditingTodo(undefined);
   };
 
-  const cycleTodoStatus = (todoId: string) => {
+  const setTodoStatus = (todoId: string, newStatus: Todo["status"]) => {
     setNecessities((prev) =>
       prev.map((n) => {
         if (n.id !== id) return n;
-        return { ...n, todos: n.todos.map((t) => t.id !== todoId ? t : { ...t, status: nextStatus[t.status] }) };
+        return { ...n, todos: n.todos.map((t) => t.id !== todoId ? t : { ...t, status: newStatus }) };
       })
     );
   };
@@ -350,38 +339,61 @@ export default function WeddingElementDetailPage() {
             </button>
           </div>
         ) : (
-          <div id="todo-list" className="space-y-2">
+          <div id="todo-list" className="space-y-1">
             {necessity.todos.map((todo) => {
               const config = statusConfig[todo.status];
+              const isOverdue = todo.status !== "done" && new Date(todo.dueDate) < new Date();
+              const isDone = todo.status === "done";
               return (
                 <div key={todo.id} id={`todo-item-${todo.id}`}
-                  className={`group flex items-start gap-4 p-4 rounded-xl border transition-all duration-300 ${
-                    todo.status === "done" ? "border-green/20 bg-green/[0.02]"
-                    : todo.status === "in_progress" ? "border-gold/30 bg-gold/[0.02]"
+                  className={`flex items-center gap-3 px-4 h-18 rounded-lg border transition-all ${
+                    isDone ? "border-green/30 bg-green/[0.02]"
+                    : todo.status === "in_progress" ? "border-gold/40 bg-gold/[0.02]"
+                    : isOverdue ? "border-red/30 bg-red/[0.02]"
                     : "border-gold/20 hover:bg-cream/50"
                   }`}>
-                  <button id={`todo-item-${todo.id}-status-button`} onClick={() => cycleTodoStatus(todo.id)} className="mt-0.5 shrink-0 transition-all active:scale-90 cursor-pointer">
-                    <Icon name={config.icon} size={24} className={`${config.color} transition-colors duration-300`} filled={todo.status === "done"} />
-                  </button>
+                  <select
+                    id={`todo-item-${todo.id}-status-select`}
+                    value={todo.status}
+                    onChange={(e) => setTodoStatus(todo.id, e.target.value as Todo["status"])}
+                    className={`shrink-0 text-xs font-medium rounded-lg border px-2.5 py-1.5 cursor-pointer focus:outline-none focus:ring-2 focus:ring-orange/30 appearance-none bg-white ${
+                      isDone
+                        ? "border-green/40 text-green"
+                        : todo.status === "in_progress"
+                        ? "border-gold/40 text-amber-800"
+                        : "border-red/40 text-red"
+                    }`}
+                    style={{
+                      backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%23b8860b' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`,
+                      backgroundRepeat: 'no-repeat',
+                      backgroundPosition: 'right 6px center',
+                      paddingRight: '22px',
+                    }}
+                  >
+                    <option value="pending">Pending</option>
+                    <option value="in_progress">Diproses</option>
+                    <option value="done">Selesai</option>
+                  </select>
+
                   <div id={`todo-item-${todo.id}-content`} className="flex-1 min-w-0">
-                    <div id={`todo-item-${todo.id}-title-row`} className="flex items-center gap-2">
-                      <p id={`todo-item-${todo.id}-title`} className={`text-sm font-medium transition-all duration-300 ${todo.status === "done" ? "text-amber-800/50 line-through" : "text-amber-900"}`}>{todo.title}</p>
-                      {todo.status === "in_progress" && <span id={`todo-item-${todo.id}-pulse`} className="animate-pulse w-1.5 h-1.5 rounded-full bg-gold shrink-0" />}
+                    <div className="flex items-center gap-2">
+                      <p className={`text-sm font-medium truncate ${isDone ? "text-amber-800/40 line-through" : "text-amber-900"}`}>
+                        {todo.title}
+                      </p>
+                      {todo.status === "in_progress" && <span className="animate-pulse w-1.5 h-1.5 rounded-full bg-gold shrink-0" />}
                     </div>
-                    <div id={`todo-item-${todo.id}-meta`} className="flex flex-wrap gap-3 mt-1 text-xs text-amber-800/50">
-                      <span id={`todo-item-${todo.id}-pic`} className="flex items-center gap-1"><Icon name="person" size={12} />{todo.pic}</span>
-                      <span id={`todo-item-${todo.id}-date`} className="flex items-center gap-1"><Icon name="calendar_today" size={12} />{new Date(todo.dueDate).toLocaleDateString("id-ID")}</span>
-                      {todo.description && <span id={`todo-item-${todo.id}-description`} className="text-amber-800/40"><Icon name="description" size={12} />{todo.description.length > 30 ? todo.description.slice(0, 30) + "…" : todo.description}</span>}
+                    <div className="flex items-center gap-3 mt-0.5 text-xs text-amber-800/60">
+                      <span className="flex items-center gap-1"><Icon name="person" size={12} />{todo.pic}</span>
+                      <span className="flex items-center gap-1"><Icon name="calendar_today" size={12} />{new Date(todo.dueDate).toLocaleDateString("id-ID")}</span>
                     </div>
-                    {todo.link && (
-                      <a id={`todo-item-${todo.id}-link`} href={todo.link} target="_blank" rel="noopener noreferrer"
-                        className="text-xs text-orange hover:underline mt-1 inline-flex items-center gap-1"><Icon name="link" size={14} /> Link referensi</a>
-                    )}
                   </div>
-                  <div id={`todo-item-${todo.id}-actions`} className="flex flex-col items-end gap-2 shrink-0">
-                    <span id={`todo-item-${todo.id}-status-badge`} className={`text-[11px] px-2.5 py-1 rounded-full font-medium whitespace-nowrap ${config.bg}`}>{config.label}</span>
-                    <button id={`todo-item-${todo.id}-edit-button`} onClick={() => { setEditingTodo(todo); setShowTodoForm(true); }}
-                      className="text-[10px] text-amber-800/30 hover:text-orange transition-colors cursor-pointer"><Icon name="edit" size={14} /></button>
+
+                  <div className="flex flex-col items-end gap-1 shrink-0">
+                    <span className={`text-[11px] px-2.5 py-1 rounded-full font-medium whitespace-nowrap ${config.bg}`}>{config.label}</span>
+                    <button onClick={() => { setEditingTodo(todo); setShowTodoForm(true); }}
+                      className="text-[10px] text-amber-800/40 hover:text-orange transition-colors cursor-pointer">
+                      <Icon name="edit" size={14} />
+                    </button>
                   </div>
                 </div>
               );
