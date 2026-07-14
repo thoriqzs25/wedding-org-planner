@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Icon from "@/components/Icon";
 import ConfirmDialog from "@/components/ConfirmDialog";
 import { mockAccounts, mockQuestionnaire } from "@/data/mock";
 import type { Account, AccountStatus } from "@/types";
+import { getMaintenanceCheckItems } from "@/constants/navigation";
+import { loadMaintenanceConfig, saveMaintenanceConfig } from "@/utils/maintenance";
 
 const budgetLabels: Record<string, string> = {
   murah: "Low",
@@ -27,6 +29,29 @@ export default function AdminPage() {
   const [editBudgetTier, setEditBudgetTier] = useState("");
   const [editStatus, setEditStatus] = useState<AccountStatus>("active");
   const [search, setSearch] = useState("");
+
+  const maintenanceItems = getMaintenanceCheckItems();
+  const [maintainedPaths, setMaintainedPaths] = useState<string[]>([]);
+  const [maintenanceMessage, setMaintenanceMessage] = useState("");
+
+  useEffect(() => {
+    const config = loadMaintenanceConfig();
+    setMaintainedPaths(config.paths);
+    setMaintenanceMessage(config.message);
+  }, []);
+
+  const toggleMaintenance = (path: string) => {
+    setMaintainedPaths((prev) => {
+      const next = prev.includes(path)
+        ? prev.filter((p) => p !== path)
+        : [...prev, path];
+      return next;
+    });
+  };
+
+  const saveMaintenance = () => {
+    saveMaintenanceConfig({ paths: maintainedPaths, message: maintenanceMessage });
+  };
 
   const filtered = accounts.filter((a) => {
     const q = search.toLowerCase();
@@ -255,6 +280,88 @@ export default function AdminPage() {
                 No accounts found
               </div>
             )}
+          </div>
+        </div>
+
+        <div id="admin-maintenance-card" className="bg-white rounded-2xl shadow-lg border border-gold/30 overflow-hidden mt-6">
+          <div id="admin-maintenance-header" className="p-5 border-b border-gold/20">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-gold/20 flex items-center justify-center">
+                <Icon name="handyman" size={22} className="text-amber-600" />
+              </div>
+              <div>
+                <h2 id="admin-maintenance-title" className="text-lg font-bold text-amber-900">Page Maintenance</h2>
+                <p id="admin-maintenance-desc" className="text-xs text-amber-800/60 mt-0.5">
+                  Configure which pages display a maintenance notice
+                </p>
+              </div>
+            </div>
+          </div>
+          <div id="admin-maintenance-body" className="p-5 space-y-5">
+            <div id="admin-maintenance-paths" className="space-y-3">
+              <p id="admin-maintenance-paths-label" className="text-sm font-medium text-amber-900/70">Pages under maintenance</p>
+              <div id="admin-maintenance-checkbox-list" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {maintenanceItems.map((item) => {
+                  const checked = maintainedPaths.includes(item.path);
+                  return (
+                    <label
+                      key={item.path}
+                      id={`admin-maintenance-item-${item.path}`}
+                      className={`flex items-center gap-3 px-4 min-h-[44px] rounded-xl border cursor-pointer transition-colors ${
+                        checked
+                          ? "border-orange/40 bg-orange/5"
+                          : "border-gold/30 hover:border-gold/50"
+                      }`}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={checked}
+                        onChange={() => toggleMaintenance(item.path)}
+                        className="w-4 h-4 rounded border-gold/40 text-orange focus:ring-orange/30 accent-orange"
+                      />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm text-amber-900 truncate">{item.label}</p>
+                        <p className="text-xs text-amber-800/40 font-mono truncate">{item.path}</p>
+                      </div>
+                      {checked && <Icon name="handyman" size={16} className="text-amber-400 shrink-0" />}
+                    </label>
+                  );
+                })}
+              </div>
+            </div>
+            <div id="admin-maintenance-message-field">
+              <label id="admin-maintenance-message-label" className="block text-sm font-medium text-amber-900/70 mb-1">
+                Maintenance message
+              </label>
+              <textarea
+                id="admin-maintenance-message-input"
+                value={maintenanceMessage}
+                onChange={(e) => setMaintenanceMessage(e.target.value)}
+                placeholder="Maaf sekali pengalamanmu terganggu, datang kembali lain waktu yaa"
+                className="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream/50 focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 text-amber-900 placeholder-amber-800/30 text-sm resize-none"
+                rows={3}
+              />
+            </div>
+            <div id="admin-maintenance-actions" className="flex items-center gap-3 pt-1">
+              <button
+                id="admin-maintenance-save-btn"
+                onClick={saveMaintenance}
+                className="min-h-[44px] px-6 rounded-xl bg-orange text-white font-medium hover:bg-orange/90 transition-colors active:scale-[0.98] cursor-pointer"
+              >
+                Save Maintenance Config
+              </button>
+              <button
+                id="admin-maintenance-reset-btn"
+                onClick={() => {
+                  setMaintainedPaths([]);
+                  setMaintenanceMessage("");
+                  saveMaintenanceConfig({ paths: [], message: "" });
+                }}
+                className="min-h-[44px] px-6 rounded-xl border border-gold/40 text-amber-800/70 font-medium hover:bg-cream transition-colors active:scale-[0.98] cursor-pointer"
+              >
+                Reset
+              </button>
+            </div>
           </div>
         </div>
 

@@ -4,23 +4,16 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Icon from "./Icon";
-
-const navItems = [
-  { label: "Dashboard", href: "/", icon: "dashboard" },
-  { label: "Elemen Pernikahan", href: "/wedding-elements", icon: "checklist" },
-  { label: "Vendor Tracker", href: "/vendors", icon: "storefront" },
-  { label: "Mood Board", href: "/mood-board", icon: "collections" },
-  { label: "Invoice", href: "/invoices", icon: "receipt_long" },
-  { label: "Kalender", href: "/calendar", icon: "calendar_month" },
-  { label: "FAQ", href: "/faq", icon: "help" },
-];
+import { navItems } from "@/constants/navigation";
+import { isPathUnderMaintenance } from "@/utils/maintenance";
 
 interface SidebarProps {
   open: boolean;
   onClose: () => void;
+  maintainedPaths?: string[];
 }
 
-export default function Sidebar({ open, onClose }: SidebarProps) {
+export default function Sidebar({ open, onClose, maintainedPaths = [] }: SidebarProps) {
   const pathname = usePathname();
   const [showGuide, setShowGuide] = useState(false);
   const [hashClicks, setHashClicks] = useState(0);
@@ -73,20 +66,36 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
 
         <nav className="flex-1 p-3 space-y-1">
           {navItems.map((item) => {
-            const isActive =
+            const isMaintained = isPathUnderMaintenance(item.href, maintainedPaths);
+            const isActive = !isMaintained && (
               item.href === "/"
                 ? pathname === "/"
-                : pathname.startsWith(item.href);
+                : pathname.startsWith(item.href)
+            );
+            const linkClasses = `flex items-center gap-3 px-4 min-h-[44px] rounded-xl text-sm font-medium transition-colors ${
+              isActive
+                ? "bg-orange text-white shadow-sm"
+                : isMaintained
+                  ? "text-amber-800/30 cursor-not-allowed"
+                  : "text-amber-900/70 hover:bg-orange/10 hover:text-orange"
+            }`;
+
+            if (isMaintained) {
+              return (
+                <div key={item.href} className={linkClasses}>
+                  <Icon name={item.icon} size={20} />
+                  <span className="flex-1">{item.label}</span>
+                  <Icon name="handyman" size={16} className="text-amber-400" />
+                </div>
+              );
+            }
+
             return (
               <Link
                 key={item.href}
                 href={item.href}
                 onClick={onClose}
-                className={`flex items-center gap-3 px-4 min-h-[44px] rounded-xl text-sm font-medium transition-colors ${
-                  isActive
-                    ? "bg-orange text-white shadow-sm"
-                    : "text-amber-900/70 hover:bg-orange/10 hover:text-orange"
-                }`}
+                className={linkClasses}
               >
                 <Icon name={item.icon} size={20} />
                 {item.label}

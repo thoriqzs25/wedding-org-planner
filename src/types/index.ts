@@ -133,3 +133,8 @@ export interface RecentActivity {
   actionType: ActionType;
   createdAt: string;
 }
+
+export interface MaintenanceConfig {
+  paths: string[];
+  message: string;
+}
