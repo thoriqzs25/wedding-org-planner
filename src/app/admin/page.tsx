@@ -162,7 +162,7 @@ export default function AdminPage() {
                       <button
                         id={`admin-status-toggle-${account.id}`}
                         onClick={() => toggleStatus(account)}
-                        className={`inline-flex items-center gap-1.5 px-3 min-h-[32px] rounded-full text-xs font-medium transition-colors ${
+                        className={`inline-flex items-center gap-1.5 px-3 min-h-[32px] rounded-full text-xs font-medium transition-colors cursor-pointer ${
                           account.status === "active"
                             ? "bg-green/10 text-green"
                             : "bg-amber-100 text-amber-600"
@@ -182,7 +182,7 @@ export default function AdminPage() {
                         <button
                           id={`admin-edit-btn-${account.id}`}
                           onClick={() => openEdit(account)}
-                          className="flex items-center justify-center w-11 h-11 rounded-lg hover:bg-gold/20 text-amber-600 transition-colors active:scale-90"
+                          className="flex items-center justify-center w-11 h-11 rounded-lg hover:bg-gold/20 text-amber-600 transition-colors active:scale-90 cursor-pointer"
                           title="Edit"
                         >
                           <Icon name="edit" size={18} />
@@ -190,7 +190,7 @@ export default function AdminPage() {
                         <button
                           id={`admin-delete-btn-${account.id}`}
                           onClick={() => setDeleteTarget(account)}
-                          className="flex items-center justify-center w-11 h-11 rounded-lg hover:bg-red/10 text-red transition-colors active:scale-90"
+                          className="flex items-center justify-center w-11 h-11 rounded-lg hover:bg-red/10 text-red transition-colors active:scale-90 cursor-pointer"
                           title="Delete"
                         >
                           <Icon name="delete" size={18} />
@@ -221,11 +221,11 @@ export default function AdminPage() {
                   </div>
                   <div id={`admin-mobile-card-actions-${account.id}`} className="flex gap-1">
                     <button id={`admin-mobile-edit-btn-${account.id}`} onClick={() => openEdit(account)}
-                      className="flex items-center justify-center w-11 h-11 rounded-xl hover:bg-gold/20 text-amber-600 transition-colors active:scale-90">
+                      className="flex items-center justify-center w-11 h-11 rounded-xl hover:bg-gold/20 text-amber-600 transition-colors active:scale-90 cursor-pointer">
                       <Icon name="edit" size={18} />
                     </button>
                     <button id={`admin-mobile-delete-btn-${account.id}`} onClick={() => setDeleteTarget(account)}
-                      className="flex items-center justify-center w-11 h-11 rounded-xl hover:bg-red/10 text-red transition-colors active:scale-90">
+                      className="flex items-center justify-center w-11 h-11 rounded-xl hover:bg-red/10 text-red transition-colors active:scale-90 cursor-pointer">
                       <Icon name="delete" size={18} />
                     </button>
                   </div>
@@ -238,7 +238,7 @@ export default function AdminPage() {
                   <button
                     id={`admin-mobile-status-toggle-${account.id}`}
                     onClick={() => toggleStatus(account)}
-                    className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium transition-colors ${
+                    className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium transition-colors cursor-pointer ${
                       account.status === "active"
                         ? "bg-green/10 text-green"
                         : "bg-amber-100 text-amber-600"
@@ -276,7 +276,7 @@ export default function AdminPage() {
               <button
                 id="admin-modal-close-btn"
                 onClick={() => setEditingAccount(null)}
-                className="flex items-center justify-center w-11 h-11 rounded-lg hover:bg-cream text-amber-600 transition-colors active:scale-90"
+                className="flex items-center justify-center w-11 h-11 rounded-lg hover:bg-cream text-amber-600 transition-colors active:scale-90 cursor-pointer"
               >
                 <Icon name="close" size={20} />
               </button>
@@ -355,14 +355,14 @@ export default function AdminPage() {
               <button
                 id="admin-modal-cancel-btn"
                 onClick={() => setEditingAccount(null)}
-                className="flex-1 min-h-[44px] rounded-xl border border-gold/40 text-amber-900 font-medium hover:bg-cream transition-colors active:scale-[0.98]"
+                className="flex-1 min-h-[44px] rounded-xl border border-gold/40 text-amber-900 font-medium hover:bg-cream transition-colors active:scale-[0.98] cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 id="admin-modal-save-btn"
                 onClick={saveEdit}
-                className="flex-1 min-h-[44px] rounded-xl bg-orange text-white font-medium hover:bg-orange/90 transition-colors active:scale-[0.98]"
+                className="flex-1 min-h-[44px] rounded-xl bg-orange text-white font-medium hover:bg-orange/90 transition-colors active:scale-[0.98] cursor-pointer"
               >
                 Save Changes
               </button>

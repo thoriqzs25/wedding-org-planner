@@ -50,7 +50,7 @@ export default function MoodBoardPage() {
     <div id="mood-board-page" className="max-w-6xl space-y-6">
       <div id="mood-board-header" className="flex items-center justify-between">
         <div id="mood-board-title-section">
-          <Tooltip content="Kumpulan inspirasi dan referensi visual pernikahan">
+          <Tooltip content="Kumpulan inspirasi dan referensi visual pernikahan" position="bottom">
             <h1 id="mood-board-title" className="text-2xl font-bold text-amber-900 flex items-center gap-2">
               Mood Board <Icon name="collections" size={24} className="text-gold" />
             </h1>
@@ -58,7 +58,7 @@ export default function MoodBoardPage() {
           <p id="mood-board-subtitle" className="text-amber-800/60">Kumpulan inspirasi pernikahanmu</p>
         </div>
         <button id="mood-board-add-btn" onClick={() => { setEditingItem(undefined); setShowForm(true); }}
-          className="flex items-center gap-2 px-5 min-h-[44px] bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm active:scale-90">
+          className="flex items-center gap-2 px-5 min-h-[44px] bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm active:scale-90 cursor-pointer">
           <Icon name="add" size={18} /> Tambah Inspirasi
         </button>
       </div>

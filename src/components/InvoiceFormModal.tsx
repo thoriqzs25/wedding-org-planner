@@ -43,7 +43,7 @@ export default function InvoiceFormModal({ invoice, necessities, onSave, onClose
       <div className="relative bg-white rounded-2xl shadow-xl max-w-lg w-full mx-4">
         <div className="sticky top-0 bg-white rounded-t-2xl border-b border-gold/30 px-6 py-4 flex items-center justify-between">
           <h2 className="text-lg font-bold text-amber-900">{invoice ? "Edit Invoice" : "Tambah Invoice"}</h2>
-          <button onClick={onClose} className="w-8 h-8 rounded-full hover:bg-cream flex items-center justify-center text-amber-900/50 hover:text-amber-900">
+          <button onClick={onClose} className="cursor-pointer w-8 h-8 rounded-full hover:bg-cream flex items-center justify-center text-amber-900/50 hover:text-amber-900">
             <Icon name="close" size={20} />
           </button>
         </div>

@@ -305,7 +305,7 @@ export default function QuestionnairePage() {
                   id="questionnaire-back-btn"
                   type="button"
                   onClick={() => setStep(step - 1)}
-                  className="px-6 min-h-[44px] rounded-xl border border-gold/40 text-amber-900 font-medium hover:bg-cream transition-colors active:scale-95"
+                  className="px-6 min-h-[44px] rounded-xl border border-gold/40 text-amber-900 font-medium hover:bg-cream transition-colors active:scale-95 cursor-pointer"
                 >
                   Kembali
                 </button>
@@ -318,7 +318,7 @@ export default function QuestionnairePage() {
                   id="questionnaire-next-btn"
                   type="button"
                   onClick={() => setStep(step + 1)}
-                  className="px-6 min-h-[44px] bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm active:scale-95"
+                  className="px-6 min-h-[44px] bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm active:scale-95 cursor-pointer"
                 >
                   Lanjut
                 </button>

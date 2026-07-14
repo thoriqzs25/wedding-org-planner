@@ -30,7 +30,7 @@ export default function GalleryFormModal({ item, onSave, onClose }: GalleryFormM
           <h2 className="text-lg font-bold text-amber-900">
             {item ? "Edit Inspirasi" : "Tambah Inspirasi"}
           </h2>
-          <button onClick={onClose} className="w-8 h-8 rounded-full hover:bg-cream flex items-center justify-center text-amber-900/50 hover:text-amber-900">
+          <button onClick={onClose} className="cursor-pointer w-8 h-8 rounded-full hover:bg-cream flex items-center justify-center text-amber-900/50 hover:text-amber-900">
             <Icon name="close" size={20} />
           </button>
         </div>

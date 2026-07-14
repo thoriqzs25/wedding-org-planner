@@ -38,21 +38,21 @@ export default function WeddingInfoModal({ info, onSave, onClose }: WeddingInfoM
       <div className="relative bg-white rounded-2xl shadow-xl max-w-lg w-full mx-4">
         <div className="sticky top-0 bg-white rounded-t-2xl border-b border-gold/30 px-6 py-4 flex items-center justify-between">
           <h2 className="text-lg font-bold text-amber-900">Edit Informasi</h2>
-          <button onClick={onClose} className="w-8 h-8 rounded-full hover:bg-cream flex items-center justify-center text-amber-900/50 hover:text-amber-900">
+          <button onClick={onClose} className="cursor-pointer w-8 h-8 rounded-full hover:bg-cream flex items-center justify-center text-amber-900/50 hover:text-amber-900">
             <Icon name="close" size={20} />
           </button>
         </div>
 
         <div className="flex border-b border-gold/20">
           <button onClick={() => setTab("acara")}
-            className={`flex-1 py-3 text-sm font-medium text-center transition-colors ${
+            className={`cursor-pointer flex-1 py-3 text-sm font-medium text-center transition-colors ${
               tab === "acara" ? "text-orange border-b-2 border-orange" : "text-amber-800/50 hover:text-amber-900"
             }`}>
             <Icon name="event" size={16} className="inline mr-1" />
             Acara
           </button>
           <button onClick={() => setTab("budget")}
-            className={`flex-1 py-3 text-sm font-medium text-center transition-colors ${
+            className={`cursor-pointer flex-1 py-3 text-sm font-medium text-center transition-colors ${
               tab === "budget" ? "text-orange border-b-2 border-orange" : "text-amber-800/50 hover:text-amber-900"
             }`}>
             <Icon name="account_balance_wallet" size={16} className="inline mr-1" />
@@ -110,7 +110,7 @@ export default function WeddingInfoModal({ info, onSave, onClose }: WeddingInfoM
 
           <div className="flex gap-3 pt-2">
             <button type="button" onClick={onClose}
-              className="flex-1 py-3 rounded-xl border border-gold/40 text-amber-900 font-medium hover:bg-cream transition-colors">
+              className="cursor-pointer flex-1 py-3 rounded-xl border border-gold/40 text-amber-900 font-medium hover:bg-cream transition-colors">
               Batal
             </button>
             <button type="submit"

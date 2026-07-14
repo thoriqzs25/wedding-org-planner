@@ -33,18 +33,18 @@ export default function VendorModal({ vendor, onClose, onEdit, onDelete }: Vendo
           <div className="flex items-center gap-2">
             {!vendor.isRecommended && onEdit && (
               <button onClick={() => onEdit(vendor)}
-                className="w-8 h-8 rounded-full hover:bg-cream flex items-center justify-center text-amber-900/50 hover:text-orange">
+                className="cursor-pointer w-8 h-8 rounded-full hover:bg-cream flex items-center justify-center text-amber-900/50 hover:text-orange">
                 <Icon name="edit" size={18} />
               </button>
             )}
             {!vendor.isRecommended && onDelete && (
               <button onClick={() => setConfirmDelete(true)}
-                className="w-8 h-8 rounded-full hover:bg-pink/10 flex items-center justify-center text-amber-900/50 hover:text-pink">
+                className="cursor-pointer w-8 h-8 rounded-full hover:bg-pink/10 flex items-center justify-center text-amber-900/50 hover:text-pink">
                 <Icon name="delete" size={18} />
               </button>
             )}
             <button onClick={onClose}
-              className="w-8 h-8 rounded-full hover:bg-cream flex items-center justify-center text-amber-900/50 hover:text-amber-900">
+              className="cursor-pointer w-8 h-8 rounded-full hover:bg-cream flex items-center justify-center text-amber-900/50 hover:text-amber-900">
               <Icon name="close" size={20} />
             </button>
           </div>

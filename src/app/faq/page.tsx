@@ -113,7 +113,7 @@ export default function FAQPage() {
   return (
     <div id="faq-page" className="max-w-4xl space-y-6">
       <div id="faq-header">
-        <Tooltip content="Pertanyaan yang sering diajukan tentang pernikahan">
+        <Tooltip content="Pertanyaan yang sering diajukan tentang pernikahan" position="bottom">
           <h1 id="faq-title" className="text-2xl font-bold text-amber-900 flex items-center gap-2">
             <Icon name="help" size={24} className="text-orange" />
             FAQ Seputar Pernikahan
@@ -141,7 +141,7 @@ export default function FAQPage() {
                   <button
                     id={`faq-item-toggle-${idx}`}
                     onClick={() => toggle(idx)}
-                    className={`w-full flex items-center justify-between gap-3 px-4 py-3.5 text-left transition-colors ${
+                    className={`w-full flex items-center justify-between gap-3 px-4 py-3.5 text-left transition-colors cursor-pointer ${
                       openIdx === idx ? "bg-orange/5" : "hover:bg-cream/50"
                     }`}
                   >

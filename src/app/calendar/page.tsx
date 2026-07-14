@@ -55,11 +55,11 @@ export default function CalendarPage() {
     <div id="calendar-page" className="max-w-5xl space-y-6">
       <div id="calendar-header" className="flex items-center justify-between">
         <div id="calendar-title">
-          <Tooltip content="Jadwalkan meeting dan deadline persiapan pernikahan"><h1 id="calendar-title-heading" className="text-2xl font-bold text-amber-900">Kalender</h1></Tooltip>
+          <Tooltip content="Jadwalkan meeting dan deadline persiapan pernikahan" position="bottom"><h1 id="calendar-title-heading" className="text-2xl font-bold text-amber-900">Kalender</h1></Tooltip>
           <p id="calendar-title-subtitle" className="text-amber-800/60">Jadwalkan meeting dan deadline persiapan</p>
         </div>
         <button id="calendar-add-button" onClick={() => { setEditingEvent(undefined); setShowForm(true); }}
-          className="flex items-center gap-2 px-5 min-h-[44px] bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm active:scale-90">
+          className="flex items-center gap-2 px-5 min-h-[44px] bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm active:scale-90 cursor-pointer">
           <Icon name="add" size={18} /> Tambah Jadwal
         </button>
       </div>
@@ -67,12 +67,12 @@ export default function CalendarPage() {
       <div id="calendar-card" className="bg-white rounded-2xl border border-gold/30 shadow-sm overflow-hidden">
         <div id="calendar-card-nav" className="flex items-center justify-between p-5 border-b border-gold/30">
           <button id="calendar-card-nav-prev" onClick={prevMonth}
-            className="flex items-center justify-center w-11 h-11 rounded-xl hover:bg-cream text-amber-900/60 hover:text-orange transition-colors active:scale-90">
+            className="flex items-center justify-center w-11 h-11 rounded-xl hover:bg-cream text-amber-900/60 hover:text-orange transition-colors active:scale-90 cursor-pointer">
             <Icon name="chevron_left" size={24} />
           </button>
           <h2 id="calendar-card-nav-title" className="text-base sm:text-lg font-semibold text-amber-900">{monthNames[currentMonth]} {currentYear}</h2>
           <button id="calendar-card-nav-next" onClick={nextMonth}
-            className="flex items-center justify-center w-11 h-11 rounded-xl hover:bg-cream text-amber-900/60 hover:text-orange transition-colors active:scale-90">
+            className="flex items-center justify-center w-11 h-11 rounded-xl hover:bg-cream text-amber-900/60 hover:text-orange transition-colors active:scale-90 cursor-pointer">
             <Icon name="chevron_right" size={24} />
           </button>
         </div>
@@ -133,7 +133,7 @@ export default function CalendarPage() {
                   {event.description && <p id={`calendar-event-item-${event.id}-description`} className="text-xs text-amber-800/60 mt-1">{event.description}</p>}
                 </div>
                 <button id={`calendar-event-item-${event.id}-delete`} onClick={(e) => { e.stopPropagation(); setDeleteId(event.id); }}
-                  className="flex items-center justify-center w-11 h-11 rounded-xl text-amber-800/30 hover:text-red hover:bg-red/10 transition-colors shrink-0 active:scale-90">
+                  className="flex items-center justify-center w-11 h-11 rounded-xl text-amber-800/30 hover:text-red hover:bg-red/10 transition-colors shrink-0 active:scale-90 cursor-pointer">
                   <Icon name="delete" size={16} />
                 </button>
               </div>

@@ -52,7 +52,7 @@ export default function VendorFormModal({ vendor, necessityId: initialNecId, onS
           <h2 className="text-lg font-bold text-amber-900">
             {vendor ? "Edit Vendor" : "Tambah Vendor"}
           </h2>
-          <button onClick={onClose} className="w-8 h-8 rounded-full hover:bg-cream flex items-center justify-center text-amber-900/50 hover:text-amber-900">
+          <button onClick={onClose} className="cursor-pointer w-8 h-8 rounded-full hover:bg-cream flex items-center justify-center text-amber-900/50 hover:text-amber-900">
             <Icon name="close" size={20} />
           </button>
         </div>
@@ -108,13 +108,13 @@ export default function VendorFormModal({ vendor, necessityId: initialNecId, onS
                 }} placeholder="URL"
                   className="flex-1 px-3 py-2.5 rounded-xl border border-gold/40 bg-cream/50 text-sm focus:outline-none focus:border-orange text-amber-900" />
                 <button type="button" onClick={() => setSocialLinks(socialLinks.filter((_, j) => j !== i))}
-                  className="text-pink hover:text-pink/70">
+                  className="cursor-pointer text-pink hover:text-pink/70">
                   <Icon name="remove_circle" size={20} />
                 </button>
               </div>
             ))}
             <button type="button" onClick={() => setSocialLinks([...socialLinks, { platform: "Instagram", url: "" }])}
-              className="text-xs text-orange hover:underline flex items-center gap-1">
+              className="cursor-pointer text-xs text-orange hover:underline flex items-center gap-1">
               <Icon name="add" size={14} /> Tambah social media
             </button>
           </div>
@@ -130,13 +130,13 @@ export default function VendorFormModal({ vendor, necessityId: initialNecId, onS
                 }}
                   className="flex-1 px-3 py-2.5 rounded-xl border border-gold/40 bg-cream/50 text-sm focus:outline-none focus:border-orange text-amber-900" />
                 <button type="button" onClick={() => setPros(pros.filter((_, j) => j !== i))}
-                  className="text-pink hover:text-pink/70">
+                  className="cursor-pointer text-pink hover:text-pink/70">
                   <Icon name="remove_circle" size={20} />
                 </button>
               </div>
             ))}
             <button type="button" onClick={() => setPros([...pros, ""])}
-              className="text-xs text-green hover:underline flex items-center gap-1">
+              className="cursor-pointer text-xs text-green hover:underline flex items-center gap-1">
               <Icon name="add" size={14} /> Tambah pro
             </button>
           </div>
@@ -152,13 +152,13 @@ export default function VendorFormModal({ vendor, necessityId: initialNecId, onS
                 }}
                   className="flex-1 px-3 py-2.5 rounded-xl border border-gold/40 bg-cream/50 text-sm focus:outline-none focus:border-orange text-amber-900" />
                 <button type="button" onClick={() => setCons(cons.filter((_, j) => j !== i))}
-                  className="text-pink hover:text-pink/70">
+                  className="cursor-pointer text-pink hover:text-pink/70">
                   <Icon name="remove_circle" size={20} />
                 </button>
               </div>
             ))}
             <button type="button" onClick={() => setCons([...cons, ""])}
-              className="text-xs text-pink hover:underline flex items-center gap-1">
+              className="cursor-pointer text-xs text-pink hover:underline flex items-center gap-1">
               <Icon name="add" size={14} /> Tambah con
             </button>
           </div>

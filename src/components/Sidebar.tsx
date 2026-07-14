@@ -43,12 +43,12 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
               <p className="text-sm text-amber-800/60 mt-1">Organizer</p>
             </div>
             <button onClick={onClose}
-              className="flex items-center justify-center w-11 h-11 rounded-xl hover:bg-gold/20 text-amber-600 transition-colors lg:hidden active:scale-90">
+              className="cursor-pointer flex items-center justify-center w-11 h-11 rounded-xl hover:bg-gold/20 text-amber-600 transition-colors lg:hidden active:scale-90">
               <Icon name="close" size={22} />
             </button>
           </div>
           <button onClick={() => setShowGuide(!showGuide)}
-            className="mt-3 flex items-center gap-2 w-full px-3 py-2 rounded-xl bg-gold/10 hover:bg-gold/20 text-amber-800/70 hover:text-amber-900 transition-colors text-xs font-medium">
+            className="cursor-pointer mt-3 flex items-center gap-2 w-full px-3 py-2 rounded-xl bg-gold/10 hover:bg-gold/20 text-amber-800/70 hover:text-amber-900 transition-colors text-xs font-medium">
             <Icon name={showGuide ? "expand_less" : "help"} size={16} />
             Where to Start
           </button>

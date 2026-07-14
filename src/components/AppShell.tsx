@@ -21,7 +21,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       <main className="flex-1 overflow-y-auto">
         <div className="sticky top-0 z-20 lg:hidden flex items-center gap-3 bg-cream/90 backdrop-blur-sm border-b border-gold/20 px-4 py-3">
           <button onClick={() => setSidebarOpen(true)}
-            className="flex items-center justify-center w-11 h-11 rounded-xl hover:bg-gold/20 text-amber-800 transition-colors active:scale-90">
+            className="cursor-pointer flex items-center justify-center w-11 h-11 rounded-xl hover:bg-gold/20 text-amber-800 transition-colors active:scale-90">
             <Icon name="menu" size={24} />
           </button>
           <h1 className="text-lg font-bold text-orange flex-1">

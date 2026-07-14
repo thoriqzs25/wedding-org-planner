@@ -34,7 +34,7 @@ export default function TodoFormModal({ todo, necessityId, onSave, onDelete, onC
           <h2 className="text-lg font-bold text-amber-900">
             {todo ? "Edit To-Do" : "Tambah To-Do"}
           </h2>
-          <button onClick={onClose} className="w-8 h-8 rounded-full hover:bg-cream flex items-center justify-center text-amber-900/50 hover:text-amber-900">
+          <button onClick={onClose} className="cursor-pointer w-8 h-8 rounded-full hover:bg-cream flex items-center justify-center text-amber-900/50 hover:text-amber-900">
             <Icon name="close" size={20} />
           </button>
         </div>
@@ -45,10 +45,10 @@ export default function TodoFormModal({ todo, necessityId, onSave, onDelete, onC
             <p className="text-amber-900 font-medium">Hapus to-do ini?</p>
             <p className="text-sm text-amber-800/50">Tindakan ini tidak bisa dibatalkan.</p>
             <div className="flex gap-3 justify-center">
-              <button onClick={() => setConfirmDelete(false)} className="px-5 py-2.5 rounded-xl border border-gold/40 text-amber-900 font-medium hover:bg-cream">
+              <button onClick={() => setConfirmDelete(false)} className="cursor-pointer px-5 py-2.5 rounded-xl border border-gold/40 text-amber-900 font-medium hover:bg-cream">
                 Batal
               </button>
-              <button onClick={() => onDelete?.(todo!.id)} className="px-5 py-2.5 bg-red text-white rounded-xl font-medium hover:bg-red/90">
+              <button onClick={() => onDelete?.(todo!.id)} className="cursor-pointer px-5 py-2.5 bg-red text-white rounded-xl font-medium hover:bg-red/90">
                 Hapus
               </button>
             </div>
@@ -99,7 +99,7 @@ export default function TodoFormModal({ todo, necessityId, onSave, onDelete, onC
             <div className="flex gap-3">
               {todo && onDelete && (
                 <button type="button" onClick={() => setConfirmDelete(true)}
-                  className="px-5 py-3 border border-red/30 text-red rounded-xl font-medium hover:bg-red/5 transition-colors">
+                  className="cursor-pointer px-5 py-3 border border-red/30 text-red rounded-xl font-medium hover:bg-red/5 transition-colors">
                   Hapus
                 </button>
               )}

@@ -431,7 +431,7 @@ export default function DashboardPage() {
                 <div key={todo.id} id={`todo-terlewat-item-${todo.id}`}
                   className="flex items-center gap-2.5 py-1.5 px-2.5 rounded-lg hover:bg-red/[0.02] transition-colors -mx-2.5">
                   <button id={`todo-terlewat-check-${todo.id}`} onClick={() => cycleStatus(todo.id)}
-                    className="flex items-center justify-center w-6 h-6 rounded-md border border-red/30 shrink-0 hover:bg-red hover:border-red hover:text-white transition-all active:scale-90">
+                    className="flex items-center justify-center w-6 h-6 rounded-md border border-red/30 shrink-0 hover:bg-red hover:border-red hover:text-white transition-all active:scale-90 cursor-pointer">
                     <Icon name="check" size={11} className="text-red/40 hover:text-white transition-colors" />
                   </button>
                   <div id={`todo-terlewat-content-${todo.id}`} className="flex-1 min-w-0">
@@ -457,7 +457,7 @@ export default function DashboardPage() {
       )}
       {overdueTodos.length > 0 && !showOverdue && (
         <button id="todo-terlewat-collapsed" onClick={() => setShowOverdue(true)}
-          className="relative overflow-hidden w-full rounded-2xl bg-red/5 border-2 border-dashed border-red/40 p-4 hover:border-red/60 hover:bg-red/10 hover:shadow-md transition-all group">
+          className="relative overflow-hidden w-full rounded-2xl bg-red/5 border-2 border-dashed border-red/40 p-4 hover:border-red/60 hover:bg-red/10 hover:shadow-md transition-all group cursor-pointer">
           <div id="todo-terlewat-collapsed-inner" className="flex items-center gap-3">
             <div id="todo-terlewat-collapsed-icon" className="w-10 h-10 rounded-xl bg-gradient-to-br from-red to-red/80 flex items-center justify-center shadow-sm">
               <Icon name="warning" size={20} className="text-white" filled />
@@ -545,7 +545,7 @@ export default function DashboardPage() {
       )}
       {necessities.some((n) => n.vendors.length > 0) && !showVendorRecs && (
         <button id="vendor-recs-collapsed" onClick={() => setShowVendorRecs(true)}
-          className="relative overflow-hidden w-full rounded-2xl bg-amber-50 border-2 border-dashed border-orange/40 p-4 hover:border-orange/60 hover:bg-amber-50/80 hover:shadow-md transition-all group">
+          className="relative overflow-hidden w-full rounded-2xl bg-amber-50 border-2 border-dashed border-orange/40 p-4 hover:border-orange/60 hover:bg-amber-50/80 hover:shadow-md transition-all group cursor-pointer">
           <div id="vendor-recs-collapsed-inner" className="flex items-center gap-3">
             <div id="vendor-recs-collapsed-icon" className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange to-gold flex items-center justify-center shadow-sm">
               <Icon name="auto_awesome" size={20} className="text-white" filled />
@@ -633,7 +633,7 @@ export default function DashboardPage() {
             <div id="before-you-marry-footer" className="mt-4 pt-3 border-t border-gold/20 flex items-center justify-between">
               <p id="before-you-marry-source" className="text-[10px] text-amber-800/40">Sumber: Kementerian Agama RI</p>
               <button id="before-you-marry-close-btn" onClick={() => setShowBeforeMarry(false)}
-                className="flex items-center gap-1 text-xs text-orange font-medium hover:underline">
+                className="flex items-center gap-1 text-xs text-orange font-medium hover:underline cursor-pointer">
                 Tutup
                 <Icon name="close" size={14} />
               </button>
@@ -643,7 +643,7 @@ export default function DashboardPage() {
       )}
       {!showBeforeMarry && (
         <button id="before-you-marry-collapsed" onClick={() => setShowBeforeMarry(true)}
-          className="relative overflow-hidden w-full rounded-2xl bg-pink/15 border-2 border-dashed border-pink/40 p-4 hover:border-pink/60 hover:bg-pink/20 hover:shadow-md transition-all group">
+          className="relative overflow-hidden w-full rounded-2xl bg-pink/15 border-2 border-dashed border-pink/40 p-4 hover:border-pink/60 hover:bg-pink/20 hover:shadow-md transition-all group cursor-pointer">
           <div id="before-you-marry-collapsed-inner" className="flex items-center gap-3">
             <div id="before-you-marry-collapsed-icon" className="w-10 h-10 rounded-xl bg-gradient-to-br from-pink to-orange flex items-center justify-center shadow-sm">
                 <Icon name="diamond" size={20} className="text-white" filled />
@@ -678,11 +678,11 @@ export default function DashboardPage() {
             </p>
             <div id="quick-add-vendor-actions" className="flex items-center gap-3">
               <button id="quick-add-vendor-cancel-btn" onClick={() => setQuickAddVendor(null)}
-                className="flex-1 px-4 py-2.5 rounded-xl border border-gold/30 text-sm text-amber-800/60 font-medium hover:bg-cream transition-colors">
+                className="flex-1 px-4 py-2.5 rounded-xl border border-gold/30 text-sm text-amber-800/60 font-medium hover:bg-cream transition-colors cursor-pointer">
                 Batal
               </button>
               <button id="quick-add-vendor-confirm-btn" onClick={handleQuickAddVendor}
-                className="flex-1 px-4 py-2.5 rounded-xl bg-orange text-white text-sm font-medium hover:bg-orange/90 transition-colors">
+                className="flex-1 px-4 py-2.5 rounded-xl bg-orange text-white text-sm font-medium hover:bg-orange/90 transition-colors cursor-pointer">
                 Tambahkan
               </button>
             </div>

@@ -90,7 +90,7 @@ export default function LoginPage() {
                 id="login-admin-back-btn"
                 type="button"
                 onClick={() => { setShowAdmin(false); setAdminError(""); }}
-                className="w-full min-h-[44px] text-sm text-amber-800/60 hover:text-amber-900 transition-colors"
+                className="w-full min-h-[44px] text-sm text-amber-800/60 hover:text-amber-900 transition-colors cursor-pointer"
               >
                 Back to user login
               </button>

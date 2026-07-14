@@ -69,12 +69,12 @@ export default function NecessityListPage() {
     <div id="necessity-page" className="max-w-5xl space-y-6">
       <div id="necessity-header" className="flex items-center justify-between">
         <div id="necessity-header-text">
-          <Tooltip content="Daftar semua kebutuhan pernikahan"><h1 id="necessity-page-title" className="text-2xl font-bold text-amber-900">Kebutuhan</h1></Tooltip>
+          <Tooltip content="Daftar semua kebutuhan pernikahan" position="bottom"><h1 id="necessity-page-title" className="text-2xl font-bold text-amber-900">Kebutuhan</h1></Tooltip>
           <p id="necessity-page-subtitle" className="text-amber-800/60">Kelola setiap kebutuhan pernikahanmu</p>
         </div>
         {tab === "kebutuhan" && (
         <button id="necessity-add-button" onClick={() => setShowForm(true)}
-          className="flex items-center gap-2 px-5 min-h-[44px] bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm active:scale-90">
+          className="flex items-center gap-2 px-5 min-h-[44px] bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm active:scale-90 cursor-pointer">
           <Icon name="add" size={18} /> Tambah Kebutuhan
         </button>
         )}
@@ -84,7 +84,7 @@ export default function NecessityListPage() {
       <div id="necessity-tabs" className="flex gap-1 bg-white rounded-xl border border-gold/30 p-1 shadow-sm">
         {tabs.map((t) => (
           <button key={t.key} id={`tab-${t.key}`} onClick={() => setTab(t.key)}
-            className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium transition-all ${
+            className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium transition-all cursor-pointer ${
               tab === t.key
                 ? "bg-orange text-white shadow-sm"
                 : "text-amber-800/60 hover:text-orange hover:bg-orange/5"
@@ -249,7 +249,7 @@ export default function NecessityListPage() {
                   </Link>
 
               <button id={`card-${nec.id}-delete-button`} onClick={() => setDeleteId(nec.id)}
-                className="absolute top-3 right-3 flex items-center justify-center w-11 h-11 rounded-xl text-amber-800/30 hover:text-red hover:bg-red/10 transition-colors active:scale-90">
+                className="absolute top-3 right-3 flex items-center justify-center w-11 h-11 rounded-xl text-amber-800/30 hover:text-red hover:bg-red/10 transition-colors active:scale-90 cursor-pointer">
                 <Icon name="close" size={16} />
               </button>
                 </div>
@@ -280,7 +280,7 @@ export default function NecessityListPage() {
                       isOverdue ? "bg-red/[0.02]" : ""
                     }`}>
                     <button id={`todo-${todo.id}-status-button`} onClick={(e) => { e.preventDefault(); cycleStatus(todo.id); }}
-                      className={`flex items-center justify-center w-11 h-11 shrink-0 rounded-full border-2 transition-all active:scale-90 ${
+                      className={`flex items-center justify-center w-11 h-11 shrink-0 rounded-full border-2 transition-all active:scale-90 cursor-pointer ${
                         isDone
                           ? "bg-green border-green"
                           : isOverdue

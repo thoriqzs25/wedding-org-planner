@@ -89,7 +89,7 @@ export default function VendorsPage() {
   return (
     <div id="vendor-tracker-container" className="max-w-6xl space-y-6">
       <div id="vendor-tracker-header">
-        <Tooltip content="Pantau vendor final dan tugas-tugasnya"><h1 id="vendor-tracker-title" className="text-2xl font-bold text-amber-900">Vendor Tracker</h1></Tooltip>
+        <Tooltip content="Pantau vendor final dan tugas-tugasnya" position="bottom"><h1 id="vendor-tracker-title" className="text-2xl font-bold text-amber-900">Vendor Tracker</h1></Tooltip>
         <p id="vendor-tracker-subtitle" className="text-amber-800/60">{selectedItems.length} vendor final terpilih</p>
       </div>
 
@@ -127,7 +127,7 @@ export default function VendorsPage() {
                       <p id={`vendor-tracker-card-category-${necessity.id}`} className="text-xs text-amber-800/50">{necessity.name} • Prioritas #{vendor!.priority}</p>
                     </div>
                     <button id={`vendor-tracker-card-view-btn-${necessity.id}`} onClick={() => setSelectedVendor(vendor!)}
-                      className="w-8 h-8 rounded-lg bg-white/60 hover:bg-white flex items-center justify-center text-amber-800/40 hover:text-orange transition-colors">
+                      className="w-8 h-8 rounded-lg bg-white/60 hover:bg-white flex items-center justify-center text-amber-800/40 hover:text-orange transition-colors cursor-pointer">
                       <Icon name="visibility" size={16} />
                     </button>
                   </div>
@@ -172,7 +172,7 @@ export default function VendorsPage() {
                           <div id={`vendor-tracker-card-task-item-${necessity.id}-${task.id}`} key={task.id}
                             className="flex items-center gap-2 py-1.5 px-2 rounded-lg hover:bg-cream/50 transition-colors group">
                             <button id={`vendor-tracker-card-task-toggle-${necessity.id}-${task.id}`} onClick={() => toggleVendorTask(necessity.id, task.id)}
-                              className="flex items-center gap-2.5 flex-1 text-left">
+                              className="flex items-center gap-2.5 flex-1 text-left cursor-pointer">
                               <div id={`vendor-tracker-card-task-checkbox-${necessity.id}-${task.id}`} className={`w-4 h-4 rounded border-2 flex items-center justify-center shrink-0 transition-colors ${
                                 task.done ? "bg-green border-green" : "border-amber-800/20"
                               }`}>
@@ -183,7 +183,7 @@ export default function VendorsPage() {
                               </span>
                             </button>
                             <button id={`vendor-tracker-card-task-delete-btn-${necessity.id}-${task.id}`} onClick={() => deleteVendorTask(necessity.id, task.id)}
-                              className="sm:opacity-0 sm:group-hover:opacity-100 text-amber-800/30 hover:text-red transition-all shrink-0">
+                              className="sm:opacity-0 sm:group-hover:opacity-100 text-amber-800/30 hover:text-red transition-all shrink-0 cursor-pointer">
                               <Icon name="close" size={14} />
                             </button>
                           </div>

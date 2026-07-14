@@ -230,10 +230,10 @@ export default function NecessityDetailPage() {
           <Link id="detail-back-link" href="/necessity" className="text-amber-800/40 hover:text-orange transition-colors flex items-center gap-1">
             <Icon name="arrow_back" size={16} /> Kembali
           </Link>
-          <Tooltip content="Detail kebutuhan dan vendor terkait"><h1 id="detail-title" className="text-2xl font-bold text-amber-900">{necessity.name}</h1></Tooltip>
+          <Tooltip content="Detail kebutuhan dan vendor terkait" position="bottom"><h1 id="detail-title" className="text-2xl font-bold text-amber-900">{necessity.name}</h1></Tooltip>
         </div>
         <button id="detail-add-vendor-button" onClick={() => { setEditingVendor(undefined); setShowVendorForm(true); }}
-          className="flex items-center gap-2 px-5 py-2.5 bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm">
+          className="flex items-center gap-2 px-5 py-2.5 bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm cursor-pointer">
           <Icon name="add" size={18} /> <span className="hidden sm:inline">Tambah Vendor</span>
         </button>
       </div>
@@ -249,7 +249,7 @@ export default function NecessityDetailPage() {
               <span id="selected-vendor-badge-label" className="text-xs font-semibold text-green uppercase tracking-wider">Vendor Final</span>
             </div>
             <button id="selected-vendor-deselect-button" onClick={handleDeselectVendor}
-              className="text-[11px] text-amber-800/40 hover:text-pink transition-colors flex items-center gap-1">
+              className="text-[11px] text-amber-800/40 hover:text-pink transition-colors flex items-center gap-1 cursor-pointer">
               <Icon name="close" size={12} /> Hapus
             </button>
           </div>
@@ -270,7 +270,7 @@ export default function NecessityDetailPage() {
               )}
             </div>
             <button id="selected-vendor-detail-button" onClick={() => setSelectedVendor(selected)}
-              className="text-xs text-orange hover:underline flex items-center gap-1 shrink-0">
+              className="text-xs text-orange hover:underline flex items-center gap-1 shrink-0 cursor-pointer">
               Detail <Icon name="open_in_new" size={12} />
             </button>
           </div>
@@ -302,7 +302,7 @@ export default function NecessityDetailPage() {
                   <div key={task.id} id={`task-${task.id}`}
                     className="flex items-center gap-2 py-1.5 px-2 rounded-lg hover:bg-green/5 transition-colors group">
                     <button id={`task-${task.id}-toggle`} onClick={() => toggleVendorTask(task.id)}
-                      className="flex items-center gap-2.5 flex-1 text-left">
+                      className="flex items-center gap-2.5 flex-1 text-left cursor-pointer">
                       <div id={`task-${task.id}-checkbox`} className={`w-4 h-4 rounded border-2 flex items-center justify-center shrink-0 transition-colors ${
                         task.done ? "bg-green border-green" : "border-amber-800/20 group-hover:border-green/50"
                       }`}>
@@ -313,7 +313,7 @@ export default function NecessityDetailPage() {
                       </span>
                     </button>
                     <button id={`task-${task.id}-delete`} onClick={() => deleteVendorTask(task.id)}
-                      className="sm:opacity-0 sm:group-hover:opacity-100 text-amber-800/30 hover:text-pink transition-all shrink-0">
+                      className="sm:opacity-0 sm:group-hover:opacity-100 text-amber-800/30 hover:text-pink transition-all shrink-0 cursor-pointer">
                       <Icon name="close" size={14} />
                     </button>
                   </div>
@@ -335,7 +335,7 @@ export default function NecessityDetailPage() {
           <div id="todo-header-right" className="flex items-center gap-3">
             <span id="todo-count" className="text-xs text-amber-800/50">{necessity.todos.filter((t) => t.status === "done").length}/{necessity.todos.length} selesai</span>
             <button id="todo-add-button" onClick={() => { setEditingTodo(undefined); setShowTodoForm(true); }}
-              className="flex items-center gap-1 text-xs text-orange hover:underline"><Icon name="add" size={14} /> Tambah</button>
+              className="flex items-center gap-1 text-xs text-orange hover:underline cursor-pointer"><Icon name="add" size={14} /> Tambah</button>
           </div>
         </div>
 
@@ -344,7 +344,7 @@ export default function NecessityDetailPage() {
             <Icon name="checklist" size={36} className="mb-2 text-amber-800/30" />
             <p id="todo-empty-text" className="text-sm mb-3">Belum ada to-do list</p>
             <button id="todo-empty-add-button" onClick={() => { setEditingTodo(undefined); setShowTodoForm(true); }}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm text-xs">
+              className="inline-flex items-center gap-2 px-4 py-2 bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm text-xs cursor-pointer">
               <Icon name="add" size={14} /> Tambah To-Do
             </button>
           </div>
@@ -359,7 +359,7 @@ export default function NecessityDetailPage() {
                     : todo.status === "in_progress" ? "border-gold/30 bg-gold/[0.02]"
                     : "border-gold/20 hover:bg-cream/50"
                   }`}>
-                  <button id={`todo-item-${todo.id}-status-button`} onClick={() => cycleTodoStatus(todo.id)} className="mt-0.5 shrink-0 transition-all active:scale-90">
+                  <button id={`todo-item-${todo.id}-status-button`} onClick={() => cycleTodoStatus(todo.id)} className="mt-0.5 shrink-0 transition-all active:scale-90 cursor-pointer">
                     <Icon name={config.icon} size={24} className={`${config.color} transition-colors duration-300`} filled={todo.status === "done"} />
                   </button>
                   <div id={`todo-item-${todo.id}-content`} className="flex-1 min-w-0">
@@ -380,7 +380,7 @@ export default function NecessityDetailPage() {
                   <div id={`todo-item-${todo.id}-actions`} className="flex flex-col items-end gap-2 shrink-0">
                     <span id={`todo-item-${todo.id}-status-badge`} className={`text-[11px] px-2.5 py-1 rounded-full font-medium whitespace-nowrap ${config.bg}`}>{config.label}</span>
                     <button id={`todo-item-${todo.id}-edit-button`} onClick={() => { setEditingTodo(todo); setShowTodoForm(true); }}
-                      className="text-[10px] text-amber-800/30 hover:text-orange transition-colors"><Icon name="edit" size={14} /></button>
+                      className="text-[10px] text-amber-800/30 hover:text-orange transition-colors cursor-pointer"><Icon name="edit" size={14} /></button>
                   </div>
                 </div>
               );
@@ -433,13 +433,13 @@ export default function NecessityDetailPage() {
                       </div>
                       <div id={`vendor-draft-${vendor.id}-actions`} className="flex gap-1.5 shrink-0">
                         <button id={`vendor-draft-${vendor.id}-view-button`} onClick={() => { setSelectedVendor(vendor); }}
-                          className="w-8 h-8 rounded-lg hover:bg-cream flex items-center justify-center text-amber-800/30 hover:text-orange transition-colors">
+                          className="w-8 h-8 rounded-lg hover:bg-cream flex items-center justify-center text-amber-800/30 hover:text-orange transition-colors cursor-pointer">
                           <Icon name="visibility" size={16} />
                         </button>
                         {!isSelected && (
                           <button id={`vendor-draft-${vendor.id}-finalize-button`} onClick={() => handleSelectVendor(vendor)}
                             disabled={remainingFinalizes <= 0}
-                            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors whitespace-nowrap ${
+                            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors whitespace-nowrap cursor-pointer ${
                               remainingFinalizes > 0
                                 ? "bg-orange/10 hover:bg-orange/20 text-orange"
                                 : "bg-amber-800/10 text-amber-800/30 cursor-not-allowed"
@@ -474,7 +474,7 @@ export default function NecessityDetailPage() {
                 const c = getNecessityColor(id, necessity.color);
                 return (
                   <button key={vendor.id} id={`vendor-rec-${vendor.id}`} onClick={() => setSelectedVendor(vendor)}
-                    className="w-full text-left p-4 rounded-xl border border-orange/20 bg-orange/[0.02] hover:bg-orange/5 transition-all">
+                    className="w-full text-left p-4 rounded-xl border border-orange/20 bg-orange/[0.02] hover:bg-orange/5 transition-all cursor-pointer">
                     <div id={`vendor-rec-${vendor.id}-row`} className="flex items-center gap-3">
                       <div id={`vendor-rec-${vendor.id}-icon`} className={`w-9 h-9 rounded-lg ${c.bg} flex items-center justify-center shrink-0 bg-white/60`}>
                         <Icon name={getNecessityIcon(id, necessity.icon)} size={18} className={c.text} />

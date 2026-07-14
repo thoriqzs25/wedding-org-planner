@@ -87,11 +87,11 @@ export default function CascadeWarning({ vendor, mode, remainingFinalizes, maxFi
 
         <div className="flex gap-3">
           <button onClick={onCancel}
-            className="flex-1 py-3 rounded-xl border border-gold/40 text-amber-900 font-medium hover:bg-cream transition-colors">
+            className="cursor-pointer flex-1 py-3 rounded-xl border border-gold/40 text-amber-900 font-medium hover:bg-cream transition-colors">
             Batal
           </button>
           <button onClick={onConfirm}
-            className={`flex-1 py-3 rounded-xl text-white font-medium transition-colors shadow-sm ${
+            className={`cursor-pointer flex-1 py-3 rounded-xl text-white font-medium transition-colors shadow-sm ${
               isSelect ? "bg-orange hover:bg-orange/90" : "bg-red hover:bg-red/90"
             }`}>
             {isSelect ? "Ya, Pilih" : "Ya, Hapus"}

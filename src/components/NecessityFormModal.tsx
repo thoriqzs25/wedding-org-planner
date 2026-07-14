@@ -55,7 +55,7 @@ export default function NecessityFormModal({ existingNames, onSave, onClose }: N
       <div className="relative bg-white rounded-2xl shadow-xl max-w-lg w-full mx-4 max-h-[85vh] overflow-y-auto">
         <div className="sticky top-0 bg-white rounded-t-2xl border-b border-gold/30 px-6 py-4 flex items-center justify-between">
           <h2 className="text-lg font-bold text-amber-900">Tambah Kebutuhan</h2>
-          <button onClick={onClose} className="w-8 h-8 rounded-full hover:bg-cream flex items-center justify-center text-amber-900/50 hover:text-amber-900">
+          <button onClick={onClose} className="cursor-pointer w-8 h-8 rounded-full hover:bg-cream flex items-center justify-center text-amber-900/50 hover:text-amber-900">
             <Icon name="close" size={20} />
           </button>
         </div>
@@ -73,7 +73,7 @@ export default function NecessityFormModal({ existingNames, onSave, onClose }: N
                   const isSelected = name === rec.name;
                   return (
                     <button key={rec.name} type="button" onClick={() => pickRecommended(rec)}
-                      className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium transition-all ${
+                      className={`cursor-pointer flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium transition-all ${
                         isSelected
                           ? "bg-orange text-white shadow-sm"
                           : "bg-cream text-amber-800/70 hover:bg-orange/10 hover:text-orange border border-gold/20"
@@ -104,7 +104,7 @@ export default function NecessityFormModal({ existingNames, onSave, onClose }: N
               {necessityColorPalette.map((palette) => (
                 <button key={palette.name} type="button"
                   onClick={() => setSelectedColor(palette.name)}
-                  className={`flex-1 h-12 rounded-xl flex items-center justify-center transition-all ${
+                  className={`cursor-pointer flex-1 h-12 rounded-xl flex items-center justify-center transition-all ${
                     selectedColor === palette.name
                       ? `${palette.bg} ${palette.border} border-2 scale-105 shadow-sm`
                       : `${palette.bg} border border-transparent hover:scale-105`
@@ -124,7 +124,7 @@ export default function NecessityFormModal({ existingNames, onSave, onClose }: N
               {availableIcons.map((iconName) => (
                 <button key={iconName} type="button"
                   onClick={() => setSelectedIcon(iconName)}
-                  className={`w-full aspect-square rounded-xl flex items-center justify-center transition-all ${
+                  className={`cursor-pointer w-full aspect-square rounded-xl flex items-center justify-center transition-all ${
                     selectedIcon === iconName
                       ? "bg-orange text-white shadow-sm scale-110"
                       : "bg-cream text-amber-800/60 hover:bg-orange/10 hover:text-orange"

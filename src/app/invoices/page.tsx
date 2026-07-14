@@ -50,11 +50,11 @@ export default function InvoicesPage() {
     <div id="invoices-container" className="max-w-5xl space-y-6">
       <div id="invoices-header" className="flex items-center justify-between">
         <div id="invoices-title-wrapper">
-          <Tooltip content="Catat dan pantau semua pengeluaran pernikahan"><h1 id="invoices-title" className="text-2xl font-bold text-amber-900">Invoice & Pembayaran</h1></Tooltip>
+          <Tooltip content="Catat dan pantau semua pengeluaran pernikahan" position="bottom"><h1 id="invoices-title" className="text-2xl font-bold text-amber-900">Invoice & Pembayaran</h1></Tooltip>
           <p id="invoices-subtitle" className="text-amber-800/60">Pantau pengeluaran pernikahanmu</p>
         </div>
         <button id="invoices-add-btn" onClick={() => { setEditingInvoice(undefined); setShowForm(true); }}
-          className="flex items-center gap-2 px-5 py-2.5 bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm">
+          className="flex items-center gap-2 px-5 py-2.5 bg-orange text-white rounded-xl font-medium hover:bg-orange/90 transition-colors shadow-sm cursor-pointer">
           <Icon name="add" size={18} /> Tambah Invoice
         </button>
       </div>
@@ -132,7 +132,7 @@ export default function InvoicesPage() {
           </div>
           {(filterNec !== "all" || filterAmountMin || filterAmountMax || filterDateFrom || filterDateTo) && (
             <button id="invoices-filter-reset-btn" onClick={() => { setFilterNec("all"); setFilterAmountMin(""); setFilterAmountMax(""); setFilterDateFrom(""); setFilterDateTo(""); }}
-              className="px-3 py-2.5 rounded-xl border border-gold/30 text-xs text-amber-800/50 hover:text-pink hover:border-pink/40 transition-colors flex items-center gap-1">
+              className="px-3 py-2.5 rounded-xl border border-gold/30 text-xs text-amber-800/50 hover:text-pink hover:border-pink/40 transition-colors flex items-center gap-1 cursor-pointer">
               <Icon name="close" size={14} /> Reset
             </button>
           )}
@@ -160,9 +160,9 @@ export default function InvoicesPage() {
                 <p id={`invoices-item-amount-${inv.id}`} className="text-sm font-semibold text-orange shrink-0 whitespace-nowrap">Rp {inv.amount.toLocaleString()}</p>
                 <div id={`invoices-item-actions-${inv.id}`} className="flex gap-1 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
                   <button id={`invoices-item-edit-btn-${inv.id}`} onClick={() => { setEditingInvoice(inv); setShowForm(true); }}
-                    className="text-amber-800/30 hover:text-orange transition-colors"><Icon name="edit" size={16} /></button>
+                    className="text-amber-800/30 hover:text-orange transition-colors cursor-pointer"><Icon name="edit" size={16} /></button>
                   <button id={`invoices-item-delete-btn-${inv.id}`} onClick={() => setDeleteId(inv.id)}
-                    className="text-amber-800/30 hover:text-red transition-colors"><Icon name="delete" size={16} /></button>
+                    className="text-amber-800/30 hover:text-red transition-colors cursor-pointer"><Icon name="delete" size={16} /></button>
                 </div>
               </div>
             ))}
